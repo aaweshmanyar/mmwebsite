@@ -202,13 +202,7 @@ export default function ArticlesPage() {
 
         <div className="gulzartext flex flex-wrap justify-center gap-2 mb-10">
           {topics.map((topic, index) => (
-            <CategoryPill
-              key={index}
-              label={topic.topic}
-              count={
-               topic.views
-              }
-            />
+            <CategoryPill key={index} label={topic.topic} count={topic.views} />
           ))}
         </div>
 
@@ -333,6 +327,11 @@ function ArticleCard({
           src={backgroundImage}
           alt={titleEn || titleAr}
           className="object-cover w-full h-full"
+          onError={(e) => {
+            e.target.onerror = null; // Prevent infinite loop
+            e.target.src =
+              "https://minaramasjid.com/assets/image/default/articles.jpeg";
+          }}
         />
         <div className="absolute inset-0 bg-black/30"></div>
         <div className="absolute top-3 left-3 right-3 flex justify-between">
@@ -369,16 +368,14 @@ function ArticleCard({
           >
             {type === "pattern"
               ? "مصنف: مفتی فاروق مہایمی"
-              : `Writer: ${writers}`}
+              : `مصنف: ${writers}`}
           </p>
           <p
             className={`gulzartext text-sm font-medium ${
               type === "pattern" ? "text-right" : ""
             }`}
           >
-            {type === "pattern"
-              ? "مترجم: فیض اشرفی"
-              : `Mutarjim: ${translator}`}
+            {type === "pattern" ? "مترجم: فیض اشرفی" : `مترجم: ${translator}`}
           </p>
         </div>
         <div className="flex justify-end items-center mt-2 gap-1">

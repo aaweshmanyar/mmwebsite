@@ -74,6 +74,10 @@ export default function Home() {
     return cleanText.split("\n").filter((line) => line.trim() !== "");
   };
 
+const sortedArticles = [...allarticle].sort((a, b) => b.views - a.views);
+const topArticles = sortedArticles.slice(0, 6); // Top 6
+const midArticles = sortedArticles.slice(6, 15);
+
   return (
     <main className="min-h-screen bg-[#f0f5e9] bg-cover z-10">
       <div
@@ -280,58 +284,64 @@ export default function Home() {
             />
           </div>
 
-          {allarticle.map((item, index) => (
-            <div
-              key={index}
-              className="rounded-xl overflow-hidden bg-[#ecf1e1]"
-            >
-              {/* Top Image with Overlay Text */}
+          {[...allarticle]
+            .sort((a, b) => b.views - a.views) // Sort by views in descending order
+            .slice(0, 5) // Take only the top 5 articles
+            .map((item, index) => (
+              <div
+                key={index}
+                className="rounded-xl overflow-hidden bg-[#ecf1e1] cursor-pointer"
+              >
+                {/* Top Image with Overlay Text */}
+                <div className="relative h-28 overflow-hidden rounded-t-xl">
+                  {/* Background Image as <img> for fallback support */}
+                  <img
+                    src={`https://newmmdata-backend.onrender.com/api/articles/image/${item.id}`}
+                    alt={item.title}
+                    className="absolute inset-0 w-full h-full object-cover"
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src =
+                        "https://minaramasjid.com/assets/image/default/articles.jpeg";
+                    }}
+                  />
 
-              <div className="relative h-28 overflow-hidden rounded-t-xl">
-                {/* Background Image */}
-                <div
-                  className="absolute inset-0 bg-cover bg-center"
-                  style={{
-                    backgroundImage: `url(https://newmmdata-backend.onrender.com/api/articles/image/${item.id})`,
-                  }}
-                ></div>
+                  {/* Black Overlay */}
+                  <div className="absolute inset-0 bg-black/30"></div>
 
-                {/* Black Overlay */}
-                <div className="absolute inset-0 bg-black/30"></div>
+                  {/* Text Content */}
+                  <div className="relative z-10 flex items-center justify-center h-full text-white text-center font-bold text-lg gulzartext rtl">
+                    {item.title}
+                  </div>
+                </div>
 
-                {/* Text Content */}
-                <div className="relative z-10 flex items-center justify-center h-full text-white text-center font-bold text-lg gulzartext rtl">
-                  {item.title}
+                {/* Article Info */}
+                <div className="p-4 space-y-1 rtl text-left font-sans">
+                  <p className="text-[13px] text-gray-700 leading-snug line-clamp-2">
+                    {item.englishDescription}
+                  </p>
+                  <p className="gulzartext text-[13px] text-gray-700 font-semibold">
+                    Writer : {item.writers}
+                  </p>
+                  <p className="text-[13px] text-gray-700 font-semibold">
+                    Mutarjim : {item.translator}
+                  </p>
+
+                  {/* View Count */}
+                  <div className="bg-[#d6e5c4] rounded-full px-2 py-1 text-xs flex items-center w-fit mt-2">
+                    <svg
+                      className="w-4 h-4 text-[#6a8a4f] mr-1"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path d="M10 3.5C5.305 3.5 1.403 6.833 0 10c1.403 3.167 5.305 6.5 10 6.5s8.597-3.333 10-6.5c-1.403-3.167-5.305-6.5-10-6.5zM10 15c-2.761 0-5-2.239-5-5s2.239-5 5-5 5 2.239 5 5-2.239 5-5 5z" />
+                      <circle cx="10" cy="10" r="2" />
+                    </svg>
+                    <span className="text-[#6a8a4f] ml-1">{item.views}</span>
+                  </div>
                 </div>
               </div>
-
-              {/* Article Info */}
-              <div className="p-4 space-y-1 rtl text-left font-sans">
-                <p className="text-[13px] text-gray-700 leading-snug line-clamp-2">
-                  {item.englishDescription}
-                </p>
-                <p className="text-[13px] text-gray-700 font-semibold">
-                  Writer : {item.writers}
-                </p>
-                <p className="text-[13px] text-gray-700 font-semibold">
-                  Mutarjim : {item.translator}
-                </p>
-
-                {/* View Count */}
-                <div className="bg-[#d6e5c4] rounded-full px-2 py-1 text-xs flex items-center w-fit mt-2">
-                  <svg
-                    className="w-4 h-4 text-[#6a8a4f] mr-1"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                  >
-                    <path d="M10 3.5C5.305 3.5 1.403 6.833 0 10c1.403 3.167 5.305 6.5 10 6.5s8.597-3.333 10-6.5c-1.403-3.167-5.305-6.5-10-6.5zM10 15c-2.761 0-5-2.239-5-5s2.239-5 5-5 5 2.239 5 5-2.239 5-5 5z" />
-                    <circle cx="10" cy="10" r="2" />
-                  </svg>
-                  <span className="text-[#6a8a4f] ml-1">150</span>
-                </div>
-              </div>
-            </div>
-          ))}
+            ))}
         </div>
       </div>
 
@@ -378,7 +388,7 @@ export default function Home() {
             Writer Articals Highlights
           </h2>
           <a
-            href="/articles"
+            href="/article"
             className="bg-white border border-[#4a7031] text-[#4a7031] rounded-full px-4 py-1 text-sm font-medium hover:bg-[#eaf3df] transition"
           >
             View All Articles
@@ -386,60 +396,62 @@ export default function Home() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {allarticle.map((article, index) => (
-            <div
-              key={index}
-              className="rounded-xl overflow-hidden shadow-sm border border-gray-200"
-            >
-             
-              <div className="relative h-48">
-                <img
-                  src={Articleimg1}
-                  alt="Article"
-                  fill
-                  className="object-cover h-full w-full"
-                />
+          {midArticles.map((item, index) => (
+              <div
+                key={index}
+                className="rounded-xl overflow-hidden shadow-sm border border-gray-200"
+              >
+                <div className="relative h-48">
+                  <img
+                    src={`https://newmmdata-backend.onrender.com/api/articles/image/${item.id}`}
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src =
+                        "https://minaramasjid.com/assets/image/default/articles.jpeg";
+                    }}
+                    alt="Article"
+                    fill
+                    className="object-cover h-full w-full"
+                  />
 
-              
-                <div className="absolute top-2 left-2 bg-[#e8f0e0] rounded-full px-2 py-0.5 text-xs font-['Gulzar']">
-               {article.tags}
+                  <div className="absolute top-2 left-2 bg-[#e8f0e0] rounded-full px-2 py-0.5 text-xs font-['Gulzar']">
+                    {item.tags}
+                  </div>
+
+                  <div className="absolute top-2 right-2 flex space-x-2 rtl:space-x-reverse">
+                    <div className="bg-white rounded-full px-2 py-0.5 text-xs">
+                      Roman
+                    </div>
+                    <div className="bg-white rounded-full px-2 py-0.5 text-xs">
+                      Urdu
+                    </div>
+                  </div>
+
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex flex-col justify-end p-4">
+                    <h3 className="font-['Gulzar']  text-white  rtl mb-1 text-lg leading-snug line-clamp-1">
+                      {item.title}
+                    </h3>
+                    <h4 className="font-['Gulzar']  text-white text-right rtl text-sm line-clamp-1">
+                      {item.englishDescription}
+                    </h4>
+                  </div>
                 </div>
 
-             
-                <div className="absolute top-2 right-2 flex space-x-2 rtl:space-x-reverse">
-                  <div className="bg-white rounded-full px-2 py-0.5 text-xs">
-                    Roman
-                  </div>
-                  <div className="bg-white rounded-full px-2 py-0.5 text-xs">
-                    Urdu
-                  </div>
-                </div>
-
-               
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex flex-col justify-end p-4">
-                  <h3 className="font-['Gulzar']  text-white  rtl mb-1 text-lg leading-snug line-clamp-1">
-                    {article.title}
-                  </h3>
-                  <h4 className="font-['Gulzar']  text-white text-right rtl text-sm line-clamp-1">
-                    {article.englishDescription}
-                  </h4>
+                <div className="p-4">
+                  <p className="font-['Gulzar'] line-clamp-1 text-xs text-right rtl text-gray-600 mb-1 leading-relaxed">
+                    {item.englishDescription}
+                  </p>
+                  <p className="font-['Gulzar'] text-xs text-right rtl text-gray-600 mb-1 line-clamp-1">
+                    <span className="font-semibold">مصنف :</span>{" "}
+                    {item.writers}
+                  </p>
+                  <p className="font-['Gulzar'] text-xs text-right rtl text-gray-600 line-clamp-1">
+                    <span className="font-semibold">مترجم :</span>{" "}
+                    {item.translator}
+                  </p>
                 </div>
               </div>
-
-             
-              <div className="p-4">
-                <p className="font-['Gulzar'] line-clamp-1 text-xs text-right rtl text-gray-600 mb-1 leading-relaxed">
-                {article.englishDescription}
-                </p>
-                <p className="font-['Gulzar'] text-xs text-right rtl text-gray-600 mb-1 line-clamp-1">
-                  <span className="font-semibold">مصنف :</span> {article.writers}
-                </p>
-                <p className="font-['Gulzar'] text-xs text-right rtl text-gray-600 line-clamp-1">
-                  <span className="font-semibold">مترجم :</span> {article.translator}
-                </p>
-              </div>
-            </div>
-          ))}
+            ))}
         </div>
       </div>
     </main>
