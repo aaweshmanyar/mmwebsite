@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { Search, ChevronDown } from "lucide-react";
 import bg from "../../public/images/bg.png";
 import logo from "../../public/images/marclogo.png";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 export default function HomePage() {
   const [language, setLanguage] = useState("Urdu");
@@ -19,7 +19,9 @@ export default function HomePage() {
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
-        const response = await fetch("https://newmmdata-backend.onrender.com/api/questions");
+        const response = await fetch(
+          "https://newmmdata-backend.onrender.com/api/questions"
+        );
         const data = await response.json();
         console.log("Fetched data:", data);
         setQuestions(data); // assuming API returns { questions: [...] }
@@ -33,12 +35,15 @@ export default function HomePage() {
     fetchQuestions();
   }, []);
 
-  const filteredQuestions = questions.filter((q) =>
-    q.slug?.toLowerCase().includes(search.toLowerCase()) ||
-    q.slug?.toLowerCase().includes(search.toLowerCase()) ||
-    q.questionEnglish?.toLowerCase().includes(search.toLocaleLowerCase())
-  );
+ const filteredQuestions = questions.filter((q) => {
+  const text = (q.slug || q.questionEnglish || "").toLowerCase();
+  return text.includes(search.toLowerCase());
+});
 
+
+  const section1 = filteredQuestions.slice(0, 9);
+  const section2 = filteredQuestions.slice(9, 18);
+  const section3 = filteredQuestions.slice(18, 27);
   const Dropdown = ({ label, selected, setSelected, options }) => {
     const [isOpen, setIsOpen] = useState(false);
 
@@ -84,7 +89,10 @@ export default function HomePage() {
   );
 
   const QuestionCard = ({ id, question }) => (
-    <div className="bg-white rounded-lg shadow-sm p-4 flex flex-col cursor-pointer" onClick={() => navigate(`/question/${id}`)}>
+    <div
+      className="bg-white rounded-lg shadow-sm p-4 flex flex-col cursor-pointer"
+      onClick={() => navigate(`/question/${id}`)}
+    >
       <div className="flex justify-between items-start mb-2">
         <div className="bg-green-100 text-green-800 rounded-full px-3 py-1 text-sm font-medium flex items-center gap-1 rtl:flex-row-reverse">
           <span className="gulzartext">سوال</span>
@@ -93,7 +101,9 @@ export default function HomePage() {
           </span>
         </div>
       </div>
-      <p className="gulzartext text-right text-gray-800 mb-2 line-clamp-1" >{question}</p>
+      <p className="gulzartext text-right text-gray-800 mb-2 line-clamp-1">
+        {question}
+      </p>
       <div className="flex justify-end gap-2 mt-auto">
         <button className="bg-green-50 hover:bg-green-100 text-green-700 px-3 py-1 rounded-md text-sm transition-colors">
           Roman
@@ -226,7 +236,10 @@ export default function HomePage() {
               >
                 News & Event
               </a>
-              <a href="/requestbook" className="hover:bg-[#4f6639] px-4 py-2 rounded">
+              <a
+                href="/requestbook"
+                className="hover:bg-[#4f6639] px-4 py-2 rounded"
+              >
                 Request a Book
               </a>
               <a
@@ -269,7 +282,9 @@ export default function HomePage() {
               شرعی سوالات
             </h3>
             <p className="text-md text-gray-700 gulzartext">
-              ہمارے مرکز کا مقصد اسلامی تعلیمات کی روشنی میں موجودہ مسائل کا حل پیش کرنا ہے۔ یہاں آپ سوالات پوچھ سکتے ہیں یا دوسروں کے سوالات کے جوابات دے سکتے ہیں۔
+              ہمارے مرکز کا مقصد اسلامی تعلیمات کی روشنی میں موجودہ مسائل کا حل
+              پیش کرنا ہے۔ یہاں آپ سوالات پوچھ سکتے ہیں یا دوسروں کے سوالات کے
+              جوابات دے سکتے ہیں۔
             </p>
           </div>
         </div>
@@ -311,9 +326,13 @@ export default function HomePage() {
         </div>
 
         {loading ? (
-          <p className="text-center text-gray-600 gulzartext">لوڈ ہو رہا ہے...</p>
-        ) : filteredQuestions.length === 0 ? (
-          <p className="text-center text-gray-600 gulzartext">کوئی سوالات نہیں ملے</p>
+          <p className="text-center text-gray-600 gulzartext">
+            لوڈ ہو رہا ہے...
+          </p>
+        ) : section1.length === 0 ? (
+          <p className="text-center text-gray-600 gulzartext">
+            کوئی سوالات نہیں ملے
+          </p>
         ) : (
           <>
             {/* Sections */}
@@ -324,18 +343,17 @@ export default function HomePage() {
                   key={q._id || index}
                   id={index + 1}
                   question={q.slug || "No question text available"}
-                  
                 />
               ))}
             </div>
 
             <SectionHeader text="حدیث کے سوال" />
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8 w-[70%] m-auto">
-              {filteredQuestions.slice(0, 4).map((q, index) => (
-                <QuestionCard 
-                  key={`section2-${q._id || index}`} 
-                  id={index + 1} 
-                  question={q.slug || "No question text available"} 
+              {filteredQuestions.map((q, index) => (
+                <QuestionCard
+                  key={`section2-${q._id || index}`}
+                  id={index + 1}
+                  question={q.slug || "No question text available"}
                 />
               ))}
             </div>
@@ -343,10 +361,10 @@ export default function HomePage() {
             <SectionHeader text="قرآن کی آیات" />
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-[70%] m-auto">
               {filteredQuestions.map((q, index) => (
-                <QuestionCard 
-                  key={`section3-${q._id || index}`} 
-                  id={index + 1} 
-                  question={q.slug || "No question text available"} 
+                <QuestionCard
+                  key={`section3-${q._id || index}`}
+                  id={index + 1}
+                  question={q.slug || "No question text available"}
                 />
               ))}
             </div>
