@@ -16,30 +16,35 @@ export default function Home() {
   const [activeLanguage, setActiveLanguage] = useState("urdu"); // Default to Urdu
   const [allarticle, setAllarticle] = useState([]);
   const articleImages = [Articleimg1, Articleimg2, Articleimg3];
+  const [loading, setLoading] = useState(true);
+
   const { id } = useParams();
 
-  useEffect(() => {
-    const fetchSingleArticle = async () => {
-      try {
-        const res = await fetch(
-          `https://newmmdata-backend.onrender.com/api/articles/${id}`
-        );
-        const data = await res.json();
-        setArticle(data);
+ useEffect(() => {
+  const fetchSingleArticle = async () => {
+    try {
+      setLoading(true); // Start loading
+      const res = await fetch(
+        `https://newmmdata-backend.onrender.com/api/articles/${id}`
+      );
+      const data = await res.json();
+      setArticle(data);
 
-        const articleres = await fetch(
-          "https://newmmdata-backend.onrender.com/api/articles"
-        );
-        const resdata = await articleres.json();
-        setAllarticle(resdata);
-        console.log("All article Data : ", resdata);
-      } catch (err) {
-        console.error("Error fetching Article:", err);
-      }
-    };
+      const articleres = await fetch(
+        "https://newmmdata-backend.onrender.com/api/articles"
+      );
+      const resdata = await articleres.json();
+      setAllarticle(resdata);
+      setLoading(false); // Done loading
+    } catch (err) {
+      console.error("Error fetching Article:", err);
+      setLoading(false);
+    }
+  };
 
-    if (id) fetchSingleArticle();
-  }, [id]);
+  if (id) fetchSingleArticle();
+}, [id]);
+
 
   if (!article) {
     return <div className="text-center p-4">لوڈ ہو رہا ہے...</div>;
@@ -292,6 +297,7 @@ const midArticles = sortedArticles.slice(6, 15);
             .map((item, index) => (
               <div
                 key={index}
+                 onClick={() => navigate(`/detailarticle/${item.id}`)}
                 className="rounded-xl overflow-hidden bg-[#ecf1e1] cursor-pointer"
               >
                 {/* Top Image with Overlay Text */}
@@ -401,7 +407,7 @@ const midArticles = sortedArticles.slice(6, 15);
           {midArticles.map((item, index) => (
               <div
                 key={index}
-                 onClick={() => navigate(`/detailarticle/${article.id}`)}
+                 onClick={() => navigate(`/detailarticle/${item.id}`)}
                 className="rounded-xl overflow-hidden shadow-sm border border-gray-200"
               >
                 <div className="relative h-48" >

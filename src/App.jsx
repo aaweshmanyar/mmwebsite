@@ -18,11 +18,13 @@ import Requestbook from './component/Requestbook'
 import WriterProfile from './component/WriterProfile'
 import NewandEvent from './component/NewandEvent'
 import ContactUs from './component/Contactus'
+import ScrollTop from './component/ScrollToTop'
 
 
 const App = () => {
   return (
     <Router>
+          <ScrollTop/>
       <div>
         {/* <Navbar /> */}
         <Routes>
