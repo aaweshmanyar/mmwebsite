@@ -30,7 +30,8 @@ const QuestionDetail = () => {
       try {
         const res = await fetch(`https://newmmdata-backend.onrender.com/api/questions/${id}`);
         const data = await res.json(); // Safe to parse now
-    setQuestion(data);
+        setQuestion(data);
+        console.log("Fetched Data", data)
       } catch (err) {
         console.error("Error fetching question:", err);
       }
