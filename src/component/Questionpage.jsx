@@ -41,9 +41,9 @@ export default function HomePage() {
 });
 
 
-  const section1 = filteredQuestions.slice(0, 9);
-  const section2 = filteredQuestions.slice(9, 18);
-  const section3 = filteredQuestions.slice(18, 27);
+  const section1 = filteredQuestions.slice(0, 8);
+  const section2 = filteredQuestions.slice(9, 12);
+  const section3 = filteredQuestions.slice(13, 27);
   const Dropdown = ({ label, selected, setSelected, options }) => {
     const [isOpen, setIsOpen] = useState(false);
 

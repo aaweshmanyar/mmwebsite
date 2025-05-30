@@ -29,8 +29,8 @@ const QuestionDetail = () => {
     const fetchSingleQuestion = async () => {
       try {
         const res = await fetch(`https://newmmdata-backend.onrender.com/api/questions/${id}`);
-        const data = await res.json();
-        setQuestion(data);
+        const data = await res.json(); // Safe to parse now
+    setQuestion(data);
       } catch (err) {
         console.error("Error fetching question:", err);
       }
