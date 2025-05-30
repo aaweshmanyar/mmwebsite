@@ -78,6 +78,8 @@ const sortedArticles = [...allarticle].sort((a, b) => b.views - a.views);
 const topArticles = sortedArticles.slice(0, 6); // Top 6
 const midArticles = sortedArticles.slice(6, 15);
 
+  const navigate = useNavigate();
+
   return (
     <main className="min-h-screen bg-[#f0f5e9] bg-cover z-10">
       <div
@@ -395,13 +397,14 @@ const midArticles = sortedArticles.slice(6, 15);
           </a>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 cursor-pointer">
           {midArticles.map((item, index) => (
               <div
                 key={index}
+                 onClick={() => navigate(`/detailarticle/${article.id}`)}
                 className="rounded-xl overflow-hidden shadow-sm border border-gray-200"
               >
-                <div className="relative h-48">
+                <div className="relative h-48" >
                   <img
                     src={`https://newmmdata-backend.onrender.com/api/articles/image/${item.id}`}
                     onError={(e) => {

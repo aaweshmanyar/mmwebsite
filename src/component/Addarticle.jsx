@@ -202,7 +202,7 @@ export default function ArticlesPage() {
 
         <div className="gulzartext flex flex-wrap justify-center gap-2 mb-10">
           {topics.map((topic, index) => (
-            <CategoryPill key={index} label={topic.topic} count={topic.views} />
+            <CategoryPill key={index} label={topic.topic} count={topic.id} />
           ))}
         </div>
 
