@@ -11,6 +11,7 @@ export default function ArticlesPage() {
   const [languages, setLanguages] = useState([]);
   const [topics, setTopics] = useState([]);
   const [articles, setArticles] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [selectedFilters, setSelectedFilters] = useState({
     writer: "",
     translator: "",
@@ -42,6 +43,8 @@ export default function ArticlesPage() {
         setArticles(await articleRes.json());
       } catch (error) {
         console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -72,8 +75,13 @@ export default function ArticlesPage() {
         : new Date(a.createdAt) - new Date(b.createdAt);
     });
 
-  if (!articles) {
-    return <div className="text-center p-4">لوڈ ہو رہا ہے...</div>;
+  if (loading) {
+    return (
+      <div className="flex flex-col justify-center items-center h-screen">
+        <div className="loader mb-4"></div>
+        <p className="gulzartext text-xl">لوڈ ہو رہا ہے...</p>
+      </div>
+    );
   }
 
   return (
@@ -83,6 +91,7 @@ export default function ArticlesPage() {
         className="absolute inset-0 opacity-36 pointer-events-none"
         style={{ backgroundImage: `url(${bg})` }}
       ></div>
+
       <header className="bg-[#718e56]  sticky top-0 mb-4 z-50  shadow-sm border-b border-green-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-2 relative pb-2">
           <div className="flex justify-between items-center py-5">
@@ -201,7 +210,7 @@ export default function ArticlesPage() {
         </header>
 
         <div className="gulzartext flex flex-wrap justify-center gap-2 mb-10">
-          {topics.slice(0,4).map((topic, index) => (
+          {topics.slice(0, 4).map((topic, index) => (
             <CategoryPill key={index} label={topic.topic} count={topic.id} />
           ))}
         </div>
@@ -272,6 +281,27 @@ export default function ArticlesPage() {
           </div>
         </div>
       </div>
+
+      {/* Loader Spinner CSS */}
+      <style jsx>{`
+        .loader {
+          border: 4px solid #d3e7b1;
+          border-top: 4px solid #718e56;
+          border-radius: 50%;
+          width: 40px;
+          height: 40px;
+          animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+          0% {
+            transform: rotate(0deg);
+          }
+          100% {
+            transform: rotate(360deg);
+          }
+        }
+      `}</style>
     </div>
   );
 }
@@ -297,7 +327,7 @@ const FilterDropdown = ({ label, value, options, onChange }) => {
       <select
         value={value}
         onChange={(e) => onChange(filterKey, e.target.value)}
-        className="w-full border border-[#DADADA] rounded-md rounded p-2 text-black gulzartext"
+        className="w-full border border-[#DADADA] rounded-md p-2 text-black gulzartext"
       >
         <option value="">Select {label}</option>
         {options.map((option, idx) => (
@@ -328,14 +358,13 @@ function ArticleCard({
           alt={titleEn || titleAr}
           className="object-cover w-full h-full"
           onError={(e) => {
-            e.target.onerror = null; // Prevent infinite loop
+            e.target.onerror = null;
             e.target.src =
               "https://minaramasjid.com/assets/image/default/articles.jpeg";
           }}
         />
         <div className="absolute inset-0 bg-black/30"></div>
         <div className="absolute top-3 left-3 right-3 flex justify-between">
-          {/* <button className="gulzartext bg-[#e8f0d9] text-black px-3 py-1 rounded-full text-sm">مطالعہ</button> */}
           <div className="flex gap-1">
             <button className="bg-white text-black px-3 py-1 rounded-full text-sm">
               Roman

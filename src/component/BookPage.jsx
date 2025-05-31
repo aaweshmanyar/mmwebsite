@@ -278,7 +278,7 @@ export default function Home() {
                 <div className="flex justify-center mb-4">
                   <img src={`https://newmmdata-backend.onrender.com/api/books/cover/${book.id}`} alt={book.title} className="h-64 object-contain" />
                 </div>
-                <h3 className="text-[#4A7C3A] text-lg font-bold text-center mb-2">{book.title}</h3>
+                <h3 className="text-[#4A7C3A] text-lg font-bold text-center mb-2 amiri-bold">{book.title}</h3>
                 <div className="text-left text-xs text-gray-600">Writer</div>
                 <div className="text-left text-[15px] mb-2">{book.author}</div>
                 <div className="text-left text-xs text-gray-600">Translator</div>
