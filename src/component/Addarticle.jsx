@@ -385,8 +385,10 @@ function ArticleCard({
           className={`gulzartext line-clamp-2 text-sm mb-3 ${
             type === "pattern" ? "text-right" : ""
           }`}
+
+          dangerouslySetInnerHTML={{ __html:englishDescription }}
         >
-          {englishDescription}
+          
         </p>
         <div className="flex flex-col gap-1">
           <p
