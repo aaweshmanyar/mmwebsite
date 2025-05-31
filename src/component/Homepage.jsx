@@ -285,7 +285,7 @@ export default function Home() {
       </section>
 
       {/* News & Events */}
-      <section className="w-full py-10 px-4">
+      <section className="w-full py-10 px-4  cursor-pointer">
         <div className="max-w-7xl mx-auto bg-gradient-to-b from-white rounded-3xl shadow-md px-6 py-8 relative">
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-2xl md:text-3xl font-bold text-green-800">
@@ -363,7 +363,7 @@ export default function Home() {
       </section>
 
       {/* Our Books */}
-      <section className="w-full py-10 px-4 relative overflow-hidden">
+      <section className="w-full py-10 px-4 relative overflow-hidden ">
         {/* Painted White Effects */}
         <div className="absolute top-0 left-0 w-[300px] h-[300px] bg-white opacity-30 blur-3xl rounded-full -z-10"></div>
         <div className="absolute bottom-0 right-0 w-[250px] h-[250px] bg-white opacity-40 blur-2xl rounded-full -z-10"></div>
@@ -401,7 +401,7 @@ export default function Home() {
           {/* Book Cards Scrollable */}
           <div
             ref={scrollRef}
-            className="flex gap-6 overflow-x-auto scrollbar-hide scroll-smooth px-2 cursor-pointer"
+            className="flex gap-6 overflow-x-auto scrollbar-hide scroll-smooth px-2 cursor-pointer "
             onClick={() => navigate("/books")}
           >
             {book.slice(0, 4).map((book, index) => (
@@ -418,7 +418,7 @@ export default function Home() {
                   {book.title}
                 </h3>
                 <p className="text-sm text-gray-800">Writer</p>
-                <p className="text-sm font-medium text-gray-600 mb-1">
+                <p className="text-sm font-medium text-gray-600 mb-1 cursor-pointer">
                   {book.author}
                 </p>
                 <p className="text-sm text-gray-800">Translator</p>
