@@ -117,7 +117,7 @@ export default function Home() {
         // Scroll right
         container.scrollBy({ left: container.offsetWidth, behavior: "smooth" });
       }
-    }, 2000); // change every 4 seconds
+    }, 8000); // change every 4 seconds
 
     return () => clearInterval(interval); // cleanup on unmount
   }, []);
