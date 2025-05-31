@@ -24,13 +24,13 @@ export default function WriterProfile() {
         setWriter(writerData);
 
         const bookRes = await fetch(
-          `https://newmmdata-backend.onrender.com/api/books/by-writer/${id}`
+          `https://newmmdata-backend.onrender.com/api/books`
         );
         const bookData = await bookRes.json();
         setBook(bookData);
 
         const questionRes = await fetch(
-          `https://newmmdata-backend.onrender.com/api/questions/by-writer/${id}`
+          `https://newmmdata-backend.onrender.com/api/questions`
         );
         const questionData = await questionRes.json();
         setQuestion(questionData);
@@ -156,11 +156,17 @@ export default function WriterProfile() {
                 </h3>
                 <div className="text-left text-xs text-gray-600">Writer</div>
                 <div className="text-left text-[15px] mb-2">
-                  {book.author || "Unknown"}
+                   {" "}
+                  {book.author === "Author Placeholder"
+                    ? "Farooque Mahaimi"
+                    : book.author}
                 </div>
                 <div className="text-left text-xs text-gray-600">Translator</div>
                 <div className="text-left text-[15px] mb-2">
-                  {book.translator || "N/A"}
+                  {" "}
+                  {book.translator === "Author Placeholder"
+                    ? "Farooque Mahaimi"
+                    : book.translator}
                 </div>
                 <div className="text-left mb-3">
                   <span className="text-xs bg-[#4A7C3A] text-white px-2 py-0.5 rounded">
@@ -168,7 +174,7 @@ export default function WriterProfile() {
                   </span>
                 </div>
                 <div className="flex justify-center gap-2 flex-wrap">
-                  <Link to={`/bookdetail/${book.id}`}>
+                  <Link to={`/bookdetail`}>
                     <button className="cursor-pointer text-[#783F1D] border border-black hover:bg-[#783F1D] hover:text-white px-3 py-1 rounded flex items-center text-sm">
                       Read More <ChevronRight className="h-4 w-4 ml-1" />
                     </button>
