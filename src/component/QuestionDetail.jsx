@@ -56,6 +56,8 @@ const QuestionDetail = () => {
     return <div className="text-center p-4">لوڈ ہو رہا ہے...</div>;
   }
 
+  const slideQuestion = allQuestions.slice(1, 13)
+
   return (
     <main className="min-h-screen bg-[#f0f2e6] relative">
       <header className="bg-[#718e56] sticky top-0 z-50 shadow-md border-b border-green-100">
@@ -160,7 +162,7 @@ const QuestionDetail = () => {
         style={{ backgroundImage: `url(${bg})` }}
       >
         <div className="flex flex-col items-center justify-center py-10 px-6 w-full bg-[#C0D7AA]/80">
-          <h1 className="gulzartext text-3xl md:text-4xl font-bold text-[#4a7031] text-center rtl mb-3">
+          <h1 className="amiri-bold text-3xl md:text-4xl font-bold text-[#4a7031] text-center rtl mb-3">
             دار الإفتاء ریسرچ سینٹر سوال و جوابات تحقیقات
           </h1>
           <p className="gulzartext text-base md:text-lg text-[#4a7031] text-center rtl leading-relaxed">
@@ -179,8 +181,8 @@ const QuestionDetail = () => {
             {question.id}
           </span>
         </div>
-        <p className="text-[#4a7031] text-lg gulzartext mb-6 leading-loose text-center">
-          {question.slug}
+        <p className="text-[#4a7031] text-lg gulzartext mb-6 leading-loose text-center"  dangerouslySetInnerHTML={{ __html: question.questionEnglish || question.questionUrdu}} 
+>
         </p>
       </div>
 
@@ -280,10 +282,10 @@ const QuestionDetail = () => {
             متعلق سوالات
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 rtl">
-            {allQuestions.slice(1, 13).map((q, idx) => (
+            {allQuestions.slice(1,14).map((q, idx) => (
               <div
                 key={q._id}
-                onClick={() => navigate(`/question/${q._id}`)}
+                onClick={() => navigate(`/question/${q.id}`)}
                 className="bg-[#eaf3df] rounded-xl p-4 cursor-pointer"
               >
                 <div className="flex justify-end mb-3">
