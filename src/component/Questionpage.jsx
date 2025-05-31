@@ -113,58 +113,59 @@ export default function HomePage() {
     <main dir="rtl" className="min-h-screen bg-[#f0f7e6] relative font-sans">
       {/* Header Section */}
       <header className="bg-[#718e56] sticky top-0 z-50 shadow-md border-b border-green-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-4 relative">
-            {/* Left Menu */}
-            <nav className="hidden md:flex gap-6 text-md font-semibold text-white tracking-wide">
-              <a href="/contact" className="hover:text-yellow-200 transition-all">Contact</a>
-              <a href="/question" className="hover:text-yellow-200 transition-all">Question</a>
-              <a href="/requestbook" className="hover:text-yellow-200 transition-all">Request Book</a>
-              <a href="/article" className="hover:text-yellow-200 transition-all">Article</a>
-            </nav>
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="flex justify-between items-center py-3 relative">
+      {/* Left Menu */}
+      <nav className="hidden md:flex gap-4 text-sm font-semibold text-white tracking-wide">
+        <a href="/contact" className="hover:text-yellow-200 transition-all">Contact</a>
+        <a href="/question" className="hover:text-yellow-200 transition-all">Question</a>
+        <a href="/requestbook" className="hover:text-yellow-200 transition-all">Request Book</a>
+        <a href="/article" className="hover:text-yellow-200 transition-all">Article</a>
+      </nav>
 
-            {/* Logo */}
-            <div className="absolute left-1/2 transform -translate-x-1/2 -bottom-7 bg-white rounded-full p-1 shadow-lg border border-green-100 z-10">
-              <img
-                src={logo}
-                alt="Logo"
-                className="w-16 h-16 rounded-full object-contain"
-              />
-            </div>
+      {/* Logo */}
+      <div className="absolute left-1/2 transform -translate-x-1/2 -bottom-6 bg-white rounded-full p-1 shadow-lg border border-green-100 z-10">
+        <img
+          src={logo}
+          alt="Logo"
+          className="w-14 h-14 rounded-full object-contain"
+        />
+      </div>
 
-            {/* Right Menu */}
-            <nav className="hidden md:flex gap-6 text-md font-semibold text-white tracking-wide">
-              <a href="/newsandevent" className="hover:text-yellow-200 transition-all">News & Event</a>
-              <a href="/books" className="hover:text-yellow-200 transition-all">Books</a>
-              <a href="/about" className="hover:text-yellow-200 transition-all">About center</a>
-              <a href="/" className="hover:text-yellow-200 transition-all">Home</a>
-            </nav>
+      {/* Right Menu */}
+      <nav className="hidden md:flex gap-4 text-sm font-semibold text-white tracking-wide">
+        <a href="/newsandevent" className="hover:text-yellow-200 transition-all">News & Event</a>
+        <a href="/books" className="hover:text-yellow-200 transition-all">Books</a>
+        <a href="/about" className="hover:text-yellow-200 transition-all">About Center</a>
+        <a href="/" className="hover:text-yellow-200 transition-all">Home</a>
+      </nav>
 
-            {/* Mobile Menu Button */}
-            <div className="md:hidden">
-              <button onClick={() => setMenuOpen(!menuOpen)} className="text-white focus:outline-none">
-                <svg xmlns="http://www.w3.org/2000/svg" className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={menuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"} />
-                </svg>
-              </button>
-            </div>
-          </div>
+      {/* Mobile Menu Button */}
+      <div className="md:hidden flex items-center">
+        <button onClick={() => setMenuOpen(!menuOpen)} className="text-white focus:outline-none">
+          <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={menuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"} />
+          </svg>
+        </button>
+      </div>
+    </div>
 
-          {/* Mobile Dropdown */}
-          <div className={`md:hidden transition-all duration-300 ease-in-out overflow-hidden ${menuOpen ? "max-h-screen opacity-100" : "max-h-0 opacity-0"}`}>
-            <div className="flex flex-col gap-3 py-4 px-2 text-white font-medium text-base bg-[#5a7544] rounded-b-xl">
-              <a href="/" className="hover:bg-[#4f6639] px-4 py-2 rounded">Home</a>
-              <a href="/about" className="hover:bg-[#4f6639] px-4 py-2 rounded">About Center</a>
-              <a href="/books" className="hover:bg-[#4f6639] px-4 py-2 rounded">Books</a>
-              <a href="/newsandevent" className="hover:bg-[#4f6639] px-4 py-2 rounded">News & Event</a>
-              <a href="/requestbook" className="hover:bg-[#4f6639] px-4 py-2 rounded">Request a Book</a>
-              <a href="/article" className="hover:bg-[#4f6639] px-4 py-2 rounded">Articles</a>
-              <a href="/question" className="hover:bg-[#4f6639] px-4 py-2 rounded">Questions</a>
-              <a href="/contact" className="hover:bg-[#4f6639] px-4 py-2 rounded">Contact</a>
-            </div>
-          </div>
-        </div>
-      </header>
+    {/* Mobile Dropdown */}
+    <div className={`md:hidden transition-all duration-300 ease-in-out overflow-hidden ${menuOpen ? "max-h-[400px] opacity-100" : "max-h-0 opacity-0"}`}>
+      <div className="flex flex-col gap-2 py-3 px-4 text-sm font-medium text-white bg-[#5a7544] rounded-b-xl">
+        <a href="/" className="hover:bg-[#4f6639] px-3 py-2 rounded text-center">Home</a>
+        <a href="/about" className="hover:bg-[#4f6639] px-3 py-2 rounded text-center">About Center</a>
+        <a href="/books" className="hover:bg-[#4f6639] px-3 py-2 rounded text-center">Books</a>
+        <a href="/newsandevent" className="hover:bg-[#4f6639] px-3 py-2 rounded text-center">News & Event</a>
+        <a href="/requestbook" className="hover:bg-[#4f6639] px-3 py-2 rounded text-center">Request a Book</a>
+        <a href="/article" className="hover:bg-[#4f6639] px-3 py-2 rounded text-center">Articles</a>
+        <a href="/question" className="hover:bg-[#4f6639] px-3 py-2 rounded text-center">Questions</a>
+        <a href="/contact" className="hover:bg-[#4f6639] px-3 py-2 rounded text-center">Contact</a>
+      </div>
+    </div>
+  </div>
+</header>
+
 
       {/* Background Pattern */}
       <div
@@ -177,7 +178,7 @@ export default function HomePage() {
         className="relative z-40 w-full rounded-b-4xl -mt-8 overflow-hidden bg-cover bg-center"
         style={{ backgroundImage: `url(${bg.src})` }}
       >
-        <div className="flex items-center justify-center mt-4 h-[200px] w-full bg-[#C0D7AA]/80 rounded-b-4xl">
+        <div className="flex items-center justify-center mt-6 h-[200px] w-full bg-[#C0D7AA]/80 rounded-b-4xl">
           <div className="text-center mb-6 px-4">
             <h3 className="text-2xl font-bold text-[#4a7031] gulzartext mb-2">
               شرعی سوالات
@@ -239,7 +240,7 @@ export default function HomePage() {
                 <QuestionCard
                   key={q._id || index}
                   id={index + 1}
-                  question={q.slug || "No question text available"}
+                  question={q.questionEnglish || "No question text available"}
                 />
               ))}
             </div>
