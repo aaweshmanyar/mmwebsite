@@ -57,7 +57,9 @@ const Requestbook = () => {
             <a href="/about" className="hover:text-amber-300">
               About Center
             </a>
-            <span className="hover:text-amber-300 cursor-pointer">Books</span>
+            <a href="/books" className="hover:text-amber-300">
+              Books
+            </a>{" "}
           </nav>
 
           {/* Center Logo */}

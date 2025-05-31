@@ -32,9 +32,7 @@ import Userimg from "../../public/Scholar/user.png";
 import { useSearchParams, useNavigate } from "react-router-dom";
 
 const banners = [Banner];
- const BannerCarousel = () => {
-    
-  };
+const BannerCarousel = () => {};
 export default function Home() {
   const [articles, setArticles] = useState([]);
   const [writer, setWriter] = useState([]);
@@ -43,15 +41,15 @@ export default function Home() {
   const scrollRef = useRef(null);
 
   const settings = {
-      dots: true,
-      infinite: true,
-      autoplay: true,
-      autoplaySpeed: 3000,
-      speed: 800,
-      slidesToShow: 1,
-      slidesToScroll: 1,
-      arrows: false,
-    };
+    dots: true,
+    infinite: true,
+    autoplay: true,
+    autoplaySpeed: 3000,
+    speed: 800,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    arrows: false,
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -103,7 +101,6 @@ export default function Home() {
     }
   };
 
- 
   // ✅ Auto-scroll effect
   useEffect(() => {
     const interval = setInterval(() => {
@@ -146,17 +143,13 @@ export default function Home() {
 
           {/* Center Carousel */}
           <div className="w-full md:w-auto max-w-[800px] rounded-xl overflow-hidden shadow-lg">
-           
-              
-                <div>
-                  <img
-                    src={Banner}
-                    alt="Banner"
-                    className="w-full h-[200px] md:h-[300px] object-cover rounded-xl"
-                  />
-                </div>
-             
-           
+            <div>
+              <img
+                src={Banner}
+                alt="Banner"
+                className="w-full h-[200px] md:h-[300px] object-cover rounded-xl"
+              />
+            </div>
           </div>
 
           {/* Right White Box */}
@@ -349,7 +342,9 @@ export default function Home() {
                     Read More
                     <ChevronRight className="h-4 w-4 ml-1" />
                   </a>
-                  <span className="text-sm text-gray-500">View {event.views}</span>
+                  <span className="text-sm text-gray-500">
+                    View {event.views}
+                  </span>
                 </div>
               </div>
             ))}
@@ -409,7 +404,7 @@ export default function Home() {
             className="flex gap-6 overflow-x-auto scrollbar-hide scroll-smooth px-2 cursor-pointer"
             onClick={() => navigate("/books")}
           >
-            {book.map((book, index) => (
+            {book.slice(0, 4).map((book, index) => (
               <div
                 key={index}
                 className="min-w-[260px] lg:min-w-[270px] bg-[#f1f7ea] rounded-xl py-6 px-4 shadow-sm flex flex-col items-start flex-shrink-0"
@@ -467,7 +462,7 @@ export default function Home() {
 
           {/* Urdu Tags */}
           <div className="flex justify-center flex-wrap gap-3 mb-10">
-            {articles.map((article, index) => (
+            {articles.slice(4, 6).map((article, index) => (
               <div
                 key={index}
                 className={`gulzartext cursor-pointer flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-medium ${
@@ -476,7 +471,9 @@ export default function Home() {
                     : "bg-yellow-100 text-yellow-900"
                 }`}
               >
-                <span className="font-urdu text-lg cursor-pointer">{article.topic}</span>
+                <span className="font-urdu text-lg cursor-pointer">
+                  {article.topic}
+                </span>
                 <span
                   className={`${
                     article.active
@@ -484,7 +481,7 @@ export default function Home() {
                       : "bg-white text-yellow-800"
                   } px-2 py-0.5 rounded-full text-xs font-semibold`}
                 >
-                  {article.views}
+                  {article.id}
                 </span>
               </div>
             ))}
@@ -492,76 +489,105 @@ export default function Home() {
 
           {/* Article Cards */}
 
-          <div
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
-            onClick={() => navigate("/article")}
-          >
-            {articles.map((article, index) => (
-              <div
-                key={index}
-                className="rounded-lg overflow-hidden shadow-[0_8px_30px_rgba(0,0,0,0.12)] bg-[#e8f0d9]"
-              >
-                {/* Image Section */}
-                <div className="relative h-[200px] w-full cursor-pointer">
-                  {article.id && (
-                    <img
-                      src={`https://newmmdata-backend.onrender.com/api/articles/image/${article.id}`}
-                      alt={article.title}
-                      className="object-cover w-full h-full"
-                    />
-                  )}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+         <div
+  className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+  onClick={() => navigate("/article")}
+>
+  {articles.slice(4, 8).map((article, index) => {
+    // Determine if Urdu description is present
+    const isUrdu = !!article.urduDescription;
 
-                  {/* Buttons */}
-                  <div className="absolute top-3 left-3 right-3 flex justify-between items-start">
-                    <button className="cursor-pointer gulzartext bg-white text-black px-3 py-1 rounded-full text-sm shadow-sm">
-                      مطالعہ
-                    </button>
-                    <div className="flex gap-1">
-                      <button className="cursor-pointer bg-white text-black px-3 py-1 rounded-full text-sm shadow-sm">
-                        Roman
-                      </button>
-                      <button className="cursor-pointer bg-white gulzartext text-black px-3 py-1 rounded-full text-sm shadow-sm">
-                        اردو
-                      </button>
-                    </div>
-                  </div>
+    return (
+      <div
+        key={index}
+        className="rounded-lg overflow-hidden shadow-[0_8px_30px_rgba(0,0,0,0.12)] bg-[#e8f0d9]"
+      >
+        {/* Image Section */}
+        <div className="relative h-[200px] w-full cursor-pointer">
+          {article.id && (
+            <img
+              src={`https://newmmdata-backend.onrender.com/api/articles/image/${article.id}`}
+              alt={article.title}
+              className="object-cover w-full h-full"
+              onError={(e) => {
+                e.target.onerror = null; // Prevent infinite loop
+                e.target.src =
+                  "https://minaramasjid.com/assets/image/default/articles.jpeg";
+              }}
+            />
+          )}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
 
-                  {/* Title */}
-                  <div className="absolute bottom-0 left-0 right-0 p-4 text-white ">
-                    {article.title && (
-                      <h2 className="gulzartext font-bold text-lg leading-tight ">
-                        {article.title}
-                      </h2>
-                    )}
-                  </div>
-                </div>
-
-                {/* Description Section */}
-                <div className="p-4">
-                  <p className="gulzartext text-sm mb-3 leading-relaxed line-clamp-2">
-                    {article.urduDescription ||
-                      article.englishDescription ||
-                      "No description available."}
-                  </p>
-
-                  <div className="flex flex-col gap-1">
-                    <p className="gulzartext text-sm font-medium">
-                      Writer: {article.writers || "Unknown"}
-                    </p>
-                    <p className="gulzartext text-sm font-medium">
-                      Mutarjim: {article.translator || "Unknown"}
-                    </p>
-                  </div>
-
-                  <div className="flex justify-end items-center mt-2 gap-1">
-                    <Eye className="h-4 w-4 text-gray-600" />
-                    <span className="text-sm">{article.views ?? 0}</span>
-                  </div>
-                </div>
-              </div>
-            ))}
+          {/* Buttons */}
+          <div className="absolute top-3 left-3 right-3 flex justify-between items-start">
+            <button className="cursor-pointer gulzartext bg-white text-black px-3 py-1 rounded-full text-sm shadow-sm">
+              {article.topic}
+            </button>
+            <div className="flex gap-1">
+              <button className="cursor-pointer bg-white text-black px-3 py-1 rounded-full text-sm shadow-sm">
+                Roman
+              </button>
+              <button className="cursor-pointer bg-white gulzartext text-black px-3 py-1 rounded-full text-sm shadow-sm">
+                اردو
+              </button>
+            </div>
           </div>
+
+          {/* Title */}
+          <div
+            className={`absolute bottom-0 left-0 right-0 p-4 text-white ${
+              isUrdu ? "text-right" : "text-left"
+            }`}
+          >
+            {article.title && (
+              <h2 className="gulzartext font-bold text-lg leading-tight ">
+                {article.title}
+              </h2>
+            )}
+          </div>
+        </div>
+
+        {/* Description Section */}
+        <div className="p-4">
+          <p
+            className={`gulzartext text-sm mb-3 leading-relaxed line-clamp-2 ${
+              isUrdu ? "text-right" : "text-left"
+            }`}
+            dangerouslySetInnerHTML={{
+              __html:
+                article.urduDescription ||
+                article.englishDescription ||
+                "No description available.",
+            }}
+          ></p>
+
+          <div
+            className={`flex flex-col gap-1 ${
+              isUrdu ? "text-right" : "text-left"
+            }`}
+          >
+            <p className="gulzartext text-sm font-medium">
+              {isUrdu ? "مصنف" : "Writer"}: {article.writers || "Unknown"}
+            </p>
+            <p className="gulzartext text-sm font-medium">
+              {isUrdu ? "مترجم" : "Translator"}: {article.translator || "Unknown"}
+            </p>
+          </div>
+
+          <div
+            className={`flex justify-end items-center mt-2 gap-1 ${
+              isUrdu ? "text-right" : "text-left"
+            }`}
+          >
+            <Eye className="h-4 w-4 text-gray-600" />
+            <span className="text-sm">{article.views ?? 0}</span>
+          </div>
+        </div>
+      </div>
+    );
+  })}
+</div>
+
 
           {/* View All Button */}
           <div className="flex justify-center mt-10">
@@ -583,40 +609,17 @@ export default function Home() {
           </h2>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {/* {[
-              {
-                name: "Allama Mazhar Alimi Sahab",
-                img: Userimg,
-              },
-              {
-                name: "Mufti Farooque Mahaimi",
-                img: Userimg,
-              },
-              {
-                name: "Allama Tauheed Alimi",
-                img: Userimg,
-              },
-              {
-                name: "Allama Mazhar Alimi Sahab",
-                img: Userimg,
-              },
-              {
-                name: "Mufti Farooque Mahaimi",
-                img: Userimg,
-              },
-              {
-                name: "Allama Tauheed Alimi",
-                img: Userimg,
-              }, */}
+            
             {writer.map((scholar, index) => (
               <div
                 key={index}
+                 onClick={() => navigate(`/writer/${scholar.id}`)}
                 className="bg-white rounded-xl shadow-sm px-6 py-8 flex flex-col items-center"
               >
                 {/* Profile Image */}
                 <div className="bg-white rounded-full border-4 border-green-200 p-1 mb-4">
                   <img
-                    src={Userimg}
+                    src={`https://newmmdata-backend.onrender.com/api/writers/image/${scholar.id}`}
                     alt={scholar.name}
                     className="rounded-full w-24 h-24 object-cover bg-green-100"
                   />
