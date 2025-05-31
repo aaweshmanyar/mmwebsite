@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Search, ChevronDown } from "lucide-react";
+import { Search, ChevronDown, Loader2 } from "lucide-react";
 import bg from "../../public/images/bg.png";
 import logo from "../../public/images/marclogo.png";
 import { useNavigate } from "react-router-dom";
@@ -23,27 +23,21 @@ export default function HomePage() {
           "https://newmmdata-backend.onrender.com/api/questions"
         );
         const data = await response.json();
-        console.log("Fetched data:", data);
-        setQuestions(data); // assuming API returns { questions: [...] }
+        setQuestions(data);
       } catch (error) {
         console.error("Failed to fetch questions:", error);
       } finally {
         setLoading(false);
       }
     };
-
     fetchQuestions();
   }, []);
 
- const filteredQuestions = questions.filter((q) => {
-  const text = (q.slug || q.questionEnglish || "").toLowerCase();
-  return text.includes(search.toLowerCase());
-});
+  const filteredQuestions = questions.filter((q) => {
+    const text = (q.slug || q.questionEnglish || "").toLowerCase();
+    return text.includes(search.toLowerCase());
+  });
 
-
-  const section1 = filteredQuestions.slice(0, 8);
-  const section2 = filteredQuestions.slice(9, 12);
-  const section3 = filteredQuestions.slice(13, 27);
   const Dropdown = ({ label, selected, setSelected, options }) => {
     const [isOpen, setIsOpen] = useState(false);
 
@@ -59,7 +53,6 @@ export default function HomePage() {
             <ChevronDown className="h-4 w-4" />
           </button>
         </div>
-
         {isOpen && (
           <div className="absolute z-10 mt-1 w-full bg-white border border-gray-200 rounded-md shadow-lg">
             {options.map((option) => (
@@ -90,7 +83,7 @@ export default function HomePage() {
 
   const QuestionCard = ({ id, question }) => (
     <div
-      className="bg-white rounded-lg shadow-sm p-4 flex flex-col cursor-pointer"
+      className="bg-white rounded-lg shadow-sm p-4 flex flex-col cursor-pointer w-full"
       onClick={() => navigate(`/question/${id}`)}
     >
       <div className="flex justify-between items-start mb-2">
@@ -101,9 +94,10 @@ export default function HomePage() {
           </span>
         </div>
       </div>
-      <p className="gulzartext text-right text-gray-800 mb-2 line-clamp-1"  dangerouslySetInnerHTML={{ __html: question }}>
-          
-      </p>
+      <p
+        className="gulzartext text-right text-gray-800 mb-2 line-clamp-1"
+        dangerouslySetInnerHTML={{ __html: question }}
+      ></p>
       <div className="flex justify-end gap-2 mt-auto">
         <button className="bg-green-50 hover:bg-green-100 text-green-700 px-3 py-1 rounded-md text-sm transition-colors">
           Roman
@@ -123,30 +117,10 @@ export default function HomePage() {
           <div className="flex justify-between items-center py-4 relative">
             {/* Left Menu */}
             <nav className="hidden md:flex gap-6 text-md font-semibold text-white tracking-wide">
-              <a
-                href="/contact"
-                className="hover:text-yellow-200 transition-all duration-200"
-              >
-                Contact
-              </a>
-              <a
-                href="/question"
-                className="hover:text-yellow-200 transition-all duration-200"
-              >
-                Question
-              </a>
-              <a
-                href="/requestbook"
-                className="hover:text-yellow-200 transition-all duration-200"
-              >
-                Request Book
-              </a>
-              <a
-                href="/article"
-                className="hover:text-yellow-200 transition-all duration-200"
-              >
-                Article
-              </a>
+              <a href="/contact" className="hover:text-yellow-200 transition-all">Contact</a>
+              <a href="/question" className="hover:text-yellow-200 transition-all">Question</a>
+              <a href="/requestbook" className="hover:text-yellow-200 transition-all">Request Book</a>
+              <a href="/article" className="hover:text-yellow-200 transition-all">Article</a>
             </nav>
 
             {/* Logo */}
@@ -160,106 +134,33 @@ export default function HomePage() {
 
             {/* Right Menu */}
             <nav className="hidden md:flex gap-6 text-md font-semibold text-white tracking-wide">
-              <a
-                href="/newsandevent"
-                className="hover:text-yellow-200 transition-all duration-200"
-              >
-                News & Event
-              </a>
-              <a
-                href="/books"
-                className="hover:text-yellow-200 transition-all duration-200"
-              >
-                Books
-              </a>
-              <a
-                href="/about"
-                className="hover:text-yellow-200 transition-all duration-200"
-              >
-                About center
-              </a>
-              <a
-                href="/"
-                className="hover:text-yellow-200 transition-all duration-200"
-              >
-                Home
-              </a>
+              <a href="/newsandevent" className="hover:text-yellow-200 transition-all">News & Event</a>
+              <a href="/books" className="hover:text-yellow-200 transition-all">Books</a>
+              <a href="/about" className="hover:text-yellow-200 transition-all">About center</a>
+              <a href="/" className="hover:text-yellow-200 transition-all">Home</a>
             </nav>
 
             {/* Mobile Menu Button */}
             <div className="md:hidden">
-              <button
-                onClick={() => setMenuOpen(!menuOpen)}
-                className="text-white focus:outline-none"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="w-7 h-7"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d={
-                      menuOpen
-                        ? "M6 18L18 6M6 6l12 12"
-                        : "M4 6h16M4 12h16M4 18h16"
-                    }
-                  />
+              <button onClick={() => setMenuOpen(!menuOpen)} className="text-white focus:outline-none">
+                <svg xmlns="http://www.w3.org/2000/svg" className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={menuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"} />
                 </svg>
               </button>
             </div>
           </div>
 
           {/* Mobile Dropdown */}
-          <div
-            className={`md:hidden transform transition-all duration-300 ease-in-out overflow-hidden ${
-              menuOpen ? "max-h-screen opacity-100" : "max-h-0 opacity-0"
-            }`}
-          >
-            <div className="flex flex-col gap-3 py-4 px-2 text-white font-medium tracking-wide text-base bg-[#5a7544] rounded-b-xl">
-              <a href="/" className="hover:bg-[#4f6639] px-4 py-2 rounded">
-                Home
-              </a>
-              <a href="/about" className="hover:bg-[#4f6639] px-4 py-2 rounded">
-                About Center
-              </a>
-              <a href="/books" className="hover:bg-[#4f6639] px-4 py-2 rounded">
-                Books
-              </a>
-              <a
-                href="/newsandevent"
-                className="hover:bg-[#4f6639] px-4 py-2 rounded"
-              >
-                News & Event
-              </a>
-              <a
-                href="/requestbook"
-                className="hover:bg-[#4f6639] px-4 py-2 rounded"
-              >
-                Request a Book
-              </a>
-              <a
-                href="/article"
-                className="hover:bg-[#4f6639] px-4 py-2 rounded"
-              >
-                Articles
-              </a>
-              <a
-                href="/question"
-                className="hover:bg-[#4f6639] px-4 py-2 rounded"
-              >
-                Questions
-              </a>
-              <a
-                href="/contact"
-                className="hover:bg-[#4f6639] px-4 py-2 rounded"
-              >
-                Contact
-              </a>
+          <div className={`md:hidden transition-all duration-300 ease-in-out overflow-hidden ${menuOpen ? "max-h-screen opacity-100" : "max-h-0 opacity-0"}`}>
+            <div className="flex flex-col gap-3 py-4 px-2 text-white font-medium text-base bg-[#5a7544] rounded-b-xl">
+              <a href="/" className="hover:bg-[#4f6639] px-4 py-2 rounded">Home</a>
+              <a href="/about" className="hover:bg-[#4f6639] px-4 py-2 rounded">About Center</a>
+              <a href="/books" className="hover:bg-[#4f6639] px-4 py-2 rounded">Books</a>
+              <a href="/newsandevent" className="hover:bg-[#4f6639] px-4 py-2 rounded">News & Event</a>
+              <a href="/requestbook" className="hover:bg-[#4f6639] px-4 py-2 rounded">Request a Book</a>
+              <a href="/article" className="hover:bg-[#4f6639] px-4 py-2 rounded">Articles</a>
+              <a href="/question" className="hover:bg-[#4f6639] px-4 py-2 rounded">Questions</a>
+              <a href="/contact" className="hover:bg-[#4f6639] px-4 py-2 rounded">Contact</a>
             </div>
           </div>
         </div>
@@ -267,7 +168,7 @@ export default function HomePage() {
 
       {/* Background Pattern */}
       <div
-        className="absolute inset-0 opacity-36 pointer-events-none"
+        className="absolute inset-0 opacity-30 pointer-events-none"
         style={{ backgroundImage: `url(${bg.src})` }}
       ></div>
 
@@ -282,9 +183,7 @@ export default function HomePage() {
               شرعی سوالات
             </h3>
             <p className="text-md text-gray-700 gulzartext">
-              ہمارے مرکز کا مقصد اسلامی تعلیمات کی روشنی میں موجودہ مسائل کا حل
-              پیش کرنا ہے۔ یہاں آپ سوالات پوچھ سکتے ہیں یا دوسروں کے سوالات کے
-              جوابات دے سکتے ہیں۔
+              ہمارے مرکز کا مقصد اسلامی تعلیمات کی روشنی میں موجودہ مسائل کا حل پیش کرنا ہے۔ یہاں آپ سوالات پوچھ سکتے ہیں یا دوسروں کے سوالات کے جوابات دے سکتے ہیں۔
             </p>
           </div>
         </div>
@@ -326,43 +225,19 @@ export default function HomePage() {
         </div>
 
         {loading ? (
-          <p className="text-center text-gray-600 gulzartext">
-            لوڈ ہو رہا ہے...
-          </p>
-        ) : section1.length === 0 ? (
-          <p className="text-center text-gray-600 gulzartext">
-            کوئی سوالات نہیں ملے
-          </p>
+          <div className="flex justify-center items-center py-10">
+            <Loader2 className="h-6 w-6 animate-spin text-green-600" />
+            <span className="ml-2 gulzartext text-gray-600">لوڈ ہو رہا ہے...</span>
+          </div>
+        ) : filteredQuestions.length === 0 ? (
+          <p className="text-center text-gray-600 gulzartext">کوئی سوالات نہیں ملے</p>
         ) : (
           <>
-            {/* Sections */}
-            <SectionHeader text="قرآن کی تعلیمات" />
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8 w-[70%] m-auto">
+            <SectionHeader text="سوالات کی فہرست" />
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
               {filteredQuestions.map((q, index) => (
                 <QuestionCard
                   key={q._id || index}
-                  id={index + 1}
-                  question={q.slug || "No question text available"}
-                />
-              ))}
-            </div>
-
-            <SectionHeader text="حدیث کے سوال" />
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8 w-[70%] m-auto">
-              {filteredQuestions.map((q, index) => (
-                <QuestionCard
-                  key={`section2-${q._id || index}`}
-                  id={index + 1}
-                  question={q.slug || "No question text available"}
-                />
-              ))}
-            </div>
-
-            <SectionHeader text="قرآن کی آیات" />
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-[70%] m-auto">
-              {filteredQuestions.map((q, index) => (
-                <QuestionCard
-                  key={`section3-${q._id || index}`}
                   id={index + 1}
                   question={q.slug || "No question text available"}
                 />
