@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "./Navbar/Navbar";
-import { Search, ChevronDown, User, ChevronRight, Menu, X , ArrowDownToLine} from "lucide-react";
+import { Search, ChevronDown, User, ChevronRight, Menu, X , ArrowDownToLine, Slice} from "lucide-react";
 
 import { Navigate, useNavigate, Link } from "react-router-dom";
 
@@ -174,7 +174,7 @@ export default function WriterProfile() {
           </div>
 
          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-7 mb-10">
-            {book.map((book, i) => (
+            {book.slice(0,4).map((book, i) => (
               <div
                 key={i}
                 className="cursor-pointer bg-gradient-to-t from-white border border-white p-4 rounded-lg hover:shadow-lg transition relative"
@@ -187,9 +187,9 @@ export default function WriterProfile() {
                 <div className="flex justify-center mb-4">
                   <img src={`https://newmmdata-backend.onrender.com/api/books/cover/${book.id}`} alt={book.title} className="h-64 object-contain" />
                 </div>
-                <h3 className="text-[#4A7C3A] text-lg font-bold text-center mb-2">{book.title}</h3>
+                <h3 className="text-[#4A7C3A] text-lg font-bold text-center mb-2 amiri-bold ">{book.title}</h3>
                 <div className="text-left text-xs text-gray-600">Writer</div>
-                <div className="text-left text-[15px] mb-2">{book.author}</div>
+                <div className="text-left text-[15px] mb-2"> {book.author === "Author Placeholder" ? "Farooque Mahaimi" : book.author}</div>
                 <div className="text-left text-xs text-gray-600">Translator</div>
                 <div className="text-left text-[15px] mb-2">{book.translator}</div>
                 <div className="text-left mb-3">
@@ -253,7 +253,7 @@ export default function WriterProfile() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-            {question.map((questionItem) => (
+            {question.slice(4,8).map((questionItem) => (
               <div
                 key={questionItem.id}
                 className="cursor-pointer bg-white shadow-sm border-0 rounded-lg overflow-hidden"

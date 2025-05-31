@@ -101,8 +101,8 @@ export default function HomePage() {
           </span>
         </div>
       </div>
-      <p className="gulzartext text-right text-gray-800 mb-2 line-clamp-1">
-        {question}
+      <p className="gulzartext text-right text-gray-800 mb-2 line-clamp-1"  dangerouslySetInnerHTML={{ __html: question }}>
+          
       </p>
       <div className="flex justify-end gap-2 mt-auto">
         <button className="bg-green-50 hover:bg-green-100 text-green-700 px-3 py-1 rounded-md text-sm transition-colors">
