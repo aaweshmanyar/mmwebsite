@@ -69,11 +69,11 @@ export default function BookDetailsPage() {
           <nav className="hidden md:flex items-center space-x-6 text-[15px] font-medium">
             <a href="/" className="hover:text-amber-300">Home</a>
             <a href="/about" className="hover:text-amber-300">About Center</a>
-            <div className="relative group cursor-pointer">
-              <div className="flex items-center hover:text-amber-300">
-                Books <ChevronDown className="h-4 w-4 ml-1" />
-              </div>
-            </div>
+            <a href="/books" className="hover:text-amber-300">Books</a>
+            
+              
+            <a href="/newsandevent" className="hover:text-amber-300">New & Event</a>
+            
           </nav>
 
           {/* Center Logo */}
@@ -84,8 +84,8 @@ export default function BookDetailsPage() {
           {/* Right Section */}
           <div className="hidden md:flex items-center space-x-5 font-medium text-[15px]">
             <a href="/article" className="hover:text-amber-300">Articles</a>
-            <a href="#" className="hover:text-amber-300">Gallery</a>
-            <a href="#" className="hover:text-amber-300">Contact</a>
+            <a href="/requestbook" className="hover:text-amber-300">Request a book</a>
+            <a href="/contact" className="hover:text-amber-300">Contact</a>
           </div>
         </div>
 
@@ -96,7 +96,7 @@ export default function BookDetailsPage() {
             <a href="/about" className="block hover:text-amber-300">About Center</a>
             <div className="block hover:text-amber-300 cursor-pointer">Books</div>
             <a href="/article" className="block hover:text-amber-300">Articles</a>
-            <a href="/gallery" className="block hover:text-amber-300">Gallery</a>
+            <a href="/requestbook" className="block hover:text-amber-300">Request a book</a>
             <a href="/contact" className="block hover:text-amber-300">Contact</a>
 
             {/* Search Bar */}
@@ -136,7 +136,7 @@ export default function BookDetailsPage() {
 
               {/* Book Details */}
               <div className="md:w-2/3">
-                <h1 className="text-4xl font-bold text-[#558B2F] mb-4">{book.title}</h1>
+                <h1 className="text-4xl font-bold text-[#558B2F] mb-4 gulzartext">{book.title}</h1>
 
                 <span className="inline-block bg-yellow-600 text-white px-4 py-1 text-sm rounded-full mb-4">
                   {book.tag}
@@ -152,7 +152,7 @@ export default function BookDetailsPage() {
                   <p className="text-lg font-bold">{book.translator}</p>
                 </div>
 
-                <p className="text-gray-700 text-base mb-8 leading-relaxed">
+                <p className="text-gray-700 text-base mb-8 leading-relaxed gulzartext">
                   {stripHTML(book.description || "")}
                 </p>
 
@@ -192,7 +192,7 @@ export default function BookDetailsPage() {
               </h2>
               <h3 className="text-xl font-bold mb-2">{book?.author || "Loading..."}</h3>
 
-              <p className="text-sm text-gray-700">
+              <p className="text-sm text-gray-700 ">
                 {matchedWriter
                   ? matchedWriter.englishDescription
                   : "Biography not available for this writer."}
@@ -224,7 +224,7 @@ export default function BookDetailsPage() {
                     alt={book.title}
                     className="w-full h-48 sm:h-52 md:h-56 lg:h-64 object-cover rounded mb-3"
                   />
-                  <h3 className="text-[#558B2F] text-base sm:text-lg font-semibold mb-1 truncate">
+                  <h3 className="gulzartext text-[#558B2F] text-base sm:text-lg font-semibold mb-1 truncate">
                     {book.title || "Untitled"}
                   </h3>
                   <a

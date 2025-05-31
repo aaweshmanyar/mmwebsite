@@ -180,7 +180,8 @@ export default function Home() {
               >
                 <div className="bg-white rounded-full border-4 border-green-200 p-1 mb-4">
                   <img
-                    src={Userimg}
+                   src={`https://newmmdata-backend.onrender.com/api/writers/image/${writer.id}`}
+
                     alt={writer.name}
                     className="rounded-full w-24 h-24 object-cover bg-green-100"
                   />

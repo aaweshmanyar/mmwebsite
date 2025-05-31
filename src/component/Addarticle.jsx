@@ -58,7 +58,6 @@ export default function ArticlesPage() {
     }));
   };
 
-  // Apply filters
   const filteredArticles = articles
     .filter((article) => {
       const { writer, translator, language, topic } = selectedFilters;
@@ -80,6 +79,27 @@ export default function ArticlesPage() {
       <div className="flex flex-col justify-center items-center h-screen">
         <div className="loader mb-4"></div>
         <p className="gulzartext text-xl">لوڈ ہو رہا ہے...</p>
+
+        {/* Loader Spinner CSS */}
+        <style jsx>{`
+          .loader {
+            border: 4px solid #d3e7b1;
+            border-top: 4px solid #718e56;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+          }
+
+          @keyframes spin {
+            0% {
+              transform: rotate(0deg);
+            }
+            100% {
+              transform: rotate(360deg);
+            }
+          }
+        `}</style>
       </div>
     );
   }
@@ -92,7 +112,7 @@ export default function ArticlesPage() {
         style={{ backgroundImage: `url(${bg})` }}
       ></div>
 
-      <header className="bg-[#718e56]  sticky top-0 mb-4 z-50  shadow-sm border-b border-green-100">
+      <header className="bg-[#718e56] sticky top-0 mb-4 z-50 shadow-sm border-b border-green-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-2 relative pb-2">
           <div className="flex justify-between items-center py-5">
             {/* Desktop Left Nav */}
@@ -106,8 +126,8 @@ export default function ArticlesPage() {
               <a href="/books" className="hover:text-gray-700">
                 Books
               </a>
-              <a href="/gallery" className="hover:text-gray-700">
-                Gallery
+              <a href="/newsandevent" className="hover:text-gray-700">
+                News & Event
               </a>
             </nav>
 
@@ -124,8 +144,8 @@ export default function ArticlesPage() {
 
             {/* Desktop Right Nav */}
             <nav className="hidden md:flex gap-6 text-sm font-medium text-white">
-              <a href="/news" className="hover:text-gray-700">
-                News
+              <a href="/requestbook" className="hover:text-gray-700">
+                Request a book
               </a>
               <a href="/article" className="hover:text-gray-700">
                 Articles
@@ -281,27 +301,6 @@ export default function ArticlesPage() {
           </div>
         </div>
       </div>
-
-      {/* Loader Spinner CSS */}
-      <style jsx>{`
-        .loader {
-          border: 4px solid #d3e7b1;
-          border-top: 4px solid #718e56;
-          border-radius: 50%;
-          width: 40px;
-          height: 40px;
-          animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-          0% {
-            transform: rotate(0deg);
-          }
-          100% {
-            transform: rotate(360deg);
-          }
-        }
-      `}</style>
     </div>
   );
 }
