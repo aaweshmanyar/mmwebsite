@@ -34,10 +34,15 @@ const Requestbook = () => {
 
   return (
     <div className="w-full min-h-screen bg-[#f8efd0] relative overflow-hidden">
+      <div
+        className="absolute inset-0 opacity-36 pointer-events-none"
+        style={{ backgroundImage: `url(${bg})` }}
+      ></div>
       {/* Header */}
-      <header className="bg-[#783F1D] text-white relative z-10 shadow-md">
-        <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between relative">
-          {/* Mobile Hamburger */}
+      <header className="relative z-50 bg-[#783F1D] text-white">
+        {/* Desktop + Mobile Nav */}
+        <div className="max-w-[1200px] mx-auto px-4 py-3 flex items-center justify-between relative">
+          {/* Mobile Menu Button */}
           <button
             className="md:hidden text-white z-20"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -55,32 +60,45 @@ const Requestbook = () => {
               Home
             </a>
             <a href="/about" className="hover:text-amber-300">
-              About Center
+              About
+            </a>
+            <a href="/newsandevent" className="hover:text-amber-300">
+              News & Events
             </a>
             <a href="/books" className="hover:text-amber-300">
               Books
-            </a>{" "}
+            </a>
           </nav>
 
-          {/* Center Logo */}
-          <div className="absolute left-1/2 transform -translate-x-1/2 md:static md:translate-x-0">
+          {/* Logo */}
+          <div className="absolute left-1/2 transform -translate-x-1/2 -bottom-14 z-30 bg-white rounded-full p-1 shadow-md">
             <img
               src={Logo}
               alt="Logo"
-              className="w-16 md:w-20 object-contain"
+              className="w-20 h-20 object-contain rounded-full"
             />
           </div>
 
           {/* Right Nav */}
           <div className="hidden md:flex items-center space-x-5 font-medium text-[15px]">
+            {/* <div className="relative">
+                  <input
+                    type="text"
+                    placeholder="search"
+                    className="px-4 py-1 rounded-full bg-[#E7D092] text-sm text-black placeholder:text-gray-700 outline-none"
+                  />
+                  <span className="absolute right-3 top-1.5 text-black">
+                    <Search className="w-4 h-4" />
+                  </span>
+                </div> */}
             <a href="/article" className="hover:text-amber-300">
               Articles
             </a>
-            <a href="/requestbook" className="hover:text-amber-300">
-              Request Book
-            </a>
             <a href="/question" className="hover:text-amber-300">
-              Question
+              Question Answer
+            </a>
+            <a href="/requestbook" className="hover:text-amber-300">
+              Request a Book
             </a>
             <a href="/contact" className="hover:text-amber-300">
               Contact
@@ -88,51 +106,74 @@ const Requestbook = () => {
           </div>
         </div>
 
-        {/* Mobile Menu */}
+        {/* Mobile Slide-out Menu (from left) */}
         {mobileMenuOpen && (
-          <div className="md:hidden absolute top-full left-0 w-full bg-[#783F1D] px-4 pb-5 space-y-4 text-[15px] font-medium z-10">
-            <a href="/" className="block hover:text-amber-300">
-              Home
-            </a>
-            <a href="/about" className="block hover:text-amber-300">
-              About Center
-            </a>
-            <span className="block hover:text-amber-300 cursor-pointer">
-              Books
-            </span>
-            <a href="/article" className="block hover:text-amber-300">
-              Articles
-            </a>
-            <a href="/question" className="block hover:text-amber-300">
-              Question
-            </a>
-            <a href="/contact" className="block hover:text-amber-300">
-              Contact
-            </a>
-            <div className="flex items-center bg-white rounded-full px-3 py-1 mt-2 w-full">
-              <input
-                type="text"
-                placeholder="Search"
-                className="bg-transparent outline-none text-black text-sm w-full"
-              />
-              <Search className="w-4 h-4 text-black ml-2" />
+          <div className="fixed inset-0 z-40 flex">
+            {/* Backdrop */}
+            <div
+              className="fixed inset-0 bg-black bg-opacity-30"
+              onClick={() => setMobileMenuOpen(false)}
+            />
+
+            {/* Drawer */}
+            <div className="relative w-1/2 h-full bg-[#783F1D] p-4 space-y-4 text-[15px] font-medium z-50">
+              <button
+                onClick={() => setMobileMenuOpen(false)}
+                className="absolute top-4 right-4 text-white"
+              >
+                <X className="w-5 h-5" />
+              </button>
+              <a href="/" className="block hover:text-amber-300">
+                Home
+              </a>
+              <a href="/about" className="block hover:text-amber-300">
+                About
+              </a>
+              <a href="/newsandevent" className="block hover:text-amber-300">
+                News & Events
+              </a>
+              <a href="/books" className="block hover:text-amber-300">
+                Books
+              </a>
+              <a href="/article" className="block hover:text-amber-300">
+                Articles
+              </a>
+              <a href="/question" className="block hover:text-amber-300">
+                Question Answer
+              </a>
+              <a href="/requestbook" className="block hover:text-amber-300">
+                Request a Book
+              </a>
+              <a href="/contact" className="block hover:text-amber-300">
+                Contact
+              </a>
+
+              {/* Search bar */}
+              <div className="flex items-center bg-white rounded-full px-3 py-1 mt-2 w-full">
+                <input
+                  type="text"
+                  placeholder="Search"
+                  className="bg-transparent outline-none text-black text-sm w-full"
+                />
+                <Search className="w-4 h-4 text-black ml-2" />
+              </div>
             </div>
           </div>
         )}
       </header>
 
       {/* Background Layer */}
-      <div
+      {/* <div
         className="absolute inset-0 opacity-20"
         style={{
           backgroundImage: `url(${bg})`,
           backgroundSize: "cover",
           backgroundRepeat: "no-repeat",
         }}
-      />
+      /> */}
 
       {/* Form Section */}
-      <div className="relative z-10 w-full py-12 px-4 md:px-10">
+      <div className="relative z-10 w-full py-12 px-4 mt-6 md:px-10">
         <div className="max-w-3xl mx-auto bg-white rounded-2xl shadow-lg p-6 sm:p-10">
           <h1 className="text-[#783F1D] text-2xl sm:text-3xl font-bold text-center mb-6">
             Request a Book
@@ -219,7 +260,7 @@ const Requestbook = () => {
               </label>
               <select
                 id="books"
-                className="w-full mt-1 border border-gray-300 rounded px-3 py-2"
+                className="gulzartext w-full mt-1 border border-gray-300 rounded px-3 py-2"
               >
                 <option value="" disabled selected>
                   Select Books

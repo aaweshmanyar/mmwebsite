@@ -1,11 +1,11 @@
-import { Search, ChevronDown, Eye } from "lucide-react";
+import { Search, ChevronDown, Eye, Menu, X } from "lucide-react";
 import React, { useState, useEffect } from "react";
-import bg from "../../public/images/bg.png";
-import logo from "../../public/images/marclogo.png";
+import bg from "../../public/images/newbg.png";
+import Logo from "../../public/images/bg.png";
 import { useNavigate } from "react-router-dom";
 
 export default function ArticlesPage() {
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [writers, setWriters] = useState([]);
   const [translators, setTranslators] = useState([]);
   const [languages, setLanguages] = useState([]);
@@ -110,116 +110,133 @@ export default function ArticlesPage() {
       <div
         className="absolute inset-0 opacity-36 pointer-events-none"
         style={{ backgroundImage: `url(${bg})` }}
+        
       ></div>
 
-      <header className="bg-[#718e56] sticky top-0 mb-4 z-50 shadow-sm border-b border-green-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-2 relative pb-2">
-          <div className="flex justify-between items-center py-5">
-            {/* Desktop Left Nav */}
-            <nav className="hidden md:flex gap-6 text-md font-medium text-white">
-              <a href="/" className="hover:text-gray-700">
-                Home
-              </a>
-              <a href="/about" className="hover:text-gray-700">
-                About Center
-              </a>
-              <a href="/books" className="hover:text-gray-700">
-                Books
-              </a>
-              <a href="/newsandevent" className="hover:text-gray-700">
-                News & Event
-              </a>
-            </nav>
+        <header className="relative z-50 bg-[#718e56] text-white">
+        {/* Desktop + Mobile Nav */}
+        <div className="max-w-[1200px] mx-auto px-4 py-3 flex items-center justify-between relative">
+          {/* Mobile Menu Button */}
+          <button
+            className="md:hidden text-white z-20"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          >
+            {mobileMenuOpen ? (
+              <X className="w-6 h-6" />
+            ) : (
+              <Menu className="w-6 h-6" />
+            )}
+          </button>
 
-            {/* Center Logo */}
-            <div className="absolute left-1/2 transform -translate-x-1/2 -bottom-6 bg-white rounded-full p-1 shadow-md">
-              <img
-                src={logo}
-                alt="Maula Ali Research Centre Logo"
-                width={64}
-                height={64}
-                className="rounded-full object-contain"
-              />
-            </div>
+          {/* Left Nav */}
+          <nav className="hidden md:flex items-center space-x-6 text-[15px] font-medium">
+            <a href="/" className="hover:text-amber-300">
+              Home
+            </a>
+            <a href="/about" className="hover:text-amber-300">
+              About
+            </a>
+            <a href="/newsandevent" className="hover:text-amber-300">
+              News & Events
+            </a>
+            <a href="/books" className="hover:text-amber-300">
+              Books
+            </a>
+          </nav>
 
-            {/* Desktop Right Nav */}
-            <nav className="hidden md:flex gap-6 text-sm font-medium text-white">
-              <a href="/requestbook" className="hover:text-gray-700">
-                Request a book
-              </a>
-              <a href="/article" className="hover:text-gray-700">
-                Articles
-              </a>
-              <a href="/question" className="hover:text-gray-700">
-                Questions
-              </a>
-              <a href="/contact" className="hover:text-gray-700">
-                Contact
-              </a>
-            </nav>
-
-            {/* Mobile Menu Button */}
-            <div className="md:hidden">
-              <button
-                onClick={() => setMenuOpen(!menuOpen)}
-                className="text-gray-800 focus:outline-none"
-                aria-label="Toggle menu"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="w-6 h-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d={
-                      menuOpen
-                        ? "M6 18L18 6M6 6l12 12"
-                        : "M4 6h16M4 12h16M4 18h16"
-                    }
-                  />
-                </svg>
-              </button>
-            </div>
+          {/* Logo */}
+          <div className="absolute left-1/2 transform -translate-x-1/2 -bottom-14 z-30 bg-white rounded-full p-1 shadow-md">
+            <img
+              src={Logo}
+              alt="Logo"
+              className="w-20 h-20 object-contain rounded-full"
+            />
           </div>
 
-          {/* Mobile Dropdown Menu */}
-          {menuOpen && (
-            <div className="md:hidden mt-4 space-y-2 text-sm font-medium text-black">
-              <a href="/" className="block hover:text-green-700">
+          {/* Right Nav */}
+          <div className="hidden md:flex items-center space-x-5 font-medium text-[15px]">
+            {/* <div className="relative">
+            <input
+              type="text"
+              placeholder="search"
+              className="px-4 py-1 rounded-full bg-[#E7D092] text-sm text-black placeholder:text-gray-700 outline-none"
+            />
+            <span className="absolute right-3 top-1.5 text-black">
+              <Search className="w-4 h-4" />
+            </span>
+          </div> */}
+            <a href="/article" className="hover:text-amber-300">
+              Articles
+            </a>
+            <a href="/question" className="hover:text-amber-300">
+              Question Answer
+            </a>
+            <a href="/requestbook" className="hover:text-amber-300">
+              Request a Book
+            </a>
+            <a href="/contact" className="hover:text-amber-300">
+              Contact
+            </a>
+          </div>
+        </div>
+
+        {/* Mobile Slide-out Menu (from left) */}
+        {mobileMenuOpen && (
+          <div className="fixed inset-0 z-40 flex">
+            {/* Backdrop */}
+            <div
+              className="fixed inset-0 bg-black bg-opacity-30"
+              onClick={() => setMobileMenuOpen(false)}
+            />
+
+            {/* Drawer */}
+            <div className="relative w-1/2 h-full bg-[#718e56] p-4 space-y-4 text-[15px] font-medium z-50">
+              <button
+                onClick={() => setMobileMenuOpen(false)}
+                className="absolute top-4 right-4 text-white"
+              >
+                <X className="w-5 h-5" />
+              </button>
+              <a href="/" className="block hover:text-white">
                 Home
               </a>
-              <a href="/about" className="block hover:text-green-700">
-                About Center
+              <a href="/about" className="block hover:text-white">
+                About
               </a>
-              <a href="/books" className="block hover:text-green-700">
+              <a href="/newsandevent" className="block hover:text-white">
+                News & Events
+              </a>
+              <a href="/books" className="block hover:text-white">
                 Books
               </a>
-              <a href="/gallery" className="block hover:text-green-700">
-                Gallery
-              </a>
-              <a href="/news" className="block hover:text-green-700">
-                News
-              </a>
-              <a href="/article" className="block hover:text-green-700">
+              <a href="/article" className="block hover:text-white">
                 Articles
               </a>
-              <a href="/question" className="block hover:text-green-700">
-                Questions
+              <a href="/question" className="block hover:text-white">
+                Question Answer
               </a>
-              <a href="/contact" className="block hover:text-green-700">
+              <a href="/requestbook" className="block hover:text-white">
+                Request a Book
+              </a>
+              <a href="/contact" className="block hover:text-white">
                 Contact
               </a>
+
+              {/* Search bar */}
+              <div className="flex items-center bg-white rounded-full px-3 py-1 mt-2 w-full">
+                <input
+                  type="text"
+                  placeholder="Search"
+                  className="bg-transparent outline-none text-black text-sm w-full"
+                />
+                <Search className="w-4 h-4 text-black ml-2" />
+              </div>
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </header>
 
-      <div className="relative z-10 container mx-auto px-4 py-8">
+      <div className="relative z-10 container mx-auto px-4 py-8 mt-10">
         <header className="text-center mb-10">
           <h1 className="text-4xl font-bold text-gray-900 mb-3">Articles</h1>
           <p className="max-w-3xl mx-auto text-gray-700">

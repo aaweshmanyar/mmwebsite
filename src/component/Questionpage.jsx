@@ -1,16 +1,16 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Search, ChevronDown, Loader2 } from "lucide-react";
+import { Search, ChevronDown, Loader2, X, Menu } from "lucide-react";
 import bg from "../../public/images/bg.png";
-import logo from "../../public/images/marclogo.png";
+import Logo from "../../public/images/marclogo.png";
 import { useNavigate } from "react-router-dom";
 
 export default function HomePage() {
   const [language, setLanguage] = useState("Urdu");
   const [sorting, setSorting] = useState("Latest");
   const [search, setSearch] = useState("");
-  const [menuOpen, setMenuOpen] = useState(false);
+   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [questions, setQuestions] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
@@ -40,6 +40,9 @@ export default function HomePage() {
 
   const Dropdown = ({ label, selected, setSelected, options }) => {
     const [isOpen, setIsOpen] = useState(false);
+
+
+    
 
     return (
       <div className="relative">
@@ -81,104 +84,187 @@ export default function HomePage() {
     </div>
   );
 
+  const isUrdu = (text) => {
+  const urduRegex = /[\u0600-\u06FF]/;
+  return urduRegex.test(text);
+};
   const QuestionCard = ({ id, question }) => (
-    <div
-      className="bg-white rounded-lg shadow-sm p-4 flex flex-col cursor-pointer w-full"
-      onClick={() => navigate(`/question/${id}`)}
-    >
-      <div className="flex justify-between items-start mb-2">
-        <div className="bg-green-100 text-green-800 rounded-full px-3 py-1 text-sm font-medium flex items-center gap-1 rtl:flex-row-reverse">
-          <span className="gulzartext">سوال</span>
-          <span className="bg-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
-            {id}
-          </span>
-        </div>
-      </div>
-      <p
-        className="gulzartext text-right text-gray-800 mb-2 line-clamp-1"
-        dangerouslySetInnerHTML={{ __html: question }}
-      ></p>
-      <div className="flex justify-end gap-2 mt-auto">
-        <button className="bg-green-50 hover:bg-green-100 text-green-700 px-3 py-1 rounded-md text-sm transition-colors">
-          Roman
-        </button>
-        <button className="gulzartext bg-gray-50 hover:bg-gray-100 text-gray-700 px-3 py-1 rounded-md text-sm transition-colors">
-          اردو
-        </button>
-      </div>
-    </div>
+    
+   <div
+  className="bg-white rounded-lg shadow-sm p-4 flex flex-col cursor-pointer w-full"
+  onClick={() => navigate(`/question/${id}`)}
+>
+  <div className="flex justify-end items-start mb-2">
+  <div className="bg-green-100 text-green-800 rounded-full px-3 py-1 text-sm font-medium flex items-center gap-1 ltr:flex-row self-start">
+    <span className="gulzartext">سوال</span>
+    <span className="bg-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
+      {id}
+    </span>
+  </div>
+</div>
+
+
+  {/* Paragraph with dynamic direction */}
+  <p
+    className={`gulzartext mb-2 line-clamp-1 ${
+      isUrdu(question) ? 'text-right' : 'text-left'
+    } text-gray-800`}
+    dir={isUrdu(question) ? 'rtl' : 'ltr'}
+    dangerouslySetInnerHTML={{ __html: question }}
+  ></p>
+
+  <div className="flex justify-end gap-2 mt-auto">
+    <button className="cursor-pointer bg-green-50 hover:bg-green-100 text-green-700 px-3 py-1 rounded-lg text-sm transition-colors">
+      Roman
+    </button>
+    <button className="cursor-pointer  gulzartext bg-gray-50 hover:bg-gray-100 text-gray-700 px-3 py-1 rounded-lg text-sm transition-colors">
+      اردو
+    </button>
+  </div>
+</div>
+
   );
 
   return (
-    <main dir="rtl" className="min-h-screen bg-[#f0f7e6] relative font-sans">
+    <main  className="min-h-screen bg-[#f0f7e6] relative font-sans">
       {/* Header Section */}
-      <header className="bg-[#718e56] sticky top-0 z-50 shadow-md border-b border-green-100">
-  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div className="flex justify-between items-center py-3 relative">
-      {/* Left Menu */}
-      <nav className="hidden md:flex gap-4 text-sm font-semibold text-white tracking-wide">
-        <a href="/contact" className="hover:text-yellow-200 transition-all">Contact</a>
-        <a href="/question" className="hover:text-yellow-200 transition-all">Question</a>
-        <a href="/requestbook" className="hover:text-yellow-200 transition-all">Request Book</a>
-        <a href="/article" className="hover:text-yellow-200 transition-all">Article</a>
-      </nav>
+        <header className="relative z-50 bg-[#718e56] text-white">
+        {/* Desktop + Mobile Nav */}
+        <div className="max-w-[1200px] mx-auto px-4 py-3 flex items-center justify-between relative">
+          {/* Mobile Menu Button */}
+          <button
+            className="md:hidden text-white z-20"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          >
+            {mobileMenuOpen ? (
+              <X className="w-6 h-6" />
+            ) : (
+              <Menu className="w-6 h-6" />
+            )}
+          </button>
 
-      {/* Logo */}
-      <div className="absolute left-1/2 transform -translate-x-1/2 -bottom-6 bg-white rounded-full p-1 shadow-lg border border-green-100 z-10">
-        <img
-          src={logo}
-          alt="Logo"
-          className="w-14 h-14 rounded-full object-contain"
-        />
-      </div>
+          {/* Left Nav */}
+          <nav className="hidden md:flex items-center space-x-6 text-[15px] font-medium">
+            <a href="/" className="hover:text-amber-300">
+              Home
+            </a>
+            <a href="/about" className="hover:text-amber-300">
+              About
+            </a>
+            <a href="/newsandevent" className="hover:text-amber-300">
+              News & Events
+            </a>
+            <a href="/books" className="hover:text-amber-300">
+              Books
+            </a>
+          </nav>
 
-      {/* Right Menu */}
-      <nav className="hidden md:flex gap-4 text-sm font-semibold text-white tracking-wide">
-        <a href="/newsandevent" className="hover:text-yellow-200 transition-all">News & Event</a>
-        <a href="/books" className="hover:text-yellow-200 transition-all">Books</a>
-        <a href="/about" className="hover:text-yellow-200 transition-all">About Center</a>
-        <a href="/" className="hover:text-yellow-200 transition-all">Home</a>
-      </nav>
+          {/* Logo */}
+          <div className="absolute left-1/2 transform -translate-x-1/2 -bottom-14 z-30 bg-white rounded-full p-1 shadow-md">
+            <img
+              src={Logo}
+              alt="Logo"
+              className="w-20 h-20 object-contain rounded-full"
+            />
+          </div>
 
-      {/* Mobile Menu Button */}
-      <div className="md:hidden flex items-center">
-        <button onClick={() => setMenuOpen(!menuOpen)} className="text-white focus:outline-none">
-          <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={menuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"} />
-          </svg>
-        </button>
-      </div>
-    </div>
+          {/* Right Nav */}
+          <div className="hidden md:flex items-center space-x-5 font-medium text-[15px]">
+            {/* <div className="relative">
+            <input
+              type="text"
+              placeholder="search"
+              className="px-4 py-1 rounded-full bg-[#E7D092] text-sm text-black placeholder:text-gray-700 outline-none"
+            />
+            <span className="absolute right-3 top-1.5 text-black">
+              <Search className="w-4 h-4" />
+            </span>
+          </div> */}
+            <a href="/article" className="hover:text-amber-300">
+              Articles
+            </a>
+            <a href="/question" className="hover:text-amber-300">
+              Question Answer
+            </a>
+            <a href="/requestbook" className="hover:text-amber-300">
+              Request a Book
+            </a>
+            <a href="/contact" className="hover:text-amber-300">
+              Contact
+            </a>
+          </div>
+        </div>
 
-    {/* Mobile Dropdown */}
-    <div className={`md:hidden transition-all duration-300 ease-in-out overflow-hidden ${menuOpen ? "max-h-[400px] opacity-100" : "max-h-0 opacity-0"}`}>
-      <div className="flex flex-col gap-2 py-3 px-4 text-sm font-medium text-white bg-[#5a7544] rounded-b-xl">
-        <a href="/" className="hover:bg-[#4f6639] px-3 py-2 rounded text-center">Home</a>
-        <a href="/about" className="hover:bg-[#4f6639] px-3 py-2 rounded text-center">About Center</a>
-        <a href="/books" className="hover:bg-[#4f6639] px-3 py-2 rounded text-center">Books</a>
-        <a href="/newsandevent" className="hover:bg-[#4f6639] px-3 py-2 rounded text-center">News & Event</a>
-        <a href="/requestbook" className="hover:bg-[#4f6639] px-3 py-2 rounded text-center">Request a Book</a>
-        <a href="/article" className="hover:bg-[#4f6639] px-3 py-2 rounded text-center">Articles</a>
-        <a href="/question" className="hover:bg-[#4f6639] px-3 py-2 rounded text-center">Questions</a>
-        <a href="/contact" className="hover:bg-[#4f6639] px-3 py-2 rounded text-center">Contact</a>
-      </div>
-    </div>
-  </div>
-</header>
+        {/* Mobile Slide-out Menu (from left) */}
+        {mobileMenuOpen && (
+          <div className="fixed inset-0 z-40 flex">
+            {/* Backdrop */}
+            <div
+              className="fixed inset-0 bg-black bg-opacity-30"
+              onClick={() => setMobileMenuOpen(false)}
+            />
+
+            {/* Drawer */}
+            <div className="relative w-1/2 h-full bg-[#718e56] p-4 space-y-4 text-[15px] font-medium z-50">
+              <button
+                onClick={() => setMobileMenuOpen(false)}
+                className="absolute top-4 right-4 text-white"
+              >
+                <X className="w-5 h-5" />
+              </button>
+              <a href="/" className="block hover:text-white">
+                Home
+              </a>
+              <a href="/about" className="block hover:text-white">
+                About
+              </a>
+              <a href="/newsandevent" className="block hover:text-white">
+                News & Events
+              </a>
+              <a href="/books" className="block hover:text-white">
+                Books
+              </a>
+              <a href="/article" className="block hover:text-white">
+                Articles
+              </a>
+              <a href="/question" className="block hover:text-white">
+                Question Answer
+              </a>
+              <a href="/requestbook" className="block hover:text-white">
+                Request a Book
+              </a>
+              <a href="/contact" className="block hover:text-white">
+                Contact
+              </a>
+
+              {/* Search bar */}
+              <div className="flex items-center bg-white rounded-full px-3 py-1 mt-2 w-full">
+                <input
+                  type="text"
+                  placeholder="Search"
+                  className="bg-transparent outline-none text-black text-sm w-full"
+                />
+                <Search className="w-4 h-4 text-black ml-2" />
+              </div>
+            </div>
+          </div>
+        )}
+      </header>
 
 
       {/* Background Pattern */}
-      <div
-        className="absolute inset-0 opacity-30 pointer-events-none"
-        style={{ backgroundImage: `url(${bg.src})` }}
-      ></div>
+     <div
+             className="absolute inset-0 opacity-36 pointer-events-none"
+             style={{ backgroundImage: `url(${bg})` }}
+             
+           ></div>
 
       {/* Intro Section */}
       <div
         className="relative z-40 w-full rounded-b-4xl -mt-8 overflow-hidden bg-cover bg-center"
         style={{ backgroundImage: `url(${bg.src})` }}
       >
-        <div className="flex items-center justify-center mt-6 h-[200px] w-full bg-[#C0D7AA]/80 rounded-b-4xl">
+        <div className="flex items-center justify-center mt-8 h-[200px] w-full bg-[#C0D7AA]/80 rounded-b-4xl sm:mt-8">
           <div className="text-center mb-6 px-4">
             <h3 className="text-2xl font-bold text-[#4a7031] gulzartext mb-2">
               شرعی سوالات

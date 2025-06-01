@@ -167,7 +167,7 @@ useEffect(() => {
     >
       <Navbar />
       {/* Banner */}
-     <div className="w-full py-6 px-4 flex justify-center items-center">
+     <div className="w-full py-6 px-4 flex justify-center items-center mt-6">
       <div className="w-full max-w-[1440px] flex justify-center items-center gap-4 md:gap-8">
 
         {/* Left Box */}
