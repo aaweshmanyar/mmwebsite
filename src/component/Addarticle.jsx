@@ -110,10 +110,9 @@ export default function ArticlesPage() {
       <div
         className="absolute inset-0 opacity-36 pointer-events-none"
         style={{ backgroundImage: `url(${bg})` }}
-        
       ></div>
 
-        <header className="relative z-50 bg-[#718e56] text-white">
+      <header className="relative z-50 bg-[#718e56] text-white">
         {/* Desktop + Mobile Nav */}
         <div className="max-w-[1200px] mx-auto px-4 py-3 flex items-center justify-between relative">
           {/* Mobile Menu Button */}
@@ -366,6 +365,8 @@ function ArticleCard({
   views,
   type,
 }) {
+  const isRTL = (text) => /[\u0600-\u06FF]/.test(text);
+
   return (
     <div className="relative rounded-lg overflow-hidden shadow-md cursor-pointer h-[380px] w-full flex flex-col">
       <div className="relative h-[200px] w-full">
@@ -391,18 +392,21 @@ function ArticleCard({
           </div>
         </div>
         <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
-          {titleEn && (
-            <h2 className="gulzartext font-bold text-lg">{titleEn}</h2>
-          )}
+          <h2
+            className={`gulzartext font-bold text-lg ${
+              isRTL(titleEn) ? "text-right" : "text-left"
+            }`}
+          >
+            {titleEn}
+          </h2>
         </div>
       </div>
 
       <div className="p-4 flex-1 flex flex-col justify-between overflow-hidden">
         <div className="overflow-hidden">
           <p
-            className={`gulzartext line-clamp-2 text-sm  ${
-              type === "pattern" ? "text-right" : ""
-            }`}
+            className="gulzartext line-clamp-2 text-sm"
+            dir={isRTL(englishDescription) ? "rtl" : "ltr"}
             dangerouslySetInnerHTML={{ __html: englishDescription }}
           />
         </div>
@@ -423,7 +427,11 @@ function ArticleCard({
                 writers.toLowerCase() !== "unknown" &&
                 writers !== "2" &&
                 isNaN(Number(writers)) && (
-                  <p className="gulzartext text-sm font-medium">
+                  <p
+                    className={`gulzartext text-sm font-medium ${
+                      isRTL(writers) ? "text-right" : "text-left"
+                    }`}
+                  >
                     مصنف: {writers}
                   </p>
                 )}
@@ -432,7 +440,11 @@ function ArticleCard({
                 translator.toLowerCase() !== "unknown" &&
                 translator !== "2" &&
                 isNaN(Number(translator)) && (
-                  <p className="gulzartext text-sm font-medium">
+                  <p
+                    className={`gulzartext text-sm font-medium ${
+                      isRTL(translator) ? "text-right" : "text-left"
+                    }`}
+                  >
                     مترجم: {translator}
                   </p>
                 )}
