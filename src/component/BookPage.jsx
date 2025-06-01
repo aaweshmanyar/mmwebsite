@@ -1,4 +1,10 @@
-import { Search, ChevronDown, User, ChevronRight, Menu, X, ArrowDownToLine } from "lucide-react";
+import {
+  Search,
+  ChevronRight,
+  Menu,
+  X,
+  ArrowDownToLine,
+} from "lucide-react";
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import bg from "../../public/images/bg.png";
@@ -11,6 +17,7 @@ export default function Home() {
   const [languages, setLanguages] = useState([]);
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [layout, setLayout] = useState("grid");
 
   const [selectedFilters, setSelectedFilters] = useState({
     writer: "",
@@ -22,27 +29,24 @@ export default function Home() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        setLoading(true); // show loader when fetching starts
+        setLoading(true);
 
-        const writerRes = await fetch("https://newmmdata-backend.onrender.com/api/writers");
-        const writerData = await writerRes.json();
-        setWriters(writerData);
+        const [writerRes, translatorRes, languageRes, booksRes] =
+          await Promise.all([
+            fetch("https://newmmdata-backend.onrender.com/api/writers"),
+            fetch("https://newmmdata-backend.onrender.com/api/translators"),
+            fetch("https://newmmdata-backend.onrender.com/api/languages/language"),
+            fetch("https://newmmdata-backend.onrender.com/api/books"),
+          ]);
 
-        const translatorRes = await fetch("https://newmmdata-backend.onrender.com/api/translators");
-        const translatorData = await translatorRes.json();
-        setTranslators(translatorData);
-
-        const languageRes = await fetch("https://newmmdata-backend.onrender.com/api/languages/language");
-        const languageData = await languageRes.json();
-        setLanguages(languageData);
-
-        const booksRes = await fetch("https://newmmdata-backend.onrender.com/api/books");
-        const booksData = await booksRes.json();
-        setBooks(booksData);
+        setWriters(await writerRes.json());
+        setTranslators(await translatorRes.json());
+        setLanguages(await languageRes.json());
+        setBooks(await booksRes.json());
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
-        setLoading(false); // hide loader when done
+        setLoading(false);
       }
     };
 
@@ -52,7 +56,11 @@ export default function Home() {
   return (
     <main
       className="min-h-screen bg-cover bg-center bg-no-repeat flex flex-col relative"
-      style={{ backgroundImage: `url(${bg})` }}
+      style={{
+        backgroundImage: `url(${bg})`,
+        backgroundColor: "#f5f3e6",
+        backgroundBlendMode: "overlay",
+      }}
     >
       {/* Header */}
       <header className="bg-[#783F1D] text-white relative z-10">
@@ -110,14 +118,20 @@ export default function Home() {
           {loading ? (
             <div className="flex flex-col items-center justify-center h-96">
               <div className="w-12 h-12 border-4 border-dashed rounded-full animate-spin border-[#783F1D]"></div>
-              <p className="mt-4 text-xl font-semibold text-[#783F1D] gulzartext">لوڈ ہو رہا ہے...</p>
+              <p className="mt-4 text-xl font-semibold text-[#783F1D] gulzartext">
+                لوڈ ہو رہا ہے...
+              </p>
             </div>
           ) : (
             <>
               <div className="bg-[#E9D9A8] w-full rounded-2xl mx-auto px-6 md:px-10 py-10 shadow mb-10">
-                <h1 className="text-[#783F1D] text-3xl font-bold text-center mb-2">Our Books</h1>
+                <h1 className="text-[#783F1D] text-3xl font-bold text-center mb-2">
+                  Our Books
+                </h1>
                 <p className="text-center max-w-2xl mx-auto text-[16px] mb-8">
-                  Maula Ali Research Centre aims to research, publish, and distribute unpublished or inaccessible old Islamic manuscripts in multiple languages.
+                  Maula Ali Research Centre aims to research, publish, and
+                  distribute unpublished or inaccessible old Islamic manuscripts
+                  in multiple languages.
                 </p>
               </div>
 
@@ -130,7 +144,8 @@ export default function Home() {
                 <Search className="absolute right-5 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5 mb-10">
+              {/* Filters */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5 mb-8">
                 {["Writer", "Translator", "Language", "Sorting"].map((label, i) => (
                   <div key={i}>
                     <p className="text-sm text-[#783F1D] font-bold mb-2">{label}</p>
@@ -144,56 +159,24 @@ export default function Home() {
                         }))
                       }
                     >
-                      {label === "Writer" && (
-                        <>
-                          <option value="">Select Writer</option>
-                          {writers.length === 0 ? (
-                            <option disabled>Loading...</option>
-                          ) : (
-                            writers.map((writer) => (
-                              <option className="gulzartext" key={writer._id} value={writer._id}>
-                                {writer.name}
-                              </option>
-                            ))
-                          )}
-                        </>
-                      )}
-
-                      {label === "Translator" && (
-                        <>
-                          <option value="">Select Translator</option>
-                          {translators.length === 0 ? (
-                            <option disabled>Loading...</option>
-                          ) : (
-                            translators.map((translator) => (
-                              <option className="gulzartext" key={translator._id} value={translator._id}>
-                                {translator.name}
-                              </option>
-                            ))
-                          )}
-                        </>
-                      )}
-
-                      {label === "Language" && (
-                        <>
-                          <option value="">Select Language</option>
-                          {languages.length === 0 ? (
-                            <option disabled>Loading...</option>
-                          ) : (
-                            languages.map((language) => (
-                              <option className="gulzartext" key={language._id} value={language.language}>
-                                {language.language}
-                              </option>
-                            ))
-                          )}
-                        </>
-                      )}
-
+                      <option value="">{`Select ${label}`}</option>
+                      {(label === "Writer" ? writers :
+                        label === "Translator" ? translators :
+                          label === "Language" ? languages : [])
+                        .map((item) => (
+                          <option
+                            className="gulzartext"
+                            key={item._id}
+                            value={label === "Language" ? item.language : item._id}
+                          >
+                            {label === "Language" ? item.language : item.name}
+                          </option>
+                        ))}
                       {label === "Sorting" && (
                         <>
-                          <option className="gulzartext" value="latest">Latest</option>
-                          <option className="gulzartext" value="oldest">Oldest</option>
-                          <option className="gulzartext" value="popular">Most Popular</option>
+                          <option value="latest">Latest</option>
+                          <option value="oldest">Oldest</option>
+                          <option value="popular">Most Popular</option>
                         </>
                       )}
                     </select>
@@ -201,47 +184,92 @@ export default function Home() {
                 ))}
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-7 mb-10">
+              {/* Layout Toggle */}
+              <div className="flex justify-end items-center mb-6 space-x-2">
+                <button
+                  className={`p-2 rounded border ${layout === "grid" ? "border-[#783F1D]" : "border-gray-300"}`}
+                  onClick={() => setLayout("grid")}
+                  title="Grid view"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                    <path d="M4 6h4v4H4zM10 6h4v4h-4zM16 6h4v4h-4zM4 12h4v4H4zM10 12h4v4h-4zM16 12h4v4h-4z" />
+                  </svg>
+                </button>
+                <button
+                  className={`p-2 rounded border ${layout === "list" ? "border-[#783F1D]" : "border-gray-300"}`}
+                  onClick={() => setLayout("list")}
+                  title="List view"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                    <path d="M4 6h16M4 12h16M4 18h16" />
+                  </svg>
+                </button>
+              </div>
+
+              {/* Book Cards */}
+              <div
+                className={`mb-10 ${
+                  layout === "grid"
+                    ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-7"
+                    : "flex flex-col space-y-6"
+                }`}
+              >
                 {books.map((book, i) => (
                   <div
                     key={i}
-                    className="bg-gradient-to-t from-white border border-white p-4 rounded-lg hover:shadow-lg transition relative"
+                    className={`bg-gradient-to-t from-white border border-white p-4 rounded-lg transition relative ${
+                      layout === "grid"
+                        ? "flex flex-col justify-between h-[550px]"
+                        : "flex flex-row items-start gap-4"
+                    } hover:shadow-lg`}
                   >
                     {book.tag && (
                       <div className="gulzartext absolute top-3 left-3 bg-amber-500 text-white text-xs px-2 py-0.5 rounded">
                         {book.tag}
                       </div>
                     )}
-                    <div className="flex justify-center mb-4">
+
+                    <div className={`${layout === "grid" ? "mb-4 flex justify-center" : "flex-shrink-0"}`}>
                       <img
                         src={`https://newmmdata-backend.onrender.com/api/books/cover/${book.id}`}
                         alt={book.title}
-                        className="h-64 object-contain"
+                        className={`object-contain ${layout === "grid" ? "h-64 w-full" : "h-40 w-32"}`}
                       />
                     </div>
-                    <h3 className="text-[#4A7C3A] text-lg font-bold text-center mb-2 amiri-bold">{book.title}</h3>
-                    <div className="text-left text-xs text-gray-600">Writer</div>
-                    <div className="text-left text-[15px] mb-2">{book.author}</div>
-                    <div className="text-left text-xs text-gray-600">Translator</div>
-                    <div className="text-left text-[15px] mb-2">{book.translator}</div>
-                    <div className="text-left mb-3">
-                      <span className="text-xs bg-[#4A7C3A] text-white px-2 py-0.5 rounded">#{book.language}</span>
-                    </div>
-                    <div className="flex justify-center gap-2 flex-wrap">
-                      <Link to={`/bookdetail/${book.id}`} rel="noopener noreferrer">
-                        <button className="text-[#783F1D] border border-black hover:bg-[#783F1D] hover:text-white px-3 py-1 rounded flex items-center text-sm">
-                          Read More <ChevronRight className="h-4 w-4 ml-1" />
-                        </button>
-                      </Link>
-                      <a
-                        href={`https://newmmdata-backend.onrender.com/api/books/attachment/${book.id}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <button className="text-[#4A7C3A] border border-[#4A7C3A] hover:bg-[#4A7C3A] hover:text-white px-3 py-1 rounded flex items-center text-sm">
-                          Download <ArrowDownToLine className="h-4 w-4 ml-1" />
-                        </button>
-                      </a>
+
+                    <div className={`${layout === "grid" ? "" : "flex-1 space-y-2"}`}>
+                      <h3 className="text-[#4A7C3A] text-lg font-bold amiri-bold line-clamp-2">
+                        {book.title}
+                      </h3>
+                      <div className="text-xs text-gray-600">Writer</div>
+                      <div className="text-[15px] truncate">
+                        {book.author === "Author Placeholder"
+                          ? "Mufti Farooque Mahaimi"
+                          : book.author}
+                      </div>
+                      {/* <div className="gulzartext text-[15px] truncate">{book.description}</div> */}
+                      <div>
+                        <span className="text-xs bg-[#4A7C3A] text-white px-2 py-0.5 rounded">
+                          {book.language}
+                        </span>
+                      </div>
+
+                      <div className="flex gap-2 flex-wrap mt-3">
+                        <Link to={`/bookdetail/${book.id}`} rel="noopener noreferrer">
+                          <button className="text-[#783F1D] border border-black hover:bg-[#783F1D] hover:text-white px-3 py-1 rounded-lg flex items-center text-sm">
+                            Read More <ChevronRight className="h-4 w-4 ml-1" />
+                          </button>
+                        </Link>
+                        <a
+                          href={`https://newmmdata-backend.onrender.com/api/books/attachment/${book.id}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <button className="text-[#4A7C3A] border border-[#4A7C3A] hover:bg-[#4A7C3A] hover:text-white px-3 py-1 rounded-lg flex items-center text-sm">
+                            Download <ArrowDownToLine className="h-4 w-4 ml-1" />
+                          </button>
+                        </a>
+                      </div>
                     </div>
                   </div>
                 ))}

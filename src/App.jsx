@@ -21,6 +21,7 @@ import ContactUs from './component/Contactus'
 import ScrollTop from './component/ScrollToTop'
 
 
+
 const App = () => {
   return (
     <Router>
@@ -42,8 +43,9 @@ const App = () => {
           <Route path="/question"  element={<Quesetionpage/>} />
           <Route path="/requestbook"  element={<Requestbook/>} />
           <Route path="/writer/:id"  element={<WriterProfile/>} />
-          <Route path="/newsandevent"  element={<NewandEvent/>} />
+          <Route path="/newsandeventnewsandevent"  element={<NewandEvent/>} />
           <Route path="/contact"  element={<ContactUs/>} />
+         
         
         
        

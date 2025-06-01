@@ -350,7 +350,7 @@ function ArticleCard({
   type,
 }) {
   return (
-    <div className="relative rounded-lg overflow-hidden shadow-md cursor-pointer">
+    <div className="relative rounded-lg overflow-hidden shadow-md cursor-pointer h-[380px] w-full flex flex-col">
       <div className="relative h-[200px] w-full">
         <img
           src={backgroundImage}
@@ -362,13 +362,13 @@ function ArticleCard({
               "https://minaramasjid.com/assets/image/default/articles.jpeg";
           }}
         />
-        <div className="absolute inset-0 bg-black/30"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-[#212121]/100 via-transparent to-transparent"></div>
         <div className="absolute top-3 left-3 right-3 flex justify-between">
           <div className="flex gap-1">
-            <button className="bg-white text-black px-3 py-1 rounded-full text-sm">
+            <button className="bg-white text-black px-3 py-1 rounded-full text-sm opacity-[0.6]">
               Roman
             </button>
-            <button className="bg-white gulzartext text-black px-3 py-1 rounded-full text-sm">
+            <button className="bg-white gulzartext text-black px-3 py-1 rounded-full text-sm opacity-[0.6]">
               اردو
             </button>
           </div>
@@ -380,35 +380,50 @@ function ArticleCard({
         </div>
       </div>
 
-      <div className="p-4">
-        <p
-          className={`gulzartext line-clamp-2 text-sm mb-3 ${
-            type === "pattern" ? "text-right" : ""
-          }`}
-
-          dangerouslySetInnerHTML={{ __html:englishDescription }}
-        >
-          
-        </p>
-        <div className="flex flex-col gap-1">
+      <div className="p-4 flex-1 flex flex-col justify-between overflow-hidden">
+        <div className="overflow-hidden">
           <p
-            className={`gulzartext text-sm font-medium ${
+            className={`gulzartext line-clamp-2 text-sm  ${
               type === "pattern" ? "text-right" : ""
             }`}
-          >
-            {type === "pattern"
-              ? "مصنف: مفتی فاروق مہایمی"
-              : `مصنف: ${writers}`}
-          </p>
-          <p
-            className={`gulzartext text-sm font-medium ${
-              type === "pattern" ? "text-right" : ""
-            }`}
-          >
-            {type === "pattern" ? "مترجم: فیض اشرفی" : `مترجم: ${translator}`}
-          </p>
+            dangerouslySetInnerHTML={{ __html: englishDescription }}
+          />
         </div>
-        <div className="flex justify-end items-center mt-2 gap-1">
+
+        <div className="flex flex-col gap-1">
+          {type === "pattern" ? (
+            <>
+              <p className="gulzartext text-sm font-medium text-right">
+                مصنف: مفتی فاروق مہایمی
+              </p>
+              <p className="gulzartext text-sm font-medium text-right">
+                مترجم: فیض اشرفی
+              </p>
+            </>
+          ) : (
+            <>
+              {writers &&
+                writers.toLowerCase() !== "unknown" &&
+                writers !== "2" &&
+                isNaN(Number(writers)) && (
+                  <p className="gulzartext text-sm font-medium">
+                    مصنف: {writers}
+                  </p>
+                )}
+
+              {translator &&
+                translator.toLowerCase() !== "unknown" &&
+                translator !== "2" &&
+                isNaN(Number(translator)) && (
+                  <p className="gulzartext text-sm font-medium">
+                    مترجم: {translator}
+                  </p>
+                )}
+            </>
+          )}
+        </div>
+
+        <div className="flex justify-end items-center  gap-1">
           <Eye className="h-4 w-4 text-gray-600" />
           <span className="text-sm">{views}</span>
         </div>

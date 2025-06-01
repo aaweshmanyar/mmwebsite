@@ -92,13 +92,12 @@ export default function Home() {
   const navigate = useNavigate();
 
   const scroll = (direction) => {
-    if (scrollRef.current) {
-      const scrollAmount = scrollRef.current.offsetWidth;
-      scrollRef.current.scrollBy({
-        left: direction === "left" ? -scrollAmount : scrollAmount,
-        behavior: "smooth",
-      });
-    }
+    if (!scrollRef.current) return;
+    const amount = scrollRef.current.offsetWidth * 0.8;
+    scrollRef.current.scrollBy({
+      left: direction === "left" ? -amount : amount,
+      behavior: "smooth",
+    });
   };
 
   // ✅ Auto-scroll effect
@@ -111,16 +110,36 @@ export default function Home() {
       const maxScrollLeft = container.scrollWidth - container.clientWidth;
 
       if (scrollLeft >= maxScrollLeft) {
-        // Scroll back to start when end is reached
         container.scrollTo({ left: 0, behavior: "smooth" });
       } else {
-        // Scroll right
-        container.scrollBy({ left: container.offsetWidth, behavior: "smooth" });
+        container.scrollBy({
+          left: container.offsetWidth,
+          behavior: "smooth",
+        });
       }
-    }, 8000); // change every 4 seconds
+    }, 8000);
 
-    return () => clearInterval(interval); // cleanup on unmount
+    return () => clearInterval(interval);
   }, []);
+
+
+  const images = [
+  Banner,
+  "https://minaramasjid.com/assets/image/slider/slider4.jpg",
+  "https://minaramasjid.com/assets/image/slider/slider3.jpg",
+];
+
+const [order, setOrder] = useState([0, 1, 2]);
+
+const handleClick = (index) => {
+    if (index === order[1]) return; // Already center, do nothing
+
+    // Swap clicked image with center
+    const newOrder = [...order];
+    const clickedIndex = newOrder.indexOf(index);
+    [newOrder[1], newOrder[clickedIndex]] = [newOrder[clickedIndex], newOrder[1]];
+    setOrder(newOrder);
+  };
 
   return (
     <main
@@ -133,32 +152,35 @@ export default function Home() {
     >
       <Navbar />
       {/* Banner */}
-      <div className="w-full py-6 px-4 flex justify-center items-center ">
-        <div className="w-full max-w-[1440px] flex justify-center items-center gap-4 md:gap-8">
-          {/* Left White Box */}
-          <div
-            className="hidden md:flex w-[300px] h-[200px] bg-white rounded-2xl shadow-md bg-cover bg-center"
-            style={{ backgroundImage: `url(${Banner})` }}
-          ></div>
+     <div className="w-full py-6 px-4 flex justify-center items-center">
+      <div className="w-full max-w-[1440px] flex justify-center items-center gap-4 md:gap-8">
 
-          {/* Center Carousel */}
-          <div className="w-full md:w-auto max-w-[800px] rounded-xl overflow-hidden shadow-lg">
-            <div>
-              <img
-                src={Banner}
-                alt="Banner"
-                className="w-full h-[200px] md:h-[300px] object-cover rounded-xl"
-              />
-            </div>
-          </div>
+        {/* Left Box */}
+        <div
+          className="hidden md:flex w-[300px] h-[200px] bg-white rounded-2xl shadow-md bg-cover bg-center cursor-pointer"
+          style={{ backgroundImage: `url(${images[order[0]]})` }}
+          onClick={() => handleClick(order[0])}
+        ></div>
 
-          {/* Right White Box */}
-          <div
-            className="hidden md:flex w-[300px] h-[200px] bg-white rounded-2xl shadow-md bg-cover bg-center"
-            style={{ backgroundImage: `url(${Banner})` }}
-          ></div>
+        {/* Center Carousel */}
+        <div className="w-full md:w-auto max-w-[800px] rounded-xl overflow-hidden shadow-lg cursor-pointer"
+             onClick={() => handleClick(order[1])}>
+          <img
+            src={images[order[1]]}
+            alt="Center Banner"
+            className="w-full h-[200px] md:h-[300px] object-cover rounded-xl"
+          />
         </div>
+
+        {/* Right Box */}
+        <div
+          className="hidden md:flex w-[300px] h-[200px] bg-white rounded-2xl shadow-md bg-cover bg-center cursor-pointer"
+          style={{ backgroundImage: `url(${images[order[2]]})` }}
+          onClick={() => handleClick(order[2])}
+        ></div>
+
       </div>
+    </div>
 
       {/* About Sections */}
 
@@ -281,6 +303,15 @@ export default function Home() {
               </div>
             </div>
           </div>
+
+          <div className="flex justify-center mt-8">
+            <a
+              href="/about"
+              className="px-8 py-2 bg-white shadow-md border border-gray-300 text-gray-700 rounded-full hover:bg-gray-100 transition"
+            >
+              Know More
+            </a>
+          </div>
         </div>
       </section>
 
@@ -319,7 +350,7 @@ export default function Home() {
             {event.map((event, idx) => (
               <div
                 key={idx}
-                className="w-[90%] sm:w-[47%] md:w-[47%] lg:w-[23%] mb-2 flex-shrink-0 bg-gradient-to-b from-[#f6fbf1] rounded-2xl p-4 shadow-md"
+                className="w-[90%] sm:w-[47%] md:w-[47%] lg:w-[23%] mb-2 ml-10 flex-shrink-0 bg-gradient-to-b from-[#f6fbf1] rounded-2xl p-4 shadow-md"
               >
                 <div className="overflow-hidden rounded-xl mb-4">
                   <img
@@ -353,7 +384,7 @@ export default function Home() {
           {/* View All Button */}
           <div className="flex justify-center mt-8">
             <a
-              href="/article"
+              href="/newsandevent"
               className="px-8 py-2 bg-white shadow-md border border-gray-300 text-gray-700 rounded-full hover:bg-gray-100 transition"
             >
               View All
@@ -363,8 +394,8 @@ export default function Home() {
       </section>
 
       {/* Our Books */}
-      <section className="w-full py-10 px-4 relative overflow-hidden ">
-        {/* Painted White Effects */}
+      <section className="w-full py-10 px-4 relative overflow-hidden">
+        {/* Painted Background Effects */}
         <div className="absolute top-0 left-0 w-[300px] h-[300px] bg-white opacity-30 blur-3xl rounded-full -z-10"></div>
         <div className="absolute bottom-0 right-0 w-[250px] h-[250px] bg-white opacity-40 blur-2xl rounded-full -z-10"></div>
         <div className="absolute top-1/2 left-[20%] w-[200px] h-[200px] bg-white opacity-20 blur-2xl rounded-full -z-10 -translate-y-1/2"></div>
@@ -381,7 +412,7 @@ export default function Home() {
           </div>
 
           {/* Arrows */}
-          <div className="absolute left-4 top-[50%] -translate-y-1/2 z-10">
+          <div className="absolute left-4 top-1/2 -translate-y-1/2 z-10">
             <button
               onClick={() => scroll("left")}
               className="bg-[#e2f0d0] rounded-full p-2 hover:bg-[#d2e3bc] transition"
@@ -389,7 +420,7 @@ export default function Home() {
               <ChevronRight className="h-5 w-5 text-green-700 rotate-180" />
             </button>
           </div>
-          <div className="absolute right-4 top-[50%] -translate-y-1/2 z-10">
+          <div className="absolute right-4 top-1/2 -translate-y-1/2 z-10">
             <button
               onClick={() => scroll("right")}
               className="bg-[#e2f0d0] rounded-full p-2 hover:bg-[#d2e3bc] transition"
@@ -398,35 +429,45 @@ export default function Home() {
             </button>
           </div>
 
-          {/* Book Cards Scrollable */}
+          {/* Scrollable Book Cards */}
           <div
             ref={scrollRef}
-            className="flex gap-6 overflow-x-auto scrollbar-hide scroll-smooth px-2 cursor-pointer "
-            onClick={() => navigate("/books")}
+            className="flex gap-6 overflow-x-auto scroll-smooth scrollbar-hide px-2 py-4 ml-6 mr-6"
           >
-            {book.slice(0, 4).map((book, index) => (
+            {book.map((book, index) => (
               <div
                 key={index}
-                className="min-w-[260px] lg:min-w-[270px] bg-[#f1f7ea] rounded-xl py-6 px-4 shadow-sm flex flex-col items-start flex-shrink-0"
+                className="min-w-[260px] max-w-[260px] h-[480px] bg-[#f1f7ea] rounded-xl py-6 px-4 shadow-sm flex flex-col justify-between items-start flex-shrink-0"
               >
                 <img
                   src={`https://newmmdata-backend.onrender.com/api/books/cover/${book.id}`}
                   alt={book.title}
-                  className="h-[220px] w-[200px] object-fit mb-4 self-center"
+                  className="h-[220px] w-[200px] object-contain mb-4 self-center"
                 />
-                <h3 className="text-lg font-semibold text-[#5b7a1c] mb-1">
-                  {book.title}
-                </h3>
-                <p className="text-sm text-gray-800">Writer</p>
-                <p className="text-sm font-medium text-gray-600 mb-1 cursor-pointer">
-                  {book.author}
-                </p>
-                <p className="text-sm text-gray-800">Translator</p>
-                <p className="text-sm font-medium text-gray-600 mb-4">
+                <div className="flex-1 w-full">
+                  <h3 className="gulzartext text-lg font-semibold text-[#5b7a1c] mb-1 ">
+                    {book.title}
+                  </h3>
+                  <p className="text-sm text-gray-800">Writer</p>
+                  <p className="text-sm font-medium text-gray-600 mb-1 truncate">
+                    {book.author === "Author Placeholder" ||
+                    book.author === "Mufti Farooque Mahaimi"
+                      ? "Mufti Farooque Mahaimi"
+                      : book.author}
+                  </p>
+                  {/* <p className="text-sm text-gray-800">Translator</p>
+                <p className="text-sm font-medium text-gray-600 mb-4 truncate">
                   {book.translator}
-                </p>
+                </p> */}
+
+                  <div className="text-left ">
+                    <span className="text-xs bg-[#4A7C3A] text-white px-2 py-0.5 rounded">
+                      {book.language}
+                    </span>
+                  </div>
+                </div>
                 <a
-                  href="/books"
+                  href={`/bookdetail/${book.id}`}
                   className="inline-flex items-center text-sm text-yellow-700 bg-white px-4 py-1.5 rounded-full hover:bg-yellow-200 transition"
                 >
                   Read More <ChevronRight className="h-4 w-4 ml-1" />
@@ -489,105 +530,109 @@ export default function Home() {
 
           {/* Article Cards */}
 
-         <div
-  className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
-  onClick={() => navigate("/article")}
->
-  {articles.slice(4, 8).map((article, index) => {
-    // Determine if Urdu description is present
-    const isUrdu = !!article.urduDescription;
-
-    return (
-      <div
-        key={index}
-        className="rounded-lg overflow-hidden shadow-[0_8px_30px_rgba(0,0,0,0.12)] bg-[#e8f0d9]"
-      >
-        {/* Image Section */}
-        <div className="relative h-[200px] w-full cursor-pointer">
-          {article.id && (
-            <img
-              src={`https://newmmdata-backend.onrender.com/api/articles/image/${article.id}`}
-              alt={article.title}
-              className="object-cover w-full h-full"
-              onError={(e) => {
-                e.target.onerror = null; // Prevent infinite loop
-                e.target.src =
-                  "https://minaramasjid.com/assets/image/default/articles.jpeg";
-              }}
-            />
-          )}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
-
-          {/* Buttons */}
-          <div className="absolute top-3 left-3 right-3 flex justify-between items-start">
-            <button className="cursor-pointer gulzartext bg-white text-black px-3 py-1 rounded-full text-sm shadow-sm">
-              {article.topic}
-            </button>
-            <div className="flex gap-1">
-              <button className="cursor-pointer bg-white text-black px-3 py-1 rounded-full text-sm shadow-sm">
-                Roman
-              </button>
-              <button className="cursor-pointer bg-white gulzartext text-black px-3 py-1 rounded-full text-sm shadow-sm">
-                اردو
-              </button>
-            </div>
-          </div>
-
-          {/* Title */}
           <div
-            className={`absolute bottom-0 left-0 right-0 p-4 text-white ${
-              isUrdu ? "text-right" : "text-left"
-            }`}
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+            onClick={() => navigate("/article")}
           >
-            {article.title && (
-              <h2 className="gulzartext font-bold text-lg leading-tight ">
-                {article.title}
-              </h2>
-            )}
+            {articles.slice(4, 8).map((article, index) => {
+              // Determine if Urdu description is present
+              const isUrdu = !!article.urduDescription;
+
+              return (
+                <div
+                  key={index}
+                  className="rounded-lg overflow-hidden shadow-[0_8px_30px_rgba(0,0,0,0.12)] bg-[#e8f0d9]"
+                >
+                  {/* Image Section */}
+                  <div className="relative h-[200px] w-full cursor-pointer">
+                    {article.id && (
+                      <img
+                        src={`https://newmmdata-backend.onrender.com/api/articles/image/${article.id}`}
+                        alt={article.title}
+                        className="object-cover w-full h-full"
+                        onError={(e) => {
+                          e.target.onerror = null; // Prevent infinite loop
+                          e.target.src =
+                            "https://minaramasjid.com/assets/image/default/articles.jpeg";
+                        }}
+                      />
+                    )}
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#212121]/100 via-transparent to-transparent" />
+
+                    {/* Buttons */}
+                    <div className="absolute top-3 left-3 right-3 flex justify-between items-start">
+                      <button className="cursor-pointer gulzartext bg-white text-black px-3 py-1 rounded-full text-sm shadow-sm opacity-[0.6]">
+                        {article.topic}
+                      </button>
+                      <div className="flex gap-1">
+                        <button className="cursor-pointer bg-white text-black px-3 py-1 rounded-full text-sm shadow-sm opacity-[0.6]">
+                          Roman
+                        </button>
+                        <button className="cursor-pointer bg-white gulzartext text-black px-3 py-1 rounded-full text-sm shadow-sm opacity-[0.6]">
+                          اردو
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Title */}
+                    <div
+                      className={`absolute bottom-0 left-0 right-0 p-4 text-white ${
+                        isUrdu ? "text-right" : "text-left"
+                      }`}
+                    >
+                      {article.title && (
+                        <h2 className="gulzartext font-bold text-lg leading-tight ">
+                          {article.title}
+                        </h2>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Description Section */}
+                  <div className="p-4 cursor-pointer">
+                    <p
+                      className={`gulzartext text-sm mb-3 leading-relaxed line-clamp-2 ${
+                        isUrdu ? "text-right" : "text-left"
+                      }`}
+                      dangerouslySetInnerHTML={{
+                        __html:
+                          article.urduDescription ||
+                          article.englishDescription ||
+                          "No description available.",
+                      }}
+                    ></p>
+
+                    <div
+                      className={`flex flex-col gap-1 ${
+                        isUrdu ? "text-right" : "text-left"
+                      }`}
+                    >
+                      <p className="gulzartext text-sm font-medium">
+                        {isUrdu ? "مصنف" : "Writer"}:{" "}
+                        {article.writers || "Unknown"}
+                      </p>
+                      {article.translator &&
+                        article.translator.toLowerCase() !== "unknown" && (
+                          <p className="gulzartext text-sm font-medium">
+                            {isUrdu ? "مترجم" : "Translator"}:{" "}
+                            {article.translator}
+                          </p>
+                        )}
+                    </div>
+
+                    <div
+                      className={`flex justify-end items-center mt-2 gap-1 ${
+                        isUrdu ? "text-right" : "text-left"
+                      }`}
+                    >
+                      <Eye className="h-4 w-4 text-gray-600" />
+                      <span className="text-sm">{article.views ?? 0}</span>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
           </div>
-        </div>
-
-        {/* Description Section */}
-        <div className="p-4">
-          <p
-            className={`gulzartext text-sm mb-3 leading-relaxed line-clamp-2 ${
-              isUrdu ? "text-right" : "text-left"
-            }`}
-            dangerouslySetInnerHTML={{
-              __html:
-                article.urduDescription ||
-                article.englishDescription ||
-                "No description available.",
-            }}
-          ></p>
-
-          <div
-            className={`flex flex-col gap-1 ${
-              isUrdu ? "text-right" : "text-left"
-            }`}
-          >
-            <p className="gulzartext text-sm font-medium">
-              {isUrdu ? "مصنف" : "Writer"}: {article.writers || "Unknown"}
-            </p>
-            <p className="gulzartext text-sm font-medium">
-              {isUrdu ? "مترجم" : "Translator"}: {article.translator || "Unknown"}
-            </p>
-          </div>
-
-          <div
-            className={`flex justify-end items-center mt-2 gap-1 ${
-              isUrdu ? "text-right" : "text-left"
-            }`}
-          >
-            <Eye className="h-4 w-4 text-gray-600" />
-            <span className="text-sm">{article.views ?? 0}</span>
-          </div>
-        </div>
-      </div>
-    );
-  })}
-</div>
-
 
           {/* View All Button */}
           <div className="flex justify-center mt-10">
@@ -602,18 +647,17 @@ export default function Home() {
       </section>
 
       {/* Our Islamic Scholars */}
-      <section className="w-full  bg-gradient-to-b from-[#e4f0d1] py-12 px-4">
+      <section className="w-full  bg-gradient-to-b from-[#e4f0d1] py-12 px-4 ">
         <div className="max-w-7xl mx-auto text-center">
           <h2 className="text-2xl md:text-3xl font-bold text-[#2d3e2f] mb-10">
             Our Islamic Scholars
           </h2>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 cursor-pointer">
             {writer.map((scholar, index) => (
               <div
                 key={index}
-                 onClick={() => navigate(`/writer/${scholar.id}`)}
+                onClick={() => navigate(`/writer/${scholar.id}`)}
                 className="bg-white rounded-xl shadow-sm px-6 py-8 flex flex-col items-center"
               >
                 {/* Profile Image */}
