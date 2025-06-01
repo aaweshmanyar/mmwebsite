@@ -22,6 +22,7 @@ import ScrollTop from './component/ScrollToTop'
 
 
 
+
 const App = () => {
   return (
     <Router>
@@ -45,6 +46,7 @@ const App = () => {
           <Route path="/writer/:id"  element={<WriterProfile/>} />
           <Route path="/newsandeventnewsandevent"  element={<NewandEvent/>} />
           <Route path="/contact"  element={<ContactUs/>} />
+        
          
         
         

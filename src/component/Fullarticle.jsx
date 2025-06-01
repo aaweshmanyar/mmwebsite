@@ -9,6 +9,7 @@ import user from "../../public/images/user.png";
 import Articleimg1 from "../../public/Articlepage/article1.png";
 import Articleimg2 from "../../public/Articlepage/article2.png";
 import Articleimg3 from "../../public/Articlepage/article3.png";
+import Feedbackform from "../component/Feebackform";
 
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -20,31 +21,31 @@ export default function Home() {
 
   const { id } = useParams();
 
- useEffect(() => {
-  const fetchSingleArticle = async () => {
-    try {
-      setLoading(true); // Start loading
-      const res = await fetch(
-        `https://newmmdata-backend.onrender.com/api/articles/${id}`
-      );
-      const data = await res.json();
-      setArticle(data);
+  useEffect(() => {
+    const fetchSingleArticle = async () => {
+      try {
+        setLoading(true); // Start loading
+        const res = await fetch(
+          `https://newmmdata-backend.onrender.com/api/articles/${id}`
+        );
+        const data = await res.json();
+        setArticle(data);
 
-      const articleres = await fetch(
-        "https://newmmdata-backend.onrender.com/api/articles"
-      );
-      const resdata = await articleres.json();
-      setAllarticle(resdata);
-      setLoading(false); // Done loading
-    } catch (err) {
-      console.error("Error fetching Article:", err);
-      setLoading(false);
-    }
-  };
+        const articleres = await fetch(
+          "https://newmmdata-backend.onrender.com/api/articles"
+        );
+        const resdata = await articleres.json();
+        setAllarticle(resdata);
+        console.log(resdata)
+        setLoading(false); // Done loading
+      } catch (err) {
+        console.error("Error fetching Article:", err);
+        setLoading(false);
+      }
+    };
 
-  if (id) fetchSingleArticle();
-}, [id]);
-
+    if (id) fetchSingleArticle();
+  }, [id]);
 
   if (!article) {
     return <div className="text-center p-4">لوڈ ہو رہا ہے...</div>;
@@ -79,9 +80,9 @@ export default function Home() {
     return cleanText.split("\n").filter((line) => line.trim() !== "");
   };
 
-const sortedArticles = [...allarticle].sort((a, b) => b.views - a.views);
-const topArticles = sortedArticles.slice(0, 6); // Top 6
-const midArticles = sortedArticles.slice(6, 15);
+  const sortedArticles = [...allarticle].sort((a, b) => b.views - a.views);
+  const topArticles = sortedArticles.slice(0, 6); // Top 6
+  const midArticles = sortedArticles.slice(6, 15);
 
   const navigate = useNavigate();
 
@@ -297,7 +298,7 @@ const midArticles = sortedArticles.slice(6, 15);
             .map((item, index) => (
               <div
                 key={index}
-                 onClick={() => navigate(`/detailarticle/${item.id}`)}
+                onClick={() => navigate(`/detailarticle/${item.id}`)}
                 className="rounded-xl overflow-hidden bg-[#ecf1e1] cursor-pointer"
               >
                 {/* Top Image with Overlay Text */}
@@ -405,64 +406,85 @@ const midArticles = sortedArticles.slice(6, 15);
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 cursor-pointer">
           {midArticles.map((item, index) => (
-              <div
-                key={index}
-                 onClick={() => navigate(`/detailarticle/${item.id}`)}
-                className="rounded-xl overflow-hidden shadow-sm border border-gray-200"
-              >
-                <div className="relative h-48" >
-                  <img
-                    src={`https://newmmdata-backend.onrender.com/api/articles/image/${item.id}`}
-                    onError={(e) => {
-                      e.target.onerror = null;
-                      e.target.src =
-                        "https://minaramasjid.com/assets/image/default/articles.jpeg";
-                    }}
-                    alt="Article"
-                    fill
-                    className="object-cover h-full w-full"
-                  />
+            <div
+              key={index}
+              onClick={() => navigate(`/detailarticle/${item.id}`)}
+              className="rounded-xl overflow-hidden shadow-sm border border-gray-200"
+            >
+              <div className="relative h-48">
+                <img
+                  src={`https://newmmdata-backend.onrender.com/api/articles/image/${item.id}`}
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src =
+                      "https://minaramasjid.com/assets/image/default/articles.jpeg";
+                  }}
+                  alt="Article"
+                  fill
+                  className="object-cover h-full w-full"
+                />
 
-                  <div className="absolute top-2 left-2 bg-[#e8f0e0] rounded-full px-2 py-0.5 text-xs font-['Gulzar']">
-                    {item.tags}
-                  </div>
-
-                  <div className="absolute top-2 right-2 flex space-x-2 rtl:space-x-reverse">
-                    <div className="bg-white rounded-full px-2 py-0.5 text-xs">
-                      Roman
+                {/* Show Tag only if it's valid */}
+                {item.tags &&
+                  !["unknown", "1", "2", ""].includes(
+                    item.tags.toLowerCase()
+                  ) && (
+                    <div className="absolute top-2 left-2 bg-[#e8f0e0] rounded-full px-2 py-0.5 text-xs font-['Gulzar']">
+                      {item.tags}
                     </div>
-                    <div className="bg-white rounded-full px-2 py-0.5 text-xs">
-                      Urdu
-                    </div>
-                  </div>
+                  )}
 
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex flex-col justify-end p-4">
-                    <h3 className="font-['Gulzar']  text-white  rtl mb-1 text-lg leading-snug line-clamp-1">
-                      {item.title}
-                    </h3>
-                    <h4 className="font-['Gulzar']  text-white text-right rtl text-sm line-clamp-1">
-                      {item.englishDescription}
-                    </h4>
+                <div className="absolute top-2 right-2 flex space-x-2 rtl:space-x-reverse">
+                  <div className="bg-white rounded-full px-2 py-0.5 text-xs">
+                    Roman
+                  </div>
+                  <div className="bg-white rounded-full px-2 py-0.5 text-xs">
+                    Urdu
                   </div>
                 </div>
 
-                <div className="p-4">
-                  <p className="font-['Gulzar'] line-clamp-1 text-xs text-right rtl text-gray-600 mb-1 leading-relaxed">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex flex-col justify-end p-4">
+                  <h3 className="font-['Gulzar'] text-white rtl mb-1 text-lg leading-snug line-clamp-1">
+                    {item.title}
+                  </h3>
+                  <h4 className="font-['Gulzar'] text-white text-right rtl text-sm line-clamp-1">
                     {item.englishDescription}
-                  </p>
-                  <p className="font-['Gulzar'] text-xs text-right rtl text-gray-600 mb-1 line-clamp-1">
-                    <span className="font-semibold">مصنف :</span>{" "}
-                    {item.writers}
-                  </p>
-                  <p className="font-['Gulzar'] text-xs text-right rtl text-gray-600 line-clamp-1">
-                    <span className="font-semibold">مترجم :</span>{" "}
-                    {item.translator}
-                  </p>
+                  </h4>
                 </div>
               </div>
-            ))}
+
+              <div className="p-4">
+                <p className="font-['Gulzar'] line-clamp-1 text-xs text-right rtl text-gray-600 mb-1 leading-relaxed">
+                  {item.englishDescription}
+                </p>
+
+                {/* Show Writer only if valid */}
+                {item.writers &&
+                  !["unknown", "1", "2", ""].includes(
+                    item.writers.toLowerCase()
+                  ) && (
+                    <p className="font-['Gulzar'] text-xs text-right rtl text-gray-600 mb-1 line-clamp-1">
+                      <span className="font-semibold">مصنف :</span>{" "}
+                      {item.writers}
+                    </p>
+                  )}
+
+                {/* Show Translator only if valid */}
+                {item.translator &&
+                  !["unknown", "1", "2", ""].includes(
+                    item.translator.toLowerCase()
+                  ) && (
+                    <p className="font-['Gulzar'] text-xs text-right rtl text-gray-600 line-clamp-1">
+                      <span className="font-semibold">مترجم :</span>{" "}
+                      {item.translator}
+                    </p>
+                  )}
+              </div>
+            </div>
+          ))}
         </div>
       </div>
+      <Feedbackform />
     </main>
   );
 }

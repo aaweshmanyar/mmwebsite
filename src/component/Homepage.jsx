@@ -132,14 +132,29 @@ export default function Home() {
 const [order, setOrder] = useState([0, 1, 2]);
 
 const handleClick = (index) => {
-    if (index === order[1]) return; // Already center, do nothing
+  if (index === order[1]) return; // Already center, do nothing
 
-    // Swap clicked image with center
-    const newOrder = [...order];
-    const clickedIndex = newOrder.indexOf(index);
-    [newOrder[1], newOrder[clickedIndex]] = [newOrder[clickedIndex], newOrder[1]];
-    setOrder(newOrder);
-  };
+  // Swap clicked image with center
+  const newOrder = [...order];
+  const clickedIndex = newOrder.indexOf(index);
+  [newOrder[1], newOrder[clickedIndex]] = [newOrder[clickedIndex], newOrder[1]];
+  setOrder(newOrder);
+};
+
+// Auto slide every 3 seconds
+useEffect(() => {
+  const interval = setInterval(() => {
+    // Rotate images to the left (next image becomes center)
+    setOrder((prevOrder) => {
+      const newOrder = [...prevOrder];
+      // Rotate left: first element to end
+      newOrder.push(newOrder.shift());
+      return newOrder;
+    });
+  }, 3000);
+
+  return () => clearInterval(interval); // Clear on unmount
+}, []);
 
   return (
     <main
