@@ -49,10 +49,28 @@ export default function Home() {
     fetchData();
   }, []);
 
+  const [viewMode, setViewMode] = useState("grid");
+
+  useEffect(() => {
+    // Any initialization code can go here
+  }, []);
+
+  const setActiveButton = (activeMode) => {
+    setViewMode(activeMode);
+  };
+
+  const applyGridView = () => {
+    setActiveButton("grid");
+  };
+
+  const applyListView = () => {
+    setActiveButton("list");
+  };
   return (
     <main className="min-h-screen bg-cover bg-center bg-no-repeat flex flex-col relative">
+      {/* Background Image Layer */}
       <div
-        className="absolute inset-0 opacity-100 pointer-events-none"
+        className="fixed inset-0 bg-cover bg-center bg-no-repeat opacity-100 -z-10"
         style={{ backgroundImage: `url(${bg})` }}
       ></div>
       {/* Header */}
@@ -180,226 +198,233 @@ export default function Home() {
       </header>
 
       {/* Main Content */}
-      <section className="flex-grow bg-[#fbf1dd]">
-        <div className="max-w-7xl mx-auto px-4 md:px-8 pt-8 pb-16">
-          {loading ? (
-            <div className="flex flex-col items-center justify-center h-96">
-              <div className="w-12 h-12 border-4 border-dashed rounded-full animate-spin border-[#783F1D]"></div>
-              <p className="mt-4 text-xl font-semibold text-[#783F1D] gulzartext">
-                لوڈ ہو رہا ہے...
-              </p>
-            </div>
-          ) : (
-            <>
-              <section className="bg-gradient-to-b from-amber-100 to-amber-50 py-16 px-6 relative overflow-hidden mb-4 rounded-lg">
-                {/* Background Pattern */}
-                <div className="absolute inset-0 opacity-10">
-                  <div
-                    className="w-full h-full"
-                    style={{
-                      backgroundImage: `url("")`,
-                      backgroundSize: "60px 60px",
-                    }}
-                  ></div>
-                </div>
+      <div className="bg-slate-100 text-gray-700 antialiased">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-20">
+          {/* Hero Section */}
+          <section className="py-12 mb-10 text-center">
+            <h1 className="text-4xl md:text-5xl font-bold text-green-700 mb-5">
+              Explore Our Collection
+            </h1>
+            <p className="text-lg text-gray-600 leading-relaxed max-w-2xl mx-auto text-left sm:text-center">
+              Discover rare manuscripts and insightful publications from the
+              Maula Ali Research Centre.
+            </p>
+          </section>
 
-                <div className="max-w-4xl mx-auto text-center relative z-10">
-                  <h1 className="text-4xl md:text-5xl font-bold text-amber-900 mb-6">
-                    Our Books
-                  </h1>
-                  <p className="text-lg md:text-xl text-amber-800 leading-relaxed max-w-3xl mx-auto">
-                    Maula Ali Research Centre aims to research, publish, and
-                    distribute unpublished or inaccessible old Islamic
-                    manuscripts in multiple languages.
-                  </p>
-                </div>
-              </section>
+          {/* Search Bar */}
+          <div className="relative max-w-xl mx-auto mb-12">
+            <input
+              type="text"
+              className="w-full bg-white py-4 pl-6 pr-12 rounded-full shadow-md text-base text-gray-700 placeholder-gray-500 focus:ring-2 focus:ring-green-500 focus:outline-none transition-shadow font-gulzar text-right"
+              placeholder="تلاش کریں..."
+            />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="absolute right-5 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400"
+              aria-hidden="true"
+            >
+              <circle cx="11" cy="11" r="8"></circle>
+              <path d="m21 21-4.3-4.3"></path>
+            </svg>
+          </div>
 
-              <div className="relative max-w-lg mx-auto mb-8">
-                <input
-                  type="text"
-                  className="gulzartext w-full bg-white py-3 px-4 rounded-full text-center shadow text-[18px] font-medium"
-                  placeholder=" تلاش کریں"
-                />
-                <Search className="absolute right-5 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
-              </div>
-
-              {/* Filters */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5 mb-8">
-                {["Writer", "Translator", "Language", "Sorting"].map(
-                  (label, i) => (
-                    <div key={i}>
-                      <p className="text-sm text-[#783F1D] font-bold mb-2">
-                        {label}
-                      </p>
-                      <select
-                        className="gulzartext w-full border-b border-black rounded px-3 py-2 text-sm bg-[#f5f3e6]"
-                        value={selectedFilters[label.toLowerCase()]}
-                        onChange={(e) =>
-                          setSelectedFilters((prev) => ({
-                            ...prev,
-                            [label.toLowerCase()]: e.target.value,
-                          }))
-                        }
-                      >
-                        <option value="">{`Select ${label}`}</option>
-                        {(label === "Writer"
-                          ? writers
-                          : label === "Translator"
-                          ? translators
-                          : label === "Language"
-                          ? languages
-                          : []
-                        ).map((item) => (
-                          <option
-                            className="gulzartext"
-                            key={item._id}
-                            value={
-                              label === "Language" ? item.language : item._id
-                            }
-                          >
-                            {label === "Language" ? item.language : item.name}
-                          </option>
-                        ))}
-                        {label === "Sorting" && (
-                          <>
-                            <option value="latest">Latest</option>
-                            <option value="oldest">Oldest</option>
-                            <option value="popular">Most Popular</option>
-                          </>
-                        )}
-                      </select>
-                    </div>
-                  )
-                )}
-              </div>
-
-              {/* Layout Toggle */}
-              <div className="flex justify-end items-center mb-6 space-x-2">
-                <button
-                  className={`p-2 rounded border ${
-                    layout === "grid" ? "border-[#783F1D]" : "border-gray-300"
-                  }`}
-                  onClick={() => setLayout("grid")}
-                  title="Grid view"
-                >
-                  <svg
-                    className="w-5 h-5"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth={2}
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M4 6h4v4H4zM10 6h4v4h-4zM16 6h4v4h-4zM4 12h4v4H4zM10 12h4v4h-4zM16 12h4v4h-4z" />
-                  </svg>
-                </button>
-                <button
-                  className={`p-2 rounded border ${
-                    layout === "list" ? "border-[#783F1D]" : "border-gray-300"
-                  }`}
-                  onClick={() => setLayout("list")}
-                  title="List view"
-                >
-                  <svg
-                    className="w-5 h-5"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth={2}
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M4 6h16M4 12h16M4 18h16" />
-                  </svg>
-                </button>
-              </div>
-
-              {/* Book Cards */}
-              <div
-                className={`mb-10 ${
-                  layout === "grid"
-                    ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-7"
-                    : "flex flex-col space-y-6"
-                }`}
+          {/* Filters */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mb-10">
+            <div>
+              <label className="text-sm text-green-700 font-semibold mb-1.5 block text-left">
+                Writer
+              </label>
+              <select
+                value={selectedFilters.writer}
+                onChange={(e) => updateFilter("writer", e.target.value)}
+                className="w-full border-gray-300 rounded-lg px-4 py-2.5 text-sm bg-white text-gray-700 focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none shadow-sm transition-shadow"
               >
-                {books.map((book, i) => (
-                  <div
-                    key={i}
-                    className={`bg-gradient-to-t from-white border border-white p-4 rounded-lg transition relative ${
-                      layout === "grid"
-                        ? "flex flex-col justify-between h-[550px]"
-                        : "flex flex-row items-start gap-4"
-                    } hover:shadow-lg`}
+                <option value="">All Writers</option>
+                {writers.map((writer) => (
+                  <option
+                    key={writer._id}
+                    value={writer.name}
+                    className="gulzartext"
                   >
-                    {book.tag && (
-                      <div className="gulzartext absolute top-3 left-3 bg-amber-500 text-white text-xs px-2 py-0.5 rounded">
-                        {book.tag}
-                      </div>
-                    )}
+                    {writer.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label className="text-sm text-green-700 font-semibold mb-1.5 block text-left">
+                Translator
+              </label>
+              <select
+                value={selectedFilters.translator}
+                onChange={(e) => updateFilter("translator", e.target.value)}
+                className="w-full border-gray-300 rounded-lg px-4 py-2.5 text-sm bg-white text-gray-700 focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none shadow-sm transition-shadow"
+              >
+                <option value="">All Translators</option>
+                {translators.map((translator) => (
+                  <option
+                    key={translator._id}
+                    value={translator.name}
+                    className="gulzartext"
+                  >
+                    {translator.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label className="text-sm text-green-700 font-semibold mb-1.5 block text-left">
+                Language
+              </label>
+              <select
+                value={selectedFilters.language}
+                onChange={(e) => updateFilter("language", e.target.value)}
+                className="w-full border-gray-300 rounded-lg px-4 py-2.5 text-sm bg-white text-gray-700 focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none shadow-sm transition-shadow"
+              >
+                <option value="">All Languages</option>
+                {languages.map((lang) => (
+                  <option
+                    key={lang._id}
+                    value={lang.language}
+                    className="gulzartext"
+                  >
+                    {lang.language}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label className="text-sm text-green-700 font-semibold mb-1.5 block text-left">
+                Sort By
+              </label>
+              <select
+                value={selectedFilters.sorting}
+                onChange={(e) => updateFilter("sorting", e.target.value)}
+                className="w-full border-gray-300 rounded-lg px-4 py-2.5 text-sm bg-white text-gray-700 focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none shadow-sm transition-shadow"
+              >
+                <option value="latest">Latest</option>
+                <option value="oldest">Oldest</option>
+              </select>
+            </div>
+          </div>
 
-                    <div
-                      className={`${
-                        layout === "grid"
-                          ? "mb-4 flex justify-center"
-                          : "flex-shrink-0"
-                      }`}
-                    >
-                      <img
-                        src={`https://newmmdata-backend.onrender.com/api/books/cover/${book.id}`}
-                        alt={book.title}
-                        className={`object-contain ${
-                          layout === "grid" ? "h-64 w-full" : "h-40 w-32"
-                        }`}
-                      />
+          {/* Layout Toggle */}
+          <div className="flex justify-end items-center mb-8 space-x-3">
+            <button
+              id="gridViewBtn"
+              onClick={applyGridView}
+              className={`toggle-button p-2.5 rounded-full ${
+                viewMode === "grid"
+                  ? "bg-green-600 text-white active"
+                  : "bg-white text-gray-500 hover:bg-gray-100"
+              }`}
+              title="Grid view"
+            >
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
+              </svg>
+            </button>
+            <button
+              id="listViewBtn"
+              onClick={applyListView}
+              className={`toggle-button p-2.5 rounded-full ${
+                viewMode === "list"
+                  ? "bg-green-600 text-white active"
+                  : "bg-white text-gray-500 hover:bg-gray-100"
+              }`}
+              title="List view"
+            >
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path
+                  fillRule="evenodd"
+                  d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+                  clipRule="evenodd"
+                ></path>
+              </svg>
+            </button>
+          </div>
+
+          {/* Books Display */}
+          <div
+            className={`${
+              viewMode === "grid"
+                ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
+                : "flex flex-col space-y-6"
+            } mb-10`}
+          >
+            {loading ? (
+              <p>Loading...</p>
+            ) : books.length === 0 ? (
+              <p>No books found.</p>
+            ) : (
+              books.map((book) => (
+                <div
+                  key={book._id}
+                  className={`bg-white rounded-xl shadow-lg overflow-hidden ${
+                    viewMode === "grid"
+                      ? "flex flex-col"
+                      : "sm:flex sm:max-h-40"
+                  }`}
+                >
+                  <div
+                    className={
+                      viewMode === "grid"
+                        ? "h-64 w-full"
+                        : "sm:w-36 flex-shrink-0 h-full"
+                    }
+                  >
+                    <img
+                      src={`https://newmmdata-backend.onrender.com/api/books/cover/${book.id}`}
+                      alt={`Cover of ${book.title}`}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div className="p-5 flex flex-col flex-grow">
+                    <h3 className="text-green-700 text-lg font-semibold mb-1.5 gulzartext">
+                      {book.title}
+                    </h3>
+                    <p className="text-xs text-gray-500 mb-0.5 font-bold">
+                      Writer
+                    </p>
+                    <p className="text-sm text-gray-600 truncate mb-2.5">
+                      {book.author}
+                    </p>
+                    <div className="mb-4">
+                      <span className="text-xs bg-amber-100 text-amber-700 border border-amber-200 px-2.5 py-0.5 rounded-full font-medium">
+                        {book.language}
+                      </span>
                     </div>
-
-                    <div
-                      className={`${
-                        layout === "grid" ? "" : "flex-1 space-y-2"
-                      }`}
-                    >
-                      <h3 className="text-[#4A7C3A] text-lg font-bold amiri-bold line-clamp-2">
-                        {book.title}
-                      </h3>
-                      <div className="text-xs text-gray-600">Writer</div>
-                      <div className="text-[15px] truncate">
-                        {book.author === "Author Placeholder"
-                          ? "Mufti Farooque Mahaimi"
-                          : book.author}
-                      </div>
-                      {/* <div className="gulzartext text-[15px] truncate">{book.description}</div> */}
-                      <div>
-                        <span className="text-xs bg-[#4A7C3A] text-white px-2 py-0.5 rounded">
-                          {book.language}
-                        </span>
-                      </div>
-
-                      <div className="flex gap-2 flex-wrap mt-3">
-                        <Link
-                          to={`/bookdetail/${book.id}`}
-                          rel="noopener noreferrer"
-                        >
-                          <button className="text-[#783F1D] border border-black hover:bg-[#783F1D] hover:text-white px-3 py-1 rounded-lg flex items-center text-sm">
-                            Read More <ChevronRight className="h-4 w-4 ml-1" />
-                          </button>
-                        </Link>
-                        <a
-                          href={`https://newmmdata-backend.onrender.com/api/books/attachment/${book.id}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          <button className="text-[#4A7C3A] border border-[#4A7C3A] hover:bg-[#4A7C3A] hover:text-white px-3 py-1 rounded-lg flex items-center text-sm">
-                            Download{" "}
-                            <ArrowDownToLine className="h-4 w-4 ml-1" />
-                          </button>
-                        </a>
-                      </div>
+                    <div className="mt-auto flex gap-2">
+                      <a
+                        href={`/bookdetail/${book.id}`}
+                        className="cursor-pointer bg-green-600 text-white px-2.5 py-1 rounded-full text-xs"
+                      >
+                        Read More
+                      </a>
+                      <a
+                        href={`https://newmmdata-backend.onrender.com/api/books/attachment/${book.id}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="cursor-pointer bg-amber-400 text-gray-800 px-2.5 py-1 rounded-full text-xs"
+                      >
+                        Download
+                      </a>
                     </div>
                   </div>
-                ))}
-              </div>
-            </>
-          )}
+                </div>
+              ))
+            )}
+          </div>
         </div>
-      </section>
+      </div>
     </main>
   );
 }

@@ -36,7 +36,7 @@ export default function Home() {
         );
         const resdata = await articleres.json();
         setAllarticle(resdata);
-        console.log(resdata)
+        console.log(resdata);
         setLoading(false); // Done loading
       } catch (err) {
         console.error("Error fetching Article:", err);
@@ -217,7 +217,7 @@ export default function Home() {
         <div className="text-right">
           <p className="text-sm text-gray-600 gulzartext mt-1">استاد اسکالر</p>
           <h2 className="font-extrabold text-xl text-[#4a7031] gulzartext">
-            مفتی فاروق مہمانی
+           {article.writers}
           </h2>
         </div>
         <img
@@ -286,71 +286,101 @@ export default function Home() {
         <div className="md:col-span-1 space-y-6 order-2 md:order-1">
           <div className="bg-white rounded-lg overflow-hidden shadow-lg">
             <img
-              src={Book}
+              src={`https://newmmdata-backend.onrender.com/api/articles/image/${article.id}`}
               alt="Book Cover"
               className="w-full h-60 object-cover"
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src =
+                  "https://minaramasjid.com/assets/image/default/articles.jpeg";
+              }}
             />
           </div>
 
           {[...allarticle]
-            .sort((a, b) => b.views - a.views) // Sort by views in descending order
-            .slice(0, 5) // Take only the top 5 articles
-            .map((item, index) => (
-              <div
-                key={index}
-                onClick={() => navigate(`/detailarticle/${item.id}`)}
-                className="rounded-xl overflow-hidden bg-[#ecf1e1] cursor-pointer"
-              >
-                {/* Top Image with Overlay Text */}
-                <div className="relative h-28 overflow-hidden rounded-t-xl">
-                  {/* Background Image as <img> for fallback support */}
-                  <img
-                    src={`https://newmmdata-backend.onrender.com/api/articles/image/${item.id}`}
-                    alt={item.title}
-                    className="absolute inset-0 w-full h-full object-cover"
-                    onError={(e) => {
-                      e.target.onerror = null;
-                      e.target.src =
-                        "https://minaramasjid.com/assets/image/default/articles.jpeg";
-                    }}
-                  />
+            .sort((a, b) => b.views - a.views)
+            .slice(0, 5)
+            .map((item, index) => {
+              const isValidName = (name) => {
+                if (!name) return false;
+                const lowerName = name.toString().toLowerCase().trim();
+                return (
+                  lowerName !== "unknown" &&
+                  lowerName !== "2" &&
+                  isNaN(Number(lowerName))
+                );
+              };
 
-                  {/* Black Overlay */}
-                  <div className="absolute inset-0 bg-black/30"></div>
+              // Language-specific labels and alignment classes
+              const isUrdu = activeLanguage === "urdu";
+              const writerLabel = isUrdu ? "مصنف" : "Writer";
+              const translatorLabel = isUrdu ? "مترجم" : "Mutarjim";
+              const alignmentClass = isUrdu ? "text-right" : "text-left";
 
-                  {/* Text Content */}
-                  <div className="relative z-10 flex items-center justify-center h-full text-white text-center font-bold text-lg gulzartext rtl">
-                    {item.title}
+              return (
+                <div
+                  key={index}
+                  onClick={() => navigate(`/detailarticle/${item.id}`)}
+                  className="rounded-xl overflow-hidden bg-[#ecf1e1] cursor-pointer"
+                >
+                  {/* Top Image with Overlay Text */}
+                  <div className="relative h-28 overflow-hidden rounded-t-xl">
+                    <img
+                      src={`https://newmmdata-backend.onrender.com/api/articles/image/${item.id}`}
+                      alt={item.title}
+                      className="absolute inset-0 w-full h-full object-cover"
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src =
+                          "https://minaramasjid.com/assets/image/default/articles.jpeg";
+                      }}
+                    />
+                    <div className="absolute inset-0 bg-black/30"></div>
+                    <div className="relative z-10 flex items-center justify-center h-full text-white text-center font-bold text-lg gulzartext rtl">
+                      {item.title}
+                    </div>
                   </div>
-                </div>
 
-                {/* Article Info */}
-                <div className="p-4 space-y-1 rtl text-left font-sans">
-                  <p className="text-[13px] text-gray-700 leading-snug line-clamp-2">
-                    {item.englishDescription}
-                  </p>
-                  <p className="gulzartext text-[13px] text-gray-700 font-semibold">
-                    Writer : {item.writers}
-                  </p>
-                  <p className="text-[13px] text-gray-700 font-semibold">
-                    Mutarjim : {item.translator}
-                  </p>
-
-                  {/* View Count */}
-                  <div className="bg-[#d6e5c4] rounded-full px-2 py-1 text-xs flex items-center w-fit mt-2">
-                    <svg
-                      className="w-4 h-4 text-[#6a8a4f] mr-1"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
+                  {/* Article Info */}
+                  <div className={`p-4 space-y-1 rtl font-sans`}>
+                    <p
+                      className={`text-[13px] text-gray-700 leading-snug line-clamp-2 ${alignmentClass}`}
                     >
-                      <path d="M10 3.5C5.305 3.5 1.403 6.833 0 10c1.403 3.167 5.305 6.5 10 6.5s8.597-3.333 10-6.5c-1.403-3.167-5.305-6.5-10-6.5zM10 15c-2.761 0-5-2.239-5-5s2.239-5 5-5 5 2.239 5 5-2.239 5-5 5z" />
-                      <circle cx="10" cy="10" r="2" />
-                    </svg>
-                    <span className="text-[#6a8a4f] ml-1">{item.views}</span>
+                      {item.englishDescription}
+                    </p>
+
+                    {isValidName(item.writers) && (
+                      <p
+                        className={`gulzartext text-[13px] text-gray-700 font-semibold ${alignmentClass}`}
+                      >
+                        {writerLabel} : {item.writers}
+                      </p>
+                    )}
+
+                    {isValidName(item.translator) && (
+                      <p
+                        className={`text-[13px] text-gray-700 font-semibold ${alignmentClass}`}
+                      >
+                        {translatorLabel} : {item.translator}
+                      </p>
+                    )}
+
+                    {/* View Count */}
+                    <div className="bg-[#d6e5c4] rounded-full px-2 py-1 text-xs flex items-center w-fit mt-2">
+                      <svg
+                        className="w-4 h-4 text-[#6a8a4f] mr-1"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path d="M10 3.5C5.305 3.5 1.403 6.833 0 10c1.403 3.167 5.305 6.5 10 6.5s8.597-3.333 10-6.5c-1.403-3.167-5.305-6.5-10-6.5zM10 15c-2.761 0-5-2.239-5-5s2.239-5 5-5 5 2.239 5 5-2.239 5-5 5z" />
+                        <circle cx="10" cy="10" r="2" />
+                      </svg>
+                      <span className="text-[#6a8a4f] ml-1">{item.views}</span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
         </div>
       </div>
 
@@ -363,10 +393,10 @@ export default function Home() {
                 اسلامک اسکالر
               </h1>
               <h2 className="text-xl md:text-2xl font-semibold text-gray-800 mb-4 gulzartext">
-                مفتی فاروق مہائمی مصباحی
+                {article.writers}
               </h2>
               <p className="text-sm md:text-base text-gray-700 leading-relaxed gulzartext">
-                مفتی فاروق مہائمی ایک معروف اسلامی عالم، مدرس اور مصنف ہیں۔ آپ
+                {article.writers} ایک معروف اسلامی عالم، مدرس اور مصنف ہیں۔ آپ
                 دینی خدمات میں نمایاں شہرت رکھتے ہیں۔ آپ کئی اسلامی تحقیقی کتب
                 کے مصنف ہیں اور مختلف دینی اداروں سے وابستہ رہے ہیں۔ آپ نے
                 اسلامی تعلیمات کو عام فہم انداز میں پیش کرنے کا کام کیا ہے۔ آپ

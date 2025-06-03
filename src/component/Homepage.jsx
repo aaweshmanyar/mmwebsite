@@ -672,7 +672,8 @@ useEffect(() => {
             {writer.map((scholar, index) => (
               <div
                 key={index}
-                onClick={() => navigate(`/writer/${scholar.id}`)}
+               onClick={() => navigate(`/writer/${scholar.id}`)}
+
                 className="bg-white rounded-xl shadow-sm px-6 py-8 flex flex-col items-center"
               >
                 {/* Profile Image */}

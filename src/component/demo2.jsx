@@ -1,343 +1,333 @@
 import React, { useState, useEffect } from 'react';
 
-const EnhancedUIDesign = () => {
+const BookCollection = () => {
   const [viewMode, setViewMode] = useState('grid');
 
   useEffect(() => {
-    // Load saved view mode from localStorage
-    const savedViewMode = localStorage.getItem('viewMode');
-    if (savedViewMode === 'list') {
-      setViewMode('list');
-    } else {
-      setViewMode('grid');
-    }
+    // Any initialization code can go here
   }, []);
 
-  const setGridView = () => {
-    setViewMode('grid');
-    localStorage.setItem('viewMode', 'grid');
+  const setActiveButton = (activeMode) => {
+    setViewMode(activeMode);
   };
 
-  const setListView = () => {
-    setViewMode('list');
-    localStorage.setItem('viewMode', 'list');
+  const applyGridView = () => {
+    setActiveButton('grid');
   };
 
-  const cardsData = [
-    {
-      id: 1,
-      text: "یہ ایک ایسا اسلامی تحقیقی مرکز ہے جو اسلام کے بنیادی اصولوں اور جدید دور کے چیلنجوں کے درمیان ہم آہنگی پیدا کرنے پر توجہ مرکوز کرتا ہے۔ ہماری تحقیق کا مقصد اسلامی تعلیمات کی روشنی میں موجودہ مسائل کے حل تلاش کرنا ہے جسے ہمارے اسکالرز بحسن و خوبی انجام دے رہے ہیں",
-      dir: "rtl",
-      isUrdu: true
-    },
-    {
-      id: 2,
-      text: "Aayaat-e-Quraani Ki Hairat Angez Taaseer Ka Ek Namuuna. This is a slightly longer line to test how the line clamping works effectively.",
-      dir: "ltr",
-      isUrdu: false
-    },
-    {
-      id: 3,
-      text: "یہ ایک ایسا اسلامی تحقیقی مرکز ہے جو اسلام کے بنیادی اصولوں اور جدید دور کے چیلنجوں کے درمیان ہم آہنگی پیدا کرنے پر توجہ مرکوز کرتا ہے۔ ہماری تحقیق کا مقصد اسلامی تعلیمات کی روشنی میں موجودہ مسائل کے حل تلاش کرنا ہے جسے ہمارے اسکالرز بحسن و خوبی انجام دے رہے ہیں۔",
-      dir: "rtl",
-      isUrdu: true
-    },
-    {
-      id: 4,
-      text: "تعلیمات اسلام کی ضرورت",
-      dir: "rtl",
-      isUrdu: true
-    },
-    {
-      id: 5,
-      text: "Waariseen mein beewi ek beta aur do betiyaa.n hain?.....",
-      dir: "ltr",
-      isUrdu: false
-    },
-    {
-      id: 6,
-      text: "Agar 'aurat khula' ka mutaalba kare?",
-      dir: "ltr",
-      isUrdu: false
-    },
-    {
-      id: 7,
-      text: "raj'at ke alfaaz",
-      dir: "ltr",
-      isUrdu: false
-    },
-    {
-      id: 8,
-      text: "Baap ke diye hue paise se ghar khareeda to kya is ghar mein deegar waariseen ka haq hoga?",
-      dir: "ltr",
-      isUrdu: false
-    },
-    {
-      id: 9,
-      text: "Kya khaala zaad bhai ki ladki se nikaah hosakta hai?",
-      dir: "ltr",
-      isUrdu: false
-    },
-    {
-      id: 10,
-      text: "Shauhar ne apni beewi se ye kaha, \"mein tujhe talaaq deta hu.n\"",
-      dir: "ltr",
-      isUrdu: false
-    },
-    {
-      id: 11,
-      text: "Apni zindagi mein bacho ke darmiyaan jaidaad kaise taqseem kare.n",
-      dir: "ltr",
-      isUrdu: false
-    },
-    {
-      id: 12,
-      text: "Apni zindagi mein apni jaidaad taqseem karne ki ek suurat.",
-      dir: "ltr",
-      isUrdu: false
-    },
-    {
-      id: 13,
-      text: "اپنی زندگی میں بچوں کے درمیان جائداد کیسے تقسیم کریں۔",
-      dir: "rtl",
-      isUrdu: true
-    },
-    {
-      id: 14,
-      text: "شوہر نے اپنی بیوی سے یہ کہا  میں تجھے طلاق دیتا ہوں",
-      dir: "rtl",
-      isUrdu: true
-    },
-    {
-      id: 15,
-      text: "کیا خالہ زاد بھائی کی لڑکی سے نکاح ہوسکتا ہے؟",
-      dir: "rtl",
-      isUrdu: true
-    },
-    {
-      id: 16,
-      text: "woh zewaraat jo meher ke",
-      dir: "ltr",
-      isUrdu: false
-    },
-    {
-      id: 17,
-      text: "Baap ke inteqaal se pehle beti ka inteqaal hogaya....",
-      dir: "ltr",
-      isUrdu: false
-    },
-    {
-      id: 18,
-      text: "Kya ek gawaah aur ek wakeel ki maujuudgi mein nikaah hoga?",
-      dir: "ltr",
-      isUrdu: false
-    },
-    {
-      id: 19,
-      text: "kya namaaz padhne ke liye di hui jagah bech sakte hain?",
-      dir: "ltr",
-      isUrdu: false
-    },
-    {
-      id: 20,
-      text: "pehle namaaz padhne ko zameen di baa",
-      dir: "ltr",
-      isUrdu: false
-    },
-    {
-      id: 21,
-      text: "کیاایک گواہ اور ایک وکیل کی موجودگی میں نکاح ہوگا",
-      dir: "rtl",
-      isUrdu: true
-    },
-    {
-      id: 22,
-      text: "باپ کے دیے ہوئے پیسے سے گھر خریدا، تو کیا اس گھر میں دیگر وارثین کا حق ہوگا؟",
-      dir: "rtl",
-      isUrdu: true
-    },
-    {
-      id: 23,
-      text: "وہ زیورات جو مہر کے علاوہ ، شوہر کے والدین دیتے بیوی کو دیتے ہیں، اس پر کس کا حق ہوتا ہے؟",
-      dir: "rtl",
-      isUrdu: true
-    },
-    {
-      id: 24,
-      text: "اگرعورت خلع کا مطالبہ کرے؟",
-      dir: "rtl",
-      isUrdu: true
-    },
-    {
-      id: 25,
-      text: "رجعت کے الفاظ",
-      dir: "rtl",
-      isUrdu: true
-    }
-  ];
+  const applyListView = () => {
+    setActiveButton('list');
+  };
 
   return (
-    <div className="bg-slate-50 text-slate-800">
-      <div className="relative z-10 container mx-auto px-4 py-8">
-        {/* Header: Search and Filters */}
-        <header className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4 px-2 md:px-4">
-          {/* Search Input */}
-          <div className="relative w-full md:w-2/5 lg:w-1/3">
-            <div className="absolute inset-y-0 right-0 flex items-center pr-3.5 pointer-events-none">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-search h-5 w-5 text-slate-400" aria-hidden="true">
-                <circle cx="11" cy="11" r="8"></circle>
-                <path d="m21 21-4.3-4.3"></path>
-              </svg>
-            </div>
-            <input
-              type="text"
-              className="font-nastaliq block w-full rounded-full bg-white border border-slate-300 py-2.5 px-4 text-right pr-12 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 focus:outline-none text-sm placeholder-slate-400"
-              placeholder="تلاش کریں"
-              value=""
-            />
-          </div>
+    <div className="bg-slate-100 text-gray-700 antialiased">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-20">
+        {/* Hero Section */}
+        <section className="py-12 mb-10 text-center">
+          <h1 className="text-4xl md:text-5xl font-bold text-green-700 mb-5">Explore Our Collection</h1>
+          <p className="text-lg text-gray-600 leading-relaxed max-w-2xl mx-auto text-left sm:text-center">
+            Discover rare manuscripts and insightful publications from the Maula Ali Research Centre.
+          </p>
+        </section>
 
-          {/* Filter Buttons & Layout Toggle */}
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 w-full md:w-auto">
-            {/* Sort By Dropdown */}
-            <div className="relative">
-              <div className="flex flex-col">
-                <label htmlFor="sort-by" className="text-xs text-slate-600 mb-1 font-nastaliq">ترتیب</label>
-                <button id="sort-by" className="flex items-center justify-between gap-2 bg-white border border-slate-300 rounded-md px-3 py-1.5 w-40 text-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
-                  <span className="text-slate-700">Latest</span>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-chevron-down h-4 w-4 text-slate-500" aria-hidden="true">
-                    <path d="m6 9 6 6 6-6"></path>
-                  </svg>
-                </button>
-              </div>
-            </div>
-            {/* Language Dropdown */}
-            <div className="relative">
-              <div className="flex flex-col">
-                <label htmlFor="language-filter" className="text-xs text-slate-600 mb-1 font-nastaliq">زبان</label>
-                <button id="language-filter" className="flex items-center justify-between gap-2 bg-white border border-slate-300 rounded-md px-3 py-1.5 w-40 text-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
-                  <span className="font-nastaliq text-slate-700">Urdu</span>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-chevron-down h-4 w-4 text-slate-500" aria-hidden="true">
-                    <path d="m6 9 6 6 6-6"></path>
-                  </svg>
-                </button>
-              </div>
-            </div>
-            {/* Layout Toggle Buttons */}
-            <div className="relative sm:mt-[1.35rem]">
-              <div className="flex items-center gap-1 p-0.5 bg-slate-100 rounded-md border border-slate-200">
-                <button
-                  id="listToggleBtn"
-                  title="List View"
-                  onClick={setListView}
-                  className={`p-1.5 rounded-md text-slate-500 hover:bg-white hover:text-emerald-600 transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-400 ${viewMode === 'list' ? 'layout-toggle-active bg-emerald-500 text-white hover:bg-emerald-600' : ''}`}
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-list">
-                    <line x1="8" x2="21" y1="6" y2="6" />
-                    <line x1="8" x2="21" y1="12" y2="12" />
-                    <line x1="8" x2="21" y1="18" y2="18" />
-                    <line x1="3" x2="3.01" y1="6" y2="6" />
-                    <line x1="3" x2="3.01" y1="12" y2="12" />
-                    <line x1="3" x2="3.01" y1="18" y2="18" />
-                  </svg>
-                </button>
-                <button
-                  id="gridToggleBtn"
-                  title="Grid View"
-                  onClick={setGridView}
-                  className={`p-1.5 rounded-md text-slate-500 hover:bg-white hover:text-emerald-600 transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-400 ${viewMode === 'grid' ? 'layout-toggle-active bg-emerald-500 text-white hover:bg-emerald-600' : ''}`}
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-layout-grid">
-                    <rect width="7" height="7" x="3" y="3" rx="1" />
-                    <rect width="7" height="7" x="14" y="3" rx="1" />
-                    <rect width="7" height="7" x="14" y="14" rx="1" />
-                    <rect width="7" height="7" x="3" y="14" rx="1" />
-                  </svg>
-                </button>
-              </div>
-            </div>
-          </div>
-        </header>
-
-        {/* Section Title */}
-        <div className="flex justify-start mb-6 px-2 md:px-4">
-          <h2 className="font-nastaliq bg-emerald-100 text-emerald-700 rounded-full px-5 py-2 text-base font-semibold">سوالات کی فہرست</h2>
+        {/* Search Bar */}
+        <div className="relative max-w-xl mx-auto mb-12">
+          <input
+            type="text"
+            className="w-full bg-white py-4 pl-6 pr-12 rounded-full shadow-md text-base text-gray-700 placeholder-gray-500 focus:ring-2 focus:ring-green-500 focus:outline-none transition-shadow font-gulzar text-right"
+            placeholder="تلاش کریں..."
+          />
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="absolute right-5 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400"
+            aria-hidden="true"
+          >
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.3-4.3"></path>
+          </svg>
         </div>
 
-        {/* Grid/List for Question Cards */}
-        <main
+        {/* Filters */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mb-10">
+          <div>
+            <label htmlFor="writer" className="text-sm text-green-700 font-semibold mb-1.5 block text-left">
+              Writer
+            </label>
+            <select
+              id="writer"
+              className="w-full border-gray-300 rounded-lg px-4 py-2.5 text-sm bg-white text-gray-700 focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none shadow-sm transition-shadow text-left"
+            >
+              <option value="">All Writers</option>
+              <option>Mazhar Husain Aleemi</option>
+              <option>Tauhid Ahmad Tarablusi</option>
+            </select>
+          </div>
+          <div>
+            <label htmlFor="translator" className="text-sm text-green-700 font-semibold mb-1.5 block text-left">
+              Translator
+            </label>
+            <select
+              id="translator"
+              className="w-full border-gray-300 rounded-lg px-4 py-2.5 text-sm bg-white text-gray-700 focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none shadow-sm transition-shadow text-left"
+            >
+              <option value="">All Translators</option>
+              <option>Tauhid Ahmad Tarablusi</option>
+              <option className="font-gulzar text-right">اویس رضوی صدیقی</option>
+            </select>
+          </div>
+          <div>
+            <label htmlFor="language" className="text-sm text-green-700 font-semibold mb-1.5 block text-left">
+              Language
+            </label>
+            <select
+              id="language"
+              className="w-full border-gray-300 rounded-lg px-4 py-2.5 text-sm bg-white text-gray-700 focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none shadow-sm transition-shadow text-left"
+            >
+              <option value="">All Languages</option>
+              <option value="اردو" className="font-gulzar text-right">
+                اردو
+              </option>
+              <option value="عربی" className="font-gulzar text-right">
+                عربی
+              </option>
+              <option value="English" className="text-left">
+                English
+              </option>
+            </select>
+          </div>
+          <div>
+            <label htmlFor="sorting" className="text-sm text-green-700 font-semibold mb-1.5 block text-left">
+              Sort By
+            </label>
+            <select
+              id="sorting"
+              className="w-full border-gray-300 rounded-lg px-4 py-2.5 text-sm bg-white text-gray-700 focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none shadow-sm transition-shadow text-left"
+            >
+              <option value="">Relevance</option>
+              <option value="latest">Latest</option>
+              <option value="oldest">Oldest</option>
+            </select>
+          </div>
+        </div>
+
+        {/* Layout Toggle */}
+        <div className="flex justify-end items-center mb-8 space-x-3">
+          <button
+            id="gridViewBtn"
+            onClick={applyGridView}
+            className={`toggle-button p-2.5 rounded-full ${
+              viewMode === 'grid' ? 'bg-green-600 text-white active' : 'bg-white text-gray-500 hover:bg-gray-100'
+            }`}
+            title="Grid view"
+          >
+            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
+            </svg>
+          </button>
+          <button
+            id="listViewBtn"
+            onClick={applyListView}
+            className={`toggle-button p-2.5 rounded-full ${
+              viewMode === 'list' ? 'bg-green-600 text-white active' : 'bg-white text-gray-500 hover:bg-gray-100'
+            }`}
+            title="List view"
+          >
+            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+              <path
+                fillRule="evenodd"
+                d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+                clipRule="evenodd"
+              ></path>
+            </svg>
+          </button>
+        </div>
+
+        {/* Cards Container */}
+        <div
           id="cardsContainer"
-          className={`w-full px-2 md:px-4 ${viewMode === 'grid' ? 'grid grid-cols-1 sm:grid-cols-2 gap-5' : 'flex flex-col gap-3'}`}
+          className={`mb-10 ${
+            viewMode === 'grid'
+              ? 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8'
+              : 'flex flex-col space-y-6'
+          }`}
         >
-          {cardsData.map((card) => (
+          {/* Card 1: English Title */}
+          <div
+            className={`book-card card-hover-effect bg-white rounded-xl shadow-lg overflow-hidden ${
+              viewMode === 'grid' ? 'flex flex-col' : 'sm:flex sm:max-h-40'
+            }`}
+          >
+            <div className={viewMode === 'grid' ? 'card-image-wrapper h-64 w-full' : 'card-image-wrapper sm:w-36 flex-shrink-0 h-full'}>
+              <img
+                src="https://newmmdata-backend.onrender.com/api/books/cover/16"
+                alt="Book Cover Sayyidul Istighfar"
+                className={`card-image w-full h-full object-cover ${
+                  viewMode === 'list' ? 'sm:rounded-l-xl sm:rounded-r-none' : ''
+                }`}
+              />
+            </div>
             <div
-              key={card.id}
-              className={`card-item bg-white rounded-xl shadow-lg p-5 flex cursor-pointer w-full transition-all duration-300 ease-in-out hover:shadow-2xl hover:-translate-y-1 ${
-                viewMode === 'list' ? 'flex-row items-center' : 'flex-col'
+              className={`card-content-wrapper ${
+                viewMode === 'grid' ? 'p-5 flex flex-col flex-grow' : 'p-4 sm:p-3 flex flex-col flex-grow'
               }`}
             >
-              <div className={`card-tag-section flex justify-end items-start ${viewMode === 'list' ? 'mb-0 ml-4 flex-shrink-0' : 'mb-3'}`}>
-                <div className="bg-emerald-100 text-emerald-700 rounded-full px-3 py-1 text-xs font-medium flex items-center gap-1.5 self-start">
-                  <span className="font-nastaliq">سوال</span>
-                  <span className="bg-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-semibold text-emerald-700">
-                    {card.id}
+              <div className="flex-grow text-left">
+                <h3 className="card-title text-green-700 text-lg sm:text-base font-semibold line-clamp-2 sm:line-clamp-3 mb-1.5 text-left">
+                  Sayyidul Istighfar
+                </h3>
+                <p className="card-meta-label text-xs text-gray-500 mb-0.5 text-left">Writer</p>
+                <p className="card-meta-value text-sm text-gray-600 truncate sm:line-clamp-1 mb-2.5 text-left">Jalaluddin</p>
+                <div className="mb-4 text-left">
+                  <span className="text-xs bg-amber-100 text-amber-700 border border-amber-200 px-2.5 py-0.5 rounded-full font-medium font-gulzar">
+                    عربی
                   </span>
                 </div>
               </div>
-              <div className={`card-content-section ${viewMode === 'list' ? 'flex-grow mb-0 text-right' : 'flex-grow mb-4'}`}>
-                <p
-                  className={`${viewMode === 'list' ? 'line-clamp-1 mb-2' : 'line-clamp-2'} ${
-                    card.dir === 'rtl' ? 'text-right font-nastaliq' : 'text-left'
-                  } text-slate-700 text-base leading-relaxed`}
-                  dir={card.dir}
+              <div
+                className={`card-actions mt-auto flex ${
+                  viewMode === 'grid' ? 'flex-col sm:flex-row' : 'flex-col sm:flex-row'
+                } gap-2`}
+              >
+                <a rel="noopener noreferrer" href="/bookdetail/16" className="card-action-primary w-full sm:w-auto">
+                  <button className="button-hover-effect button-primary bg-green-600 text-white w-full px-2.5 py-1 rounded-full flex items-center justify-center text-xs font-medium">
+                    Read More
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="3"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="h-3 w-3 ml-1"
+                    >
+                      <path d="m9 18 6-6-6-6"></path>
+                    </svg>
+                  </button>
+                </a>
+                <a
+                  href="https://newmmdata-backend.onrender.com/api/books/attachment/16"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="card-action-secondary w-full sm:w-auto"
                 >
-                  {card.text}
-                </p>
-              </div>
-              <div className={`card-actions-section flex justify-end gap-2 ${viewMode === 'list' ? 'mt-0 mr-auto flex-shrink-0' : 'mt-auto'}`}>
-                <button className="cursor-pointer bg-emerald-50 hover:bg-emerald-100 text-emerald-700 px-3.5 py-1.5 rounded-lg text-xs font-medium transition-colors">
-                  Roman
-                </button>
-                <button className="cursor-pointer font-nastaliq bg-slate-100 hover:bg-slate-200 text-slate-700 px-3.5 py-1.5 rounded-lg text-xs font-medium transition-colors">
-                  اردو
-                </button>
+                  <button className="button-hover-effect button-secondary bg-amber-400 text-gray-800 w-full px-2.5 py-1 rounded-full flex items-center justify-center text-xs font-medium">
+                    Download
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="3"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="h-3 w-3 ml-1"
+                    >
+                      <path d="M12 17V3"></path>
+                      <path d="m6 11 6 6 6-6"></path>
+                      <path d="M19 21H5"></path>
+                    </svg>
+                  </button>
+                </a>
               </div>
             </div>
-          ))}
-        </main>
-      </div>
+          </div>
 
-      <style jsx global>{`
-        body {
-          font-family: 'Inter', sans-serif;
-          background-color: #f8fafc; /* bg-slate-50 */
-        }
-        .font-nastaliq {
-          font-family: 'Noto Nastaliq Urdu', serif;
-        }
-        .line-clamp-1 {
-          overflow: hidden;
-          display: -webkit-box;
-          -webkit-box-orient: vertical;
-          -webkit-line-clamp: 1;
-        }
-        .line-clamp-2 {
-          overflow: hidden;
-          display: -webkit-box;
-          -webkit-box-orient: vertical;
-          -webkit-line-clamp: 2;
-        }
-        /* Active state for toggle buttons */
-        .layout-toggle-active {
-          background-color: #10b981; /* bg-emerald-500 */
-          color: white;
-        }
-        .layout-toggle-active:hover {
-          background-color: #059669; /* bg-emerald-600 */
-        }
-      `}</style>
+          {/* Card 2: Urdu Title */}
+          <div
+            className={`book-card card-hover-effect bg-white rounded-xl shadow-lg overflow-hidden ${
+              viewMode === 'grid' ? 'flex flex-col' : 'sm:flex sm:max-h-40'
+            }`}
+          >
+            <div className={viewMode === 'grid' ? 'card-image-wrapper h-64 w-full' : 'card-image-wrapper sm:w-36 flex-shrink-0 h-full'}>
+              <img
+                src="https://newmmdata-backend.onrender.com/api/books/cover/23"
+                alt="Book Cover پندرہویں صدی"
+                className={`card-image w-full h-full object-cover ${
+                  viewMode === 'list' ? 'sm:rounded-l-xl sm:rounded-r-none' : ''
+                }`}
+              />
+            </div>
+            <div
+              className={`card-content-wrapper ${
+                viewMode === 'grid' ? 'p-5 flex flex-col flex-grow' : 'p-4 sm:p-3 flex flex-col flex-grow'
+              }`}
+            >
+              <div className="flex-grow text-right">
+                <h3 className="card-title text-green-700 text-xl sm:text-lg font-semibold line-clamp-2 sm:line-clamp-3 mb-1.5 font-gulzar leading-snug md:leading-normal text-right">
+                  پندرہویں صدی میں پھیلی ہندوستانی فقہ و افتا کی مختصر تاریخ
+                </h3>
+                <p className="card-meta-label text-xs text-gray-500 mb-0.5 text-left">Writer</p>
+                <p className="card-meta-value text-sm text-gray-600 truncate sm:line-clamp-1 mb-2.5 text-left">
+                  Mufti Farooque Mahaimi
+                </p>
+                <div className="mb-4 text-right">
+                  <span className="text-xs bg-amber-100 text-amber-700 border border-amber-200 px-2.5 py-0.5 rounded-full font-medium font-gulzar">
+                    Urdu
+                  </span>
+                </div>
+              </div>
+              <div
+                className={`card-actions mt-auto flex ${
+                  viewMode === 'grid' ? 'flex-col sm:flex-row' : 'flex-col sm:flex-row'
+                } gap-2`}
+              >
+                <a rel="noopener noreferrer" href="/bookdetail/23" className="card-action-primary w-full sm:w-auto">
+                  <button className="button-hover-effect button-primary bg-green-600 text-white w-full px-2.5 py-1 rounded-full flex items-center justify-center text-xs font-medium">
+                    Read More{' '}
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="3"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="h-3 w-3 ml-1"
+                    >
+                      <path d="m9 18 6-6-6-6"></path>
+                    </svg>
+                  </button>
+                </a>
+                <a
+                  href="https://newmmdata-backend.onrender.com/api/books/attachment/23"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="card-action-secondary w-full sm:w-auto"
+                >
+                  <button className="button-hover-effect button-secondary bg-amber-400 text-gray-800 w-full px-2.5 py-1 rounded-full flex items-center justify-center text-xs font-medium">
+                    Download{' '}
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="3"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="h-3 w-3 ml-1"
+                    >
+                      <path d="M12 17V3"></path>
+                      <path d="m6 11 6 6 6-6"></path>
+                      <path d="M19 21H5"></path>
+                    </svg>
+                  </button>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
 
-export default EnhancedUIDesign;
+export default BookCollection;

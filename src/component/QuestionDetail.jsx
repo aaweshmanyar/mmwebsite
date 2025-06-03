@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import bg from "../../public/images/bg.png";
+import bg from "../../public/images/newbg.png";
 import user from "../../public/images/user.png";
 import logo from "../../public/images/marclogo.png";
 
@@ -153,7 +153,7 @@ const QuestionDetail = () => {
       </header>
 
       <div
-        className="absolute inset-0 opacity-30 pointer-events-none"
+        className="absolute inset-0 opacity-100 pointer-events-none"
         style={{ backgroundImage: `url(${bg})` }}
       />
 
@@ -172,7 +172,7 @@ const QuestionDetail = () => {
         </div>
       </section>
 
-      <div className="rounded-xl max-w-6xl mx-auto mt-8 p-6 md:p-8 border border-green-200">
+      <div className="rounded-xl max-w-6xl mx-auto mt-8 p-6 md:p-8 ">
         <div className="flex items-center justify-end gap-2 mb-4 ltr">
           <h2 className="text-[#4a7031] text-xl font-extrabold gulzartext">
             سوال نمبر
@@ -191,7 +191,7 @@ const QuestionDetail = () => {
           <div>
             <p className="text-sm text-gray-600 gulzartext">اسلامک اسکالر</p>
             <h2 className="font-extrabold text-xl text-[#4a7031] gulzartext">
-              مفتی فاروق مہمانی
+             {question.writer}
             </h2>
           </div>
           <img
@@ -255,7 +255,7 @@ const QuestionDetail = () => {
       </div>
 
       <section className="container mx-auto px-4 py-8">
-        <div className="bg-white rounded-xl p-6 shadow-sm mb-12 max-w-3xl mx-auto lg:ml-[490px] lg:mx-0">
+        <div className="bg-white rounded-xl p-6 shadow-sm mb-12 max-w-3xl mx-auto lg:ml-[580px] lg:mx-0">
           <div className="flex flex-col items-end gap-6 text-right">
             <div className="w-28 h-28 md:w-32 md:h-32 rounded-full bg-green-100 border-4 border-green-200 flex items-center justify-center">
               <img src={user} alt="Scholar Icon" width={80} height={80} />
@@ -265,10 +265,10 @@ const QuestionDetail = () => {
                 اسلامک اسکالر
               </h1>
               <h2 className="text-xl md:text-2xl font-semibold text-gray-800 mb-4 gulzartext">
-                مفتی فاروق مہائمی مصباحی
+                {question.writer}
               </h2>
               <p className="text-sm md:text-base text-gray-700 leading-relaxed gulzartext">
-                مفتی فاروق مہائمی ایک معروف اسلامی عالم، مدرس اور مصنف ہیں...
+                 ایک معروف اسلامی عالم، مدرس اور مصنف ہیں...
                <a href="/writer" className="cursor-pointer">(مزید معلومات)</a> 
               </p>
             </div>

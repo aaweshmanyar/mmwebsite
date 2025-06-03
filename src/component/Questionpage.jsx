@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Search, ChevronDown, Eye, Menu, X } from "lucide-react";
 import Logo from "../../public/images/marclogo.png";
 import bg from '../../public/images/bg.png'
+import { useNavigate } from "react-router-dom";
 
 const EnhancedUIDesign = () => {
       const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -52,6 +53,8 @@ const EnhancedUIDesign = () => {
     const text = (q.questionUrdu || q.questionEnglish || "").toLowerCase();
     return text.includes(search.toLowerCase());
   });
+
+    const navigate = useNavigate();
 
   return (
     <div className="bg-slate-50 text-slate-800">
@@ -295,7 +298,7 @@ const EnhancedUIDesign = () => {
                   id="listToggleBtn"
                   title="List View"
                   onClick={setListView}
-                  className={`p-1.5 rounded-md text-slate-500 hover:bg-white hover:text-emerald-600 transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-400 ${
+                  className={`cursor-pointer p-1.5 rounded-md text-slate-500 hover:bg-white hover:text-emerald-600 transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-400 ${
                     viewMode === "list"
                       ? "layout-toggle-active bg-emerald-500 text-white hover:bg-emerald-600"
                       : ""
@@ -325,7 +328,7 @@ const EnhancedUIDesign = () => {
                   id="gridToggleBtn"
                   title="Grid View"
                   onClick={setGridView}
-                  className={`p-1.5 rounded-md text-slate-500 hover:bg-white hover:text-emerald-600 transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-400 ${
+                  className={`cursor-pointer p-1.5 rounded-md text-slate-500 hover:bg-white hover:text-emerald-600 transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-400 ${
                     viewMode === "grid"
                       ? "layout-toggle-active bg-emerald-500 text-white hover:bg-emerald-600"
                       : ""
@@ -374,6 +377,7 @@ const EnhancedUIDesign = () => {
             filteredQuestions.map((card, index) => (
               <div
                 key={card._id}
+                         onClick={() => navigate(`/question/${card.id}`)}
                 className={`card-item bg-white rounded-xl shadow-lg p-5 flex cursor-pointer w-full transition-all duration-300 ease-in-out hover:shadow-2xl hover:-translate-y-1 ${
                   viewMode === "list" ? "flex-row items-center" : "flex-col"
                 }`}
@@ -391,6 +395,7 @@ const EnhancedUIDesign = () => {
                   </div>
                 </div>
                 <div
+                
                   className={`card-content-section ${
                     viewMode === "list" ? "flex-grow mb-0 text-right" : "flex-grow mb-4"
                   }`}
