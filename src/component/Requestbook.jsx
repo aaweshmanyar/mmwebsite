@@ -20,7 +20,7 @@ const Requestbook = () => {
     const fetchData = async () => {
       try {
         const booksRes = await fetch(
-          "https://newmmdata-backend.onrender.com/api/books"
+          "https://newmmdata-backend.onrender.com/api/printedbook"
         );
         const booksData = await booksRes.json();
         setBook(booksData);

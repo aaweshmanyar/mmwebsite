@@ -11,22 +11,24 @@ export default function Home() {
   const [activeLang, setActiveLang] = useState("en");
   const [writer, setWriter] = useState([]);
 
-    useEffect(() => {
-      const fetchWriter = async () => {
-        try {
-          const response = await fetch("https://newmmdata-backend.onrender.com/api/writers");
-          const data = await response.json();
-          console.log("Fetched data:", data);
-          setWriter(data); // assuming API returns { questions: [...] }
-        } catch (error) {
-          console.error("Failed to fetch questions:", error);
-        } finally {
-          setLoading(false);
-        }
-      };
-  
-      fetchWriter();
-    }, []);
+  useEffect(() => {
+    const fetchWriter = async () => {
+      try {
+        const response = await fetch(
+          "https://newmmdata-backend.onrender.com/api/writers"
+        );
+        const data = await response.json();
+        console.log("Fetched data:", data);
+        setWriter(data); // assuming API returns { questions: [...] }
+      } catch (error) {
+        console.error("Failed to fetch questions:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchWriter();
+  }, []);
 
   const sections = [
     {
@@ -70,7 +72,6 @@ export default function Home() {
         backgroundImage: `url(${bg})`,
         backgroundColor: "#f5f3e6",
         backgroundBlendMode: "overlay",
-        
       }}
     >
       <Navbar />
@@ -127,23 +128,29 @@ export default function Home() {
                         id="lang-toggle"
                         className="sr-only"
                         checked={activeLang === "ur"}
-                        onChange={() => setActiveLang(activeLang === "en" ? "ur" : "en")}
+                        onChange={() =>
+                          setActiveLang(activeLang === "en" ? "ur" : "en")
+                        }
                       />
+
                       <label
                         htmlFor="lang-toggle"
-                        className={`block overflow-hidden h-9 rounded-full cursor-pointer transition-all duration-300 ${
-                          activeLang === "ur" ? "  bg-[#d4a762]" : "bg-gray-200 "
-                        }`}
+                        className="block w-full h-full rounded-full cursor-pointer border border-gray-300 bg-white relative shadow-inner overflow-hidden"
                       >
-                        <span
-                          className={`absolute flex items-center justify-center w-1/2 h-9 rounded-full text-sm font-medium transition-all duration-300 ${
-                            activeLang === "ur"
-                              ? "left-0 bg-white text-[#d4a762]"
-                              : "left-1/2 bg-[#d4a762] text-white"
-                          }`}
+                        {/* Background text for both options */}
+                        <div className="flex w-full h-full items-center justify-between px-3 text-sm font-semibold z-0 relative">
+                          <span className="text-gray-500">English</span>
+                          <span className="text-gray-500">اردو</span>
+                        </div>
+
+                        {/* Sliding indicator with active text */}
+                        <div
+                          className={`absolute top-[2px] ${
+                            activeLang === "ur" ? "right-2" : "left-2"
+                          } w-[40%] h-[80%] bg-[#d4a762] text-white flex items-center justify-center text-sm font-semibold rounded-full transition-all duration-300 z-10`}
                         >
                           {activeLang === "ur" ? "اردو" : "English"}
-                        </span>
+                        </div>
                       </label>
                     </div>
                   </div>
@@ -180,8 +187,7 @@ export default function Home() {
               >
                 <div className="bg-white rounded-full border-4 border-green-200 p-1 mb-4">
                   <img
-                   src={`https://newmmdata-backend.onrender.com/api/writers/image/${writer.id}`}
-
+                    src={`https://newmmdata-backend.onrender.com/api/writers/image/${writer.id}`}
                     alt={writer.name}
                     className="rounded-full w-24 h-24 object-cover bg-green-100"
                   />
@@ -194,7 +200,8 @@ export default function Home() {
                 </p>
                 <a
                   href="/writer"
-                  className=" text-[14px] font-semibold text-black hover:underline " style={{cursor:'pointer'}}
+                  className=" text-[14px] font-semibold text-black hover:underline "
+                  style={{ cursor: "pointer" }}
                 >
                   View Profile
                 </a>
