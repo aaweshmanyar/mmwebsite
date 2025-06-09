@@ -243,7 +243,7 @@ const NewandEvent = () => {
                 </p>
                 <div className="flex justify-between items-center">
                   <a
-                    href="/article"
+                    href="/newsandevent"
                     className="flex items-center text-sm text-yellow-700 bg-yellow-50 px-3 py-1.5 rounded-full hover:bg-yellow-100 transition"
                   >
                     Read More

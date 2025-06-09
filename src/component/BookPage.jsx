@@ -70,7 +70,7 @@ export default function Home() {
     <main className="min-h-screen bg-cover bg-center bg-no-repeat flex flex-col relative">
       {/* Background Image Layer */}
       <div
-        className="fixed inset-0 bg-cover bg-center bg-no-repeat opacity-100 -z-10"
+        className="fixed inset-0 bg-cover bg-center bg-no-repeat opacity-100 z-10"
         style={{ backgroundImage: `url(${bg})` }}
       ></div>
       {/* Header */}

@@ -653,7 +653,7 @@ const ArticlesPage = () => {
                       <div className="absolute bottom-0 left-0 right-0 p-3 text-white">
                         <h2
                           className="gulzartext card-title font-bold text-lg leading-tight title-line-clamp-2"
-                          dir={article.language === "English" ? "ltr" : "rtl"}
+                          dir={article.language === "English" ? "rtl" : "ltr"}
                         >
                           {article.title}
                         </h2>
@@ -663,7 +663,7 @@ const ArticlesPage = () => {
                       <div className="overflow-hidden">
                         <p
                           className="gulzartext text-description line-clamp-2 text-sm text-slate-600"
-                          dir={article.language === "English" ? "ltr" : "rtl"}
+                          dir={article.language === "English" ? "rtl" : "ltr"}
                           dangerouslySetInnerHTML={{
                             __html:
                               article.englishDescription ||

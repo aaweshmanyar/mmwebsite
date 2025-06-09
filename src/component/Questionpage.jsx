@@ -195,7 +195,7 @@ const EnhancedUIDesign = () => {
       >
         <div className="flex items-center justify-center mt-8 h-[200px] w-full bg-[#C0D7AA]/80 rounded-b-4xl sm:mt-8">
           <div className="text-center mb-6 px-4">
-            <h3 className="text-2xl font-bold text-[#4a7031] gulzartext mb-2">
+            <h3 className="text-2xl font-bold text-[#4a7031] gulzartext mt-12">
               شرعی سوالات
             </h3>
             <p className="text-md text-gray-700 gulzartext">
