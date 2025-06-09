@@ -217,7 +217,7 @@ export default function Home() {
         <div className="text-right">
           <p className="text-sm text-gray-600 gulzartext mt-1">استاد اسکالر</p>
           <h2 className="font-extrabold text-xl text-[#4a7031] gulzartext">
-           {article.writers}
+            {article.writers}
           </h2>
         </div>
         <img
@@ -270,6 +270,31 @@ export default function Home() {
               dangerouslySetInnerHTML={{ __html: activeDescription }}
             />
           </div>
+
+          {/* Translator (only show if valid and not numeric) */}
+          {article.translator &&
+            isNaN(Number(article.translator.toString().trim())) &&
+            article.translator.toString().trim().toLowerCase() !== "null" &&
+            article.translator.toString().trim() !== "" &&
+            (() => {
+              const translator = article.translator.toString().trim();
+
+              // Basic check for Urdu characters (Arabic Unicode range)
+              const isUrdu = /[\u0600-\u06FF]/.test(translator);
+
+              return (
+                <p
+                  className={`gulzartext text-[#4a7031] text-sm font-semibold ${
+                    isUrdu ? "text-right" : "text-left"
+                  }`}
+                  dir={isUrdu ? "rtl" : "ltr"}
+                >
+                  {isUrdu
+                    ? `مترجم : ${translator}`
+                    : `Translator: ${translator}`}
+                </p>
+              );
+            })()}
 
           {/* Buttons */}
           <div className="flex justify-between mt-6">

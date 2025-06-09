@@ -634,7 +634,7 @@ const ArticlesPage = () => {
                           "https://minaramasjid.com/assets/image/default/articles.jpeg"
                         }
                         alt={article.title}
-                        dir={article.language === "English" ? "ltr" : "rtl"}
+                        dir={article.language === "English" ? "rtl" : "ltr"}
                         className="card-image object-cover w-full h-full group-hover:scale-105 transition-transform duration-300 ease-in-out"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
