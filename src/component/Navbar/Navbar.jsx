@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import logo from '../../../public/images/image 2.png';
+import React, { useState } from "react";
+import logo from "../../../public/images/image 2.png";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -8,14 +8,24 @@ const Navbar = () => {
    <header className="sticky top-0 z-50 bg-white border-b border-green-100 shadow-sm">
   {/* Top Navigation */}
   <div className="relative z-20 bg-white">
-    <div className="max-w-7xl mx-auto flex justify-between items-center px-4 py-4 md:py-3 relative">
+    <div className="max-w-7xl mx-auto flex justify-between items-center px-4 py-4 md:py-3 sm:py-2 relative">
       
       {/* Left Nav (Desktop) */}
       <nav className="hidden md:flex gap-6 text-sm font-medium text-gray-700">
-        <a href="/" className="hover:text-green-700 transition-colors duration-200">Home</a>
-        <a href="/about" className="hover:text-green-700 transition-colors duration-200">About</a>
-        <a href="/newsandevent" className="hover:text-green-700 transition-colors duration-200">News & Events</a>
-        <a href="/books" className="hover:text-green-700 transition-colors duration-200">Books</a>
+        {[
+          { href: "/", label: "Home" },
+          { href: "/about", label: "About" },
+          { href: "/newsandevent", label: "News & Events" },
+          { href: "/books", label: "Books" },
+        ].map((item) => (
+          <a
+            key={item.href}
+            href={item.href}
+            className=" hover:text-green-800 px-2 py-1 "
+          >
+            {item.label}
+          </a>
+        ))}
       </nav>
 
       {/* Center Logo */}
@@ -31,10 +41,20 @@ const Navbar = () => {
 
       {/* Right Nav (Desktop) */}
       <nav className="hidden md:flex gap-6 text-sm font-medium text-gray-700 items-center">
-        <a href="/article" className="hover:text-green-700 transition-colors duration-200">Articles</a>
-        <a href="/question" className="hover:text-green-700 transition-colors duration-200">Question Answer</a>
-        <a href="/requestbook" className="hover:text-green-700 transition-colors duration-200">Request a Book</a>
-        <a href="/contact" className="hover:text-green-700 transition-colors duration-200">Contact</a>
+        {[
+          { href: "/article", label: "Articles" },
+          { href: "/question", label: "Question Answer" },
+          { href: "/requestbook", label: "Request a Book" },
+          { href: "/contact", label: "Contact" },
+        ].map((item) => (
+          <a
+            key={item.href}
+            href={item.href}
+            className=" hover:text-green-800 px-2 py-1 "
+          >
+            {item.label}
+          </a>
+        ))}
       </nav>
 
       {/* Mobile Menu Button */}
@@ -51,7 +71,12 @@ const Navbar = () => {
             viewBox="0 0 24 24"
             stroke="currentColor"
           >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M4 6h16M4 12h16M4 18h16"
+            />
           </svg>
         </button>
       </div>
@@ -89,7 +114,7 @@ const Navbar = () => {
           <a
             key={item.href}
             href={item.href}
-            className="block text-gray-800 hover:text-green-700 transition-colors duration-200"
+            className="block text-gray-800 hover:bg-green-800 hover:text-white px-2 py-2 rounded transition-colors duration-200"
           >
             {item.label}
           </a>

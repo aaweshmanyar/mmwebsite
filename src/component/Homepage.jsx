@@ -518,7 +518,7 @@ useEffect(() => {
 
           {/* Urdu Tags */}
           <div className="flex justify-center flex-wrap gap-3 mb-10">
-            {articles.slice(4, 6).map((article, index) => (
+            {articles.slice(0, 2).map((article, index) => (
               <div
                 key={index}
                 className={`gulzartext cursor-pointer flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-medium ${

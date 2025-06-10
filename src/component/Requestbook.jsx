@@ -20,7 +20,7 @@ const Requestbook = () => {
     const fetchData = async () => {
       try {
         const booksRes = await fetch(
-          "https://newmmdata-backend.onrender.com/api/printedbook"
+          "https://newmmdata-backend.onrender.com/api/printedBooks"
         );
         const booksData = await booksRes.json();
         setBook(booksData);
@@ -268,7 +268,7 @@ const Requestbook = () => {
                 {book.length > 0 ? (
                   book.map((b) => (
                     <option key={b._id} value={b.title}>
-                      {b.title}
+                      {b.bookName}
                     </option>
                   ))
                 ) : (
