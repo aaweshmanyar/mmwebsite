@@ -636,6 +636,11 @@ const ArticlesPage = () => {
                         alt={article.title}
                         dir={article.language === "English" ? "rtl" : "ltr"}
                         className="card-image object-cover w-full h-full group-hover:scale-105 transition-transform duration-300 ease-in-out"
+                        onError={(e) => {
+                          e.target.onerror = null; // Prevent infinite loop
+                          e.target.src =
+                            "https://minaramasjid.com/assets/image/default/articles.jpeg";
+                        }}
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
                       <div className="absolute top-3 left-3 right-3 flex justify-between items-start">
