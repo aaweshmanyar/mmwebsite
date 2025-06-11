@@ -54,7 +54,7 @@ export default function ContactUs() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
           {/* Address */}
           <a
-            href="https://www.google.com/maps?q=22,+Mohammed+Ali+Rd,+Pydhonie,+Mandvi,+Mumbai,+Maharashtra+400003"
+            href="https://maps.app.goo.gl/Xx5V4rFsAiu3KSFM8"
             target="_blank"
             rel="noopener noreferrer"
             className="bg-white rounded-lg shadow-lg text-center p-6 hover:underline transition duration-200"
@@ -66,7 +66,7 @@ export default function ContactUs() {
               Our Address
             </h3>
             <p className="text-sm text-gray-700">
-              22, Mohammed Ali Rd, Pydhonie, Mandvi, Mumbai, Maharashtra 400003
+             22, Mohammed Ali Rd, Pydhonie, Mandvi, Mumbai, Maharashtra 400003
             </p>
           </a>
 
@@ -88,7 +88,7 @@ export default function ContactUs() {
 
           {/* WhatsApp */}
           <a
-            href="https://wa.me/yourwhatsapplink" // Replace with actual WhatsApp link
+            href="https://whatsapp.com/channel/0029Vb2RFD4AO7REg2KDdF2j" // Replace with actual WhatsApp link
             target="_blank"
             rel="noopener noreferrer"
             className="bg-white rounded-lg shadow-lg text-center p-6 hover:underline transition duration-200"
@@ -110,7 +110,7 @@ export default function ContactUs() {
           <div className="w-full h-[400px] rounded-lg overflow-hidden">
             <iframe
               title="Minara Masjid Location"
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3773.0212!2d72.8310795!3d18.9646519!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7ce1845a3e4df%3A0xb5f82bb60fbd3b68!2sMinara%20Masjid!5e0!3m2!1sen!2sin!4v1682345678901"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3414.799608647433!2d72.833282258377!3d18.95455650412549!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7cf64a92d8087%3A0x96ee5c3fb35da7b0!2sMinara%20Masjid!5e1!3m2!1sen!2sin!4v1749606219028!5m2!1sen!2sin"
               width="100%"
               height="100%"
               allowFullScreen

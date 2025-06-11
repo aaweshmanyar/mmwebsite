@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Search, ChevronDown, Eye, Menu, X } from "lucide-react";
 import Logo from "../../public/images/marclogo.png";
-import bg from '../../public/images/bg.png'
+import bg from "../../public/images/bg.png";
 import { useNavigate } from "react-router-dom";
 
 const EnhancedUIDesign = () => {
-      const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const [viewMode, setViewMode] = useState("grid");
   const [language, setLanguage] = useState("Urdu");
   const [sorting, setSorting] = useState("Latest");
@@ -36,7 +36,9 @@ const EnhancedUIDesign = () => {
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
-        const response = await fetch("https://newmmdata-backend.onrender.com/api/questions");
+        const response = await fetch(
+          "https://newmmdata-backend.onrender.com/api/questions"
+        );
         const data = await response.json();
         setQuestions(data);
       } catch (error) {
@@ -54,139 +56,116 @@ const EnhancedUIDesign = () => {
     return text.includes(search.toLowerCase());
   });
 
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
   return (
     <div className="bg-slate-50 text-slate-800">
-       <header className="relative z-50 bg-[#718e56] text-white">
-        {/* Desktop + Mobile Nav */}
-        <div className="max-w-[1200px] mx-auto px-4 py-3 flex items-center justify-between relative">
-          {/* Mobile Menu Button */}
-          <button
-            className="md:hidden text-white z-20"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          >
-            {mobileMenuOpen ? (
-              <X className="w-6 h-6" />
-            ) : (
-              <Menu className="w-6 h-6" />
-            )}
-          </button>
+      <header className="bg-[#718e56] sticky  top-0 z-50 shadow-md border-b border-green-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center py-4 relative">
+            <nav className="hidden md:flex gap-6 text-md  text-white tracking-wide">
+              <a href="/">Home</a>
+              <a href="/about">About</a>
+              <a href="/newsandevent">News & Event</a>
+              <a href="/books">Books</a>
+            </nav>
 
-          {/* Left Nav */}
-          <nav className="hidden md:flex items-center space-x-6 text-[15px] font-medium">
-            <a href="/" className="hover:text-amber-300">
-              Home
-            </a>
-            <a href="/about" className="hover:text-amber-300">
-              About
-            </a>
-            <a href="/newsandevent" className="hover:text-amber-300">
-              News & Events
-            </a>
-            <a href="/books" className="hover:text-amber-300">
-              Books
-            </a>
-          </nav>
+            <div className="absolute left-1/2 transform -translate-x-1/2 -bottom-7 bg-white rounded-full p-1 shadow-lg border border-green-100 z-10">
+              <img
+                src={Logo}
+                alt="Logo"
+                className="w-16 h-16 rounded-full object-contain"
+              />
+            </div>
 
-          {/* Logo */}
-          <div className="absolute left-1/2 transform -translate-x-1/2 -bottom-14 z-30 bg-white rounded-full p-1 shadow-md">
-            <img
-              src={Logo}
-              alt="Logo"
-              className="w-20 h-20 object-contain rounded-full"
-            />
-          </div>
+            <nav className="hidden md:flex gap-6 text-md  text-white tracking-wide">
+              <a href="/article">Articles</a>
+              <a href="/question">Question Answer</a>
+              <a href="/requestbook">Request a Book</a>
+              <a href="/contact">Contact</a>
+            </nav>
 
-          {/* Right Nav */}
-          <div className="hidden md:flex items-center space-x-5 font-medium text-[15px]">
-            {/* <div className="relative">
-            <input
-              type="text"
-              placeholder="search"
-              className="px-4 py-1 rounded-full bg-[#E7D092] text-sm text-black placeholder:text-gray-700 outline-none"
-            />
-            <span className="absolute right-3 top-1.5 text-black">
-              <Search className="w-4 h-4" />
-            </span>
-          </div> */}
-            <a href="/article" className="hover:text-amber-300">
-              Articles
-            </a>
-            <a href="/question" className="hover:text-amber-300">
-              Question Answer
-            </a>
-            <a href="/requestbook" className="hover:text-amber-300">
-              Request a Book
-            </a>
-            <a href="/contact" className="hover:text-amber-300">
-              Contact
-            </a>
-          </div>
-        </div>
-
-        {/* Mobile Slide-out Menu (from left) */}
-        {mobileMenuOpen && (
-          <div className="fixed inset-0 z-40 flex">
-            {/* Backdrop */}
-            <div
-              className="fixed inset-0 bg-black bg-opacity-30"
-              onClick={() => setMobileMenuOpen(false)}
-            />
-
-            {/* Drawer */}
-            <div className="relative w-1/2 h-full bg-[#718e56] p-4 space-y-4 text-[15px] font-medium z-50">
+            <div className="md:hidden">
               <button
-                onClick={() => setMobileMenuOpen(false)}
-                className="absolute top-4 right-4 text-white"
+                onClick={() => setMenuOpen(!menuOpen)}
+                className="text-gray-700 focus:outline-none"
               >
-                <X className="w-5 h-5" />
+                <svg
+                  className="w-7 h-7"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d={
+                      menuOpen
+                        ? "M6 18L18 6M6 6l12 12"
+                        : "M4 6h16M4 12h16M4 18h16"
+                    }
+                  />
+                </svg>
               </button>
-              <a href="/" className="block hover:text-white">
-                Home
-              </a>
-              <a href="/about" className="block hover:text-white">
-                About
-              </a>
-              <a href="/newsandevent" className="block hover:text-white">
-                News & Events
-              </a>
-              <a href="/books" className="block hover:text-white">
-                Books
-              </a>
-              <a href="/article" className="block hover:text-white">
-                Articles
-              </a>
-              <a href="/question" className="block hover:text-white">
-                Question Answer
-              </a>
-              <a href="/requestbook" className="block hover:text-white">
-                Request a Book
-              </a>
-              <a href="/contact" className="block hover:text-white">
-                Contact
-              </a>
-
-              {/* Search bar */}
-              <div className="flex items-center bg-white rounded-full px-3 py-1 mt-2 w-full">
-                <input
-                  type="text"
-                  placeholder="Search"
-                  className="bg-transparent outline-none text-black text-sm w-full"
-                />
-                <Search className="w-4 h-4 text-black ml-2" />
-              </div>
             </div>
           </div>
-        )}
+
+          {/* Mobile menu */}
+          <div
+            className={`md:hidden transition-all overflow-hidden ${
+              menuOpen ? "max-h-screen opacity-100" : "max-h-0 opacity-0"
+            }`}
+          >
+            <div className="flex flex-col gap-3 py-4 px-2 text-white bg-[#5a7544] rounded-b-xl">
+              <a href="/" className="hover:bg-[#4f6639] px-4 py-2 rounded">
+                Home
+              </a>
+              <a href="/about" className="hover:bg-[#4f6639] px-4 py-2 rounded">
+                About
+              </a>
+              <a
+                href="/newsandevent"
+                className="hover:bg-[#4f6639] px-4 py-2 rounded"
+              >
+                Books
+              </a>
+              <a href="/books" className="hover:bg-[#4f6639] px-4 py-2 rounded">
+                News & Event
+              </a>
+              <a
+                href="/article"
+                className="hover:bg-[#4f6639] px-4 py-2 rounded"
+              >
+                Articles
+              </a>
+              <a
+                href="/question"
+                className="hover:bg-[#4f6639] px-4 py-2 rounded"
+              >
+                Question Answer
+              </a>
+              <a
+                href="/requestbook"
+                className="hover:bg-[#4f6639] px-4 py-2 rounded"
+              >
+                Request a Book
+              </a>
+              <a
+                href="/contact"
+                className="hover:bg-[#4f6639] px-4 py-2 rounded"
+              >
+                Contact
+              </a>
+            </div>
+          </div>
+        </div>
       </header>
 
-
-       <div
-             className="absolute inset-0 opacity-36 pointer-events-none"
-             style={{ backgroundImage: `url(${bg})` }}
-             
-           ></div>
+      <div
+        className="absolute inset-0 opacity-36 pointer-events-none"
+        style={{ backgroundImage: `url(${bg})` }}
+      ></div>
 
       {/* Intro Section */}
       <div
@@ -199,7 +178,9 @@ const EnhancedUIDesign = () => {
               شرعی سوالات
             </h3>
             <p className="text-md text-gray-700 gulzartext">
-              ہمارے مرکز کا مقصد اسلامی تعلیمات کی روشنی میں موجودہ مسائل کا حل پیش کرنا ہے۔ یہاں آپ سوالات پوچھ سکتے ہیں یا دوسروں کے سوالات کے جوابات دے سکتے ہیں۔
+              ہمارے مرکز کا مقصد اسلامی تعلیمات کی روشنی میں موجودہ مسائل کا حل
+              پیش کرنا ہے۔ یہاں آپ سوالات پوچھ سکتے ہیں یا دوسروں کے سوالات کے
+              جوابات دے سکتے ہیں۔
             </p>
           </div>
         </div>
@@ -238,7 +219,10 @@ const EnhancedUIDesign = () => {
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 w-full md:w-auto">
             <div className="relative">
               <div className="flex flex-col">
-                <label htmlFor="sort-by" className="text-xs text-slate-600 mb-1 font-nastaliq">
+                <label
+                  htmlFor="sort-by"
+                  className="text-xs text-slate-600 mb-1 font-nastaliq"
+                >
                   ترتیب
                 </label>
                 <button
@@ -266,7 +250,10 @@ const EnhancedUIDesign = () => {
             </div>
             <div className="relative">
               <div className="flex flex-col">
-                <label htmlFor="language-filter" className="text-xs text-slate-600 mb-1 font-nastaliq">
+                <label
+                  htmlFor="language-filter"
+                  className="text-xs text-slate-600 mb-1 font-nastaliq"
+                >
                   زبان
                 </label>
                 <button
@@ -377,7 +364,7 @@ const EnhancedUIDesign = () => {
             filteredQuestions.map((card, index) => (
               <div
                 key={card._id}
-                         onClick={() => navigate(`/question/${card.id}`)}
+                onClick={() => navigate(`/question/${card.id}`)}
                 className={`card-item bg-white rounded-xl shadow-lg p-5 flex cursor-pointer w-full transition-all duration-300 ease-in-out hover:shadow-2xl hover:-translate-y-1 ${
                   viewMode === "list" ? "flex-row items-center" : "flex-col"
                 }`}
@@ -395,9 +382,10 @@ const EnhancedUIDesign = () => {
                   </div>
                 </div>
                 <div
-                
                   className={`card-content-section ${
-                    viewMode === "list" ? "flex-grow mb-0 text-right" : "flex-grow mb-4"
+                    viewMode === "list"
+                      ? "flex-grow mb-0 text-right"
+                      : "flex-grow mb-4"
                   }`}
                 >
                   <p
@@ -409,14 +397,16 @@ const EnhancedUIDesign = () => {
                         : "text-left"
                     } text-slate-700 text-base leading-relaxed gulzartext`}
                     dir={card.language === "Urdu" ? "rtl" : "ltr"}
-                    dangerouslySetInnerHTML={{ __html: card.questionUrdu || card.questionEnglish }}
-                  >
-                    
-                  </p>
+                    dangerouslySetInnerHTML={{
+                      __html: card.questionUrdu || card.questionEnglish,
+                    }}
+                  ></p>
                 </div>
                 <div
                   className={`card-actions-section flex justify-end gap-2 ${
-                    viewMode === "list" ? "mt-0 mr-auto flex-shrink-0" : "mt-auto"
+                    viewMode === "list"
+                      ? "mt-0 mr-auto flex-shrink-0"
+                      : "mt-auto"
                   }`}
                 >
                   <button className="cursor-pointer bg-emerald-50 hover:bg-emerald-100 text-emerald-700 px-3.5 py-1.5 rounded-lg text-xs font-medium transition-colors">
@@ -434,11 +424,11 @@ const EnhancedUIDesign = () => {
 
       <style jsx global>{`
         body {
-          font-family: 'Inter', sans-serif;
+          font-family: "Inter", sans-serif;
           background-color: #f8fafc;
         }
         .font-nastaliq {
-          font-family: 'Noto Nastaliq Urdu', serif;
+          font-family: "Noto Nastaliq Urdu", serif;
         }
         .line-clamp-1 {
           overflow: hidden;

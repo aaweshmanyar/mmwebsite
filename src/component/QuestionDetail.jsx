@@ -4,6 +4,7 @@ import bg from "../../public/images/newbg.png";
 import user from "../../public/images/user.png";
 import logo from "../../public/images/marclogo.png";
 
+
 const QuestionDetail = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [allQuestions, setAllQuestions] = useState([]);
@@ -56,7 +57,7 @@ const QuestionDetail = () => {
     return <div className="text-center p-4">لوڈ ہو رہا ہے...</div>;
   }
 
-  const slideQuestion = allQuestions.slice(1, 13)
+  const slideQuestion = allQuestions.slice(1, 13);
 
   return (
     <main className="min-h-screen bg-[#f0f2e6] relative">
@@ -68,15 +69,16 @@ const QuestionDetail = () => {
                 Home
               </a>
               <a href="/about" className="hover:text-yellow-200">
-                About Center
+                About
               </a>
               <a href="/books" className="hover:text-yellow-200">
-                Books
-              </a>
-              <a href="/newsandevent" className="hover:text-yellow-200">
                 News & Event
               </a>
+              <a href="/newsandevent" className="hover:text-yellow-200">
+                Books
+              </a>
             </nav>
+
             <div className="absolute left-1/2 transform -translate-x-1/2 -bottom-7 bg-white rounded-full p-1 shadow-lg border border-green-100 z-10">
               <img
                 src={logo}
@@ -84,20 +86,22 @@ const QuestionDetail = () => {
                 className="w-16 h-16 rounded-full object-contain"
               />
             </div>
+
             <nav className="hidden md:flex gap-6 text-md font-semibold text-white tracking-wide">
-              <a href="/requestbook" className="hover:text-yellow-200">
-                Request a Book
-              </a>
               <a href="/article" className="hover:text-yellow-200">
                 Articles
               </a>
               <a href="/question" className="hover:text-yellow-200">
-                Questions
+                Question Answer
+              </a>
+              <a href="/requestbook" className="hover:text-yellow-200">
+                Request a Book
               </a>
               <a href="/contact" className="hover:text-yellow-200">
                 Contact
               </a>
             </nav>
+
             <div className="md:hidden">
               <button
                 onClick={() => setMenuOpen(!menuOpen)}
@@ -123,30 +127,53 @@ const QuestionDetail = () => {
               </button>
             </div>
           </div>
+
+          {/* Mobile menu */}
           <div
             className={`md:hidden transition-all overflow-hidden ${
               menuOpen ? "max-h-screen opacity-100" : "max-h-0 opacity-0"
             }`}
           >
             <div className="flex flex-col gap-3 py-4 px-2 text-white bg-[#5a7544] rounded-b-xl">
-              {[
-                "Home",
-                "About Center",
-                "Books",
-                "News & Event",
-                "News",
-                "Articles",
-                "question",
-                "Contact",
-              ].map((item, idx) => (
-                <a
-                  key={idx}
-                  href={`/${item.toLowerCase().replace(" ", "")}`}
-                  className="hover:bg-[#4f6639] px-4 py-2 rounded"
-                >
-                  {item}
-                </a>
-              ))}
+              <a href="/" className="hover:bg-[#4f6639] px-4 py-2 rounded">
+                Home
+              </a>
+              <a href="/about" className="hover:bg-[#4f6639] px-4 py-2 rounded">
+                About
+              </a>
+              <a
+                href="/newsandevent"
+                className="hover:bg-[#4f6639] px-4 py-2 rounded"
+              >
+                Books
+              </a>
+              <a href="/books" className="hover:bg-[#4f6639] px-4 py-2 rounded">
+                News & Event
+              </a>
+              <a
+                href="/article"
+                className="hover:bg-[#4f6639] px-4 py-2 rounded"
+              >
+                Articles
+              </a>
+              <a
+                href="/question"
+                className="hover:bg-[#4f6639] px-4 py-2 rounded"
+              >
+                Question Answer
+              </a>
+              <a
+                href="/requestbook"
+                className="hover:bg-[#4f6639] px-4 py-2 rounded"
+              >
+                Request a Book
+              </a>
+              <a
+                href="/contact"
+                className="hover:bg-[#4f6639] px-4 py-2 rounded"
+              >
+                Contact
+              </a>
             </div>
           </div>
         </div>
@@ -181,9 +208,12 @@ const QuestionDetail = () => {
             {question.id}
           </span>
         </div>
-        <p className="text-[#4a7031] text-lg gulzartext mb-6 leading-loose text-center"  dangerouslySetInnerHTML={{ __html: question.questionEnglish || question.questionUrdu}} 
->
-        </p>
+        <p
+          className="text-[#4a7031] text-lg gulzartext mb-6 leading-loose text-center"
+          dangerouslySetInnerHTML={{
+            __html: question.questionEnglish || question.questionUrdu,
+          }}
+        ></p>
       </div>
 
       <div className="flex flex-col items-end gap-2 mt-4 md:mb-16 mr-6 px-4 text-right">
@@ -191,7 +221,7 @@ const QuestionDetail = () => {
           <div>
             <p className="text-sm text-gray-600 gulzartext">اسلامک اسکالر</p>
             <h2 className="font-extrabold text-xl text-[#4a7031] gulzartext">
-             {question.writer}
+              {question.writer}
             </h2>
           </div>
           <img
@@ -248,7 +278,9 @@ const QuestionDetail = () => {
           <div className="rtl text-right leading-loose text-[#4a7031] text-lg gulzartext ">
             <div
               className="gulzartext leading-loose text-[#4a7031] text-lg  "
-              dangerouslySetInnerHTML={{ __html: question.answerUrdu || question.answerEnglish }}
+              dangerouslySetInnerHTML={{
+                __html: question.answerUrdu || question.answerEnglish,
+              }}
             ></div>
           </div>
         </div>
@@ -268,8 +300,10 @@ const QuestionDetail = () => {
                 {question.writer}
               </h2>
               <p className="text-sm md:text-base text-gray-700 leading-relaxed gulzartext">
-                 ایک معروف اسلامی عالم، مدرس اور مصنف ہیں...
-               <a href="/writer" className="cursor-pointer">(مزید معلومات)</a> 
+                ایک معروف اسلامی عالم، مدرس اور مصنف ہیں...
+                <a href="/writer" className="cursor-pointer">
+                  (مزید معلومات)
+                </a>
               </p>
             </div>
           </div>
@@ -282,7 +316,7 @@ const QuestionDetail = () => {
             متعلق سوالات
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 rtl">
-            {allQuestions.slice(1,14).map((q, idx) => (
+            {allQuestions.slice(1, 14).map((q, idx) => (
               <div
                 key={q._id}
                 onClick={() => navigate(`/question/${q.id}`)}

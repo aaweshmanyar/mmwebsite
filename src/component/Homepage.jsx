@@ -8,32 +8,14 @@ import bg from "../../public/images/newbg.png";
 import image from "../../public/images/image 2.png";
 import Banner from "../../public/images/banner.png";
 import about from "../../public/images/about.jpg";
-import Book from "../../public/images/book.png";
 import Bookimg from "../../public/Aboutimg/bookclm.png";
-import News1 from "../../public/News&Event/bookevent.png";
-import News2 from "../../public/News&Event/islamicprogram.png";
-import News3 from "../../public/News&Event/jashnemaulaali.png";
-import News4 from "../../public/News&Event/newbook.png";
-import Book1 from "../../public/OurBooks/book1.png";
-import Book2 from "../../public/OurBooks/book2.png";
-import Book3 from "../../public/OurBooks/book3.png";
-import Book4 from "../../public/OurBooks/book4.png";
-import Articleimg1 from "../../public/Article/article1.png";
-import Articleimg2 from "../../public/Article/article2.png";
-import Articleimg3 from "../../public/Article/article3.png";
-import Articleimg4 from "../../public/Article/article4.png";
-import Articleimg5 from "../../public/Article/article5.png";
-import Articleimg6 from "../../public/Article/article6.png";
-import Articleimg7 from "../../public/Article/article7.png";
-import Articleimg8 from "../../public/Article/article8.png";
-import Articleimg9 from "../../public/Article/article9.png";
-import Articleimg10 from "../../public/Article/article10.png";
-import Userimg from "../../public/Scholar/user.png";
+
 import { useSearchParams, useNavigate } from "react-router-dom";
 
 const banners = [Banner];
 const BannerCarousel = () => {};
 export default function Home() {
+  const [menuOpen, setMenuOpen] = useState(false);
   const [articles, setArticles] = useState([]);
   const [writer, setWriter] = useState([]);
   const [book, setBook] = useState([]);
@@ -122,39 +104,41 @@ export default function Home() {
     return () => clearInterval(interval);
   }, []);
 
-
   const images = [
-  Banner,
-  "https://minaramasjid.com/assets/image/slider/slider4.jpg",
-  "https://minaramasjid.com/assets/image/slider/slider3.jpg",
-];
+    Banner,
+    "https://minaramasjid.com/assets/image/slider/slider4.jpg",
+    "https://minaramasjid.com/assets/image/slider/slider3.jpg",
+  ];
 
-const [order, setOrder] = useState([0, 1, 2]);
+  const [order, setOrder] = useState([0, 1, 2]);
 
-const handleClick = (index) => {
-  if (index === order[1]) return; // Already center, do nothing
+  const handleClick = (index) => {
+    if (index === order[1]) return; // Already center, do nothing
 
-  // Swap clicked image with center
-  const newOrder = [...order];
-  const clickedIndex = newOrder.indexOf(index);
-  [newOrder[1], newOrder[clickedIndex]] = [newOrder[clickedIndex], newOrder[1]];
-  setOrder(newOrder);
-};
+    // Swap clicked image with center
+    const newOrder = [...order];
+    const clickedIndex = newOrder.indexOf(index);
+    [newOrder[1], newOrder[clickedIndex]] = [
+      newOrder[clickedIndex],
+      newOrder[1],
+    ];
+    setOrder(newOrder);
+  };
 
-// Auto slide every 3 seconds
-useEffect(() => {
-  const interval = setInterval(() => {
-    // Rotate images to the left (next image becomes center)
-    setOrder((prevOrder) => {
-      const newOrder = [...prevOrder];
-      // Rotate left: first element to end
-      newOrder.push(newOrder.shift());
-      return newOrder;
-    });
-  }, 3000);
+  // Auto slide every 3 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      // Rotate images to the left (next image becomes center)
+      setOrder((prevOrder) => {
+        const newOrder = [...prevOrder];
+        // Rotate left: first element to end
+        newOrder.push(newOrder.shift());
+        return newOrder;
+      });
+    }, 3000);
 
-  return () => clearInterval(interval); // Clear on unmount
-}, []);
+    return () => clearInterval(interval); // Clear on unmount
+  }, []);
 
   return (
     <main
@@ -166,36 +150,39 @@ useEffect(() => {
       }}
     >
       <Navbar />
+     
+      
+
       {/* Banner */}
-     <div className="w-full py-6 px-4 flex justify-center items-center mt-6">
-      <div className="w-full max-w-[1440px] flex justify-center items-center gap-4 md:gap-8">
+      <div className="w-full py-6 px-4 flex justify-center items-center mt-6">
+        <div className="w-full max-w-[1440px] flex justify-center items-center gap-4 md:gap-8">
+          {/* Left Box */}
+          <div
+            className="hidden md:flex w-[300px] h-[200px] bg-white rounded-2xl shadow-md bg-cover bg-center cursor-pointer"
+            style={{ backgroundImage: `url(${images[order[0]]})` }}
+            onClick={() => handleClick(order[0])}
+          ></div>
 
-        {/* Left Box */}
-        <div
-          className="hidden md:flex w-[300px] h-[200px] bg-white rounded-2xl shadow-md bg-cover bg-center cursor-pointer"
-          style={{ backgroundImage: `url(${images[order[0]]})` }}
-          onClick={() => handleClick(order[0])}
-        ></div>
+          {/* Center Carousel */}
+          <div
+            className="w-full md:w-auto max-w-[800px] rounded-xl overflow-hidden shadow-lg cursor-pointer"
+            onClick={() => handleClick(order[1])}
+          >
+            <img
+              src={images[order[1]]}
+              alt="Center Banner"
+              className="w-full h-[200px] md:h-[300px] object-cover rounded-xl"
+            />
+          </div>
 
-        {/* Center Carousel */}
-        <div className="w-full md:w-auto max-w-[800px] rounded-xl overflow-hidden shadow-lg cursor-pointer"
-             onClick={() => handleClick(order[1])}>
-          <img
-            src={images[order[1]]}
-            alt="Center Banner"
-            className="w-full h-[200px] md:h-[300px] object-cover rounded-xl"
-          />
+          {/* Right Box */}
+          <div
+            className="hidden md:flex w-[300px] h-[200px] bg-white rounded-2xl shadow-md bg-cover bg-center cursor-pointer"
+            style={{ backgroundImage: `url(${images[order[2]]})` }}
+            onClick={() => handleClick(order[2])}
+          ></div>
         </div>
-
-        {/* Right Box */}
-        <div
-          className="hidden md:flex w-[300px] h-[200px] bg-white rounded-2xl shadow-md bg-cover bg-center cursor-pointer"
-          style={{ backgroundImage: `url(${images[order[2]]})` }}
-          onClick={() => handleClick(order[2])}
-        ></div>
-
       </div>
-    </div>
 
       {/* About Sections */}
 
@@ -672,8 +659,7 @@ useEffect(() => {
             {writer.map((scholar, index) => (
               <div
                 key={index}
-               onClick={() => navigate(`/writer/${scholar.id}`)}
-
+                onClick={() => navigate(`/writer/${scholar.id}`)}
                 className="bg-white rounded-xl shadow-sm px-6 py-8 flex flex-col items-center"
               >
                 {/* Profile Image */}
