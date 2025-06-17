@@ -27,12 +27,12 @@ export default function Home() {
 
         const [writerRes, translatorRes, languageRes, booksRes] =
           await Promise.all([
-            fetch("https://newmmdata-backend.onrender.com/api/writers"),
-            fetch("https://newmmdata-backend.onrender.com/api/translators"),
+            fetch("https://api.awes.in/api/writers"),
+            fetch("https://api.awes.in/api/translators"),
             fetch(
-              "https://newmmdata-backend.onrender.com/api/languages/language"
+              "https://api.awes.in/api/languages/language"
             ),
-            fetch("https://newmmdata-backend.onrender.com/api/books"),
+            fetch("https://api.awes.in/api/books"),
           ]);
 
         setWriters(await writerRes.json());
@@ -382,7 +382,7 @@ export default function Home() {
                     }
                   >
                     <img
-                      src={`https://newmmdata-backend.onrender.com/api/books/cover/${book.id}`}
+                      src={`https://api.awes.in/api/books/cover/${book.id}`}
                       alt={`Cover of ${book.title}`}
                       className="w-full h-full object-cover"
                     />
@@ -410,7 +410,7 @@ export default function Home() {
                         Read More
                       </a>
                       <a
-                        href={`https://newmmdata-backend.onrender.com/api/books/attachment/${book.id}`}
+                        href={`https://api.awes.in/api/books/attachment/${book.id}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="cursor-pointer bg-amber-400 text-gray-800 px-2.5 py-1 rounded-full text-xs"

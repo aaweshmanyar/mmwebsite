@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Search } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
-import logo from "../../public/images/marclogo.png";
+import Logo from "../../public/images/marclogo.png";
+
 
 import bg from "../../public/images/bg.png";
 import Book from "../../public/images/book.png";
@@ -26,13 +27,13 @@ export default function Home() {
       try {
         setLoading(true); // Start loading
         const res = await fetch(
-          `https://newmmdata-backend.onrender.com/api/articles/${id}`
+          `https://api.awes.in/api/articles/${id}`
         );
         const data = await res.json();
         setArticle(data);
 
         const articleres = await fetch(
-          "https://newmmdata-backend.onrender.com/api/articles"
+          "https://api.awes.in/api/articles"
         );
         const resdata = await articleres.json();
         setAllarticle(resdata);
@@ -92,112 +93,107 @@ export default function Home() {
         className="absolute inset-0 bg-cover bg-no-repeat opacity-70"
         style={{ backgroundImage: `url(${bg})`, backgroundPosition: "center" }}
       ></div>
-      <header className="bg-[#718e56] sticky top-0 mb-4 z-50 shadow-sm border-b border-green-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-2 relative pb-2">
-          <div className="flex justify-between items-center py-5">
-            {/* Desktop Left Nav */}
-            <nav className="hidden md:flex gap-6 text-md font-medium text-white">
-              <a href="/" className="hover:text-gray-700">
-                Home
-              </a>
-              <a href="/about" className="hover:text-gray-700">
-                About Center
-              </a>
-              <a href="/books" className="hover:text-gray-700">
-                Books
-              </a>
-              <a href="/gallery" className="hover:text-gray-700">
-                Gallery
-              </a>
-            </nav>
-
-            {/* Center Logo */}
-            <div className="absolute left-1/2 transform -translate-x-1/2 -bottom-6 bg-white rounded-full p-1 shadow-md">
-              <img
-                src={logo}
-                alt="Maula Ali Research Centre Logo"
-                width={64}
-                height={64}
-                className="rounded-full object-contain"
-              />
-            </div>
-
-            {/* Desktop Right Nav */}
-            <nav className="hidden md:flex gap-6 text-sm font-medium text-white">
-              <a href="/news" className="hover:text-gray-700">
-                News
-              </a>
-              <a href="/article" className="hover:text-gray-700">
-                Articles
-              </a>
-              <a href="/question" className="hover:text-gray-700">
-                Questions
-              </a>
-              <a href="/contact" className="hover:text-gray-700">
-                Contact
-              </a>
-            </nav>
-
-            {/* Mobile Menu Button */}
-            <div className="md:hidden">
-              <button
-                onClick={() => setMenuOpen(!menuOpen)}
-                className="text-gray-800 focus:outline-none"
-                aria-label="Toggle menu"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="w-6 h-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d={
-                      menuOpen
-                        ? "M6 18L18 6M6 6l12 12"
-                        : "M4 6h16M4 12h16M4 18h16"
-                    }
-                  />
-                </svg>
-              </button>
-            </div>
-          </div>
-
-          {/* Mobile Dropdown Menu */}
-          {menuOpen && (
-            <div className="md:hidden mt-4 space-y-2 text-sm font-medium text-black">
-              <a href="/" className="block hover:text-green-700">
-                Home
-              </a>
-              <a href="/about" className="block hover:text-green-700">
-                About Center
-              </a>
-              <a href="/books" className="block hover:text-green-700">
-                Books
-              </a>
-              <a href="/gallery" className="block hover:text-green-700">
-                Gallery
-              </a>
-              <a href="/news" className="block hover:text-green-700">
-                News
-              </a>
-              <a href="/article" className="block hover:text-green-700">
-                Articles
-              </a>
-              <a href="/question" className="block hover:text-green-700">
-                Questions
-              </a>
-              <a href="/contact" className="block hover:text-green-700">
-                Contact
-              </a>
-            </div>
-          )}
-        </div>
-      </header>
+      <header className="bg-[#718e56] sticky  top-0 z-50 shadow-md border-b border-green-100">
+             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+               <div className="flex justify-between items-center py-4 relative">
+                 <nav className="hidden md:flex gap-6 text-md font-semibold text-white tracking-wide">
+                   <a href="/">Home</a>
+                   <a href="/about">About</a>
+                   <a href="/newsandevent">News & Event</a>
+                   <a href="/books">Books</a>
+                 </nav>
+     
+                 <div className="absolute left-1/2 transform -translate-x-1/2 -bottom-7 bg-white rounded-full p-1 shadow-lg border border-green-100 z-10">
+                   <img
+                     src={Logo}
+                     alt="Logo"
+                     className="w-16 h-16 rounded-full object-contain"
+                   />
+                 </div>
+     
+                 <nav className="hidden md:flex gap-6 text-md font-semibold text-white tracking-wide">
+                   <a href="/article">Articles</a>
+                   <a href="/question">Question Answer</a>
+                   <a href="/requestbook">Request a Book</a>
+                   <a href="/contact">Contact</a>
+                 </nav>
+     
+                 <div className="md:hidden">
+                   <button
+                     onClick={() => setMenuOpen(!menuOpen)}
+                     className="text-gray-700 focus:outline-none"
+                   >
+                     <svg
+                       className="w-7 h-7"
+                       fill="none"
+                       viewBox="0 0 24 24"
+                       stroke="currentColor"
+                     >
+                       <path
+                         strokeLinecap="round"
+                         strokeLinejoin="round"
+                         strokeWidth={2}
+                         d={
+                           menuOpen
+                             ? "M6 18L18 6M6 6l12 12"
+                             : "M4 6h16M4 12h16M4 18h16"
+                         }
+                       />
+                     </svg>
+                   </button>
+                 </div>
+               </div>
+     
+               {/* Mobile menu */}
+               <div
+                 className={`md:hidden transition-all overflow-hidden ${
+                   menuOpen ? "max-h-screen opacity-100" : "max-h-0 opacity-0"
+                 }`}
+               >
+                 <div className="flex flex-col gap-3 py-4 px-2 text-white bg-[#5a7544] rounded-b-xl">
+                   <a href="/" className="hover:bg-[#4f6639] px-4 py-2 rounded">
+                     Home
+                   </a>
+                   <a href="/about" className="hover:bg-[#4f6639] px-4 py-2 rounded">
+                     About
+                   </a>
+                   <a
+                     href="/newsandevent"
+                     className="hover:bg-[#4f6639] px-4 py-2 rounded"
+                   >
+                     Books
+                   </a>
+                   <a href="/books" className="hover:bg-[#4f6639] px-4 py-2 rounded">
+                     News & Event
+                   </a>
+                   <a
+                     href="/article"
+                     className="hover:bg-[#4f6639] px-4 py-2 rounded"
+                   >
+                     Articles
+                   </a>
+                   <a
+                     href="/question"
+                     className="hover:bg-[#4f6639] px-4 py-2 rounded"
+                   >
+                     Question Answer
+                   </a>
+                   <a
+                     href="/requestbook"
+                     className="hover:bg-[#4f6639] px-4 py-2 rounded"
+                   >
+                     Request a Book
+                   </a>
+                   <a
+                     href="/contact"
+                     className="hover:bg-[#4f6639] px-4 py-2 rounded"
+                   >
+                     Contact
+                   </a>
+                 </div>
+               </div>
+             </div>
+           </header>
 
       {/* Background Pattern */}
       {/* Main Title */}
@@ -311,7 +307,7 @@ export default function Home() {
         <div className="md:col-span-1 space-y-6 order-2 md:order-1">
           <div className="bg-white rounded-lg overflow-hidden shadow-lg">
             <img
-              src={`https://newmmdata-backend.onrender.com/api/articles/image/${article.id}`}
+              src={`https://api.awes.in/api/articles/image/${article.id}`}
               alt="Book Cover"
               className="w-full h-60 object-cover"
               onError={(e) => {
@@ -351,7 +347,7 @@ export default function Home() {
                   {/* Top Image with Overlay Text */}
                   <div className="relative h-28 overflow-hidden rounded-t-xl">
                     <img
-                      src={`https://newmmdata-backend.onrender.com/api/articles/image/${item.id}`}
+                      src={`https://api.awes.in/api/articles/image/${item.id}`}
                       alt={item.title}
                       className="absolute inset-0 w-full h-full object-cover"
                       onError={(e) => {
@@ -468,7 +464,7 @@ export default function Home() {
             >
               <div className="relative h-48">
                 <img
-                  src={`https://newmmdata-backend.onrender.com/api/articles/image/${item.id}`}
+                  src={`https://api.awes.in/api/articles/image/${item.id}`}
                   onError={(e) => {
                     e.target.onerror = null;
                     e.target.src =

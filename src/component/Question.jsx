@@ -13,7 +13,7 @@ const Question = () => {
     const fetchData = async () => {
       try {
         const questionres = await fetch(
-          "https://newmmdata-backend.onrender.com/api/questions"
+          "https://api.awes.in/api/questions"
         );
         const questionData = await questionres.json();
         setQuestion(questionData);

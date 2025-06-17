@@ -18,20 +18,20 @@ export default function BookDetailsPage() {
 
   useEffect(() => {
     // Fetch book
-    fetch(`https://newmmdata-backend.onrender.com/api/books/${id}`)
+    fetch(`https://api.awes.in/api/books/${id}`)
       .then((res) => res.json())
       .then((data) => setBook(data))
       .catch((err) => console.error("Failed to fetch book:", err));
 
     //All Books 
-    fetch("https://newmmdata-backend.onrender.com/api/books")
+    fetch("https://api.awes.in/api/books")
       .then((res) => res.json())
       .then((data) => setAllBooks(data))
       .catch((err) => console.error("Failed to fetch all books:", err));
 
 
     // Fetch all writers
-    fetch(`https://newmmdata-backend.onrender.com/api/writers`)
+    fetch(`https://api.awes.in/api/writers`)
       .then((res) => res.json())
       .then((data) => setWriters(data))
       .catch((err) => console.error("Failed to fetch writers:", err));
@@ -192,7 +192,7 @@ export default function BookDetailsPage() {
               <div className="md:w-1/3 flex justify-center">
                 <div className="relative w-64">
                   <img
-                    src={`https://newmmdata-backend.onrender.com/api/books/cover/${book.id}`}
+                    src={`https://api.awes.in/api/books/cover/${book.id}`}
                     alt={book.title}
                     className="w-full rounded-xl shadow-2xl transform rotate-[-2deg]"
                   />
@@ -222,7 +222,7 @@ export default function BookDetailsPage() {
                 </p>
 
                 <a
-                  href={`https://newmmdata-backend.onrender.com/api/books/attachment/${book.id}`}
+                  href={`https://api.awes.in/api/books/attachment/${book.id}`}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -285,7 +285,7 @@ export default function BookDetailsPage() {
                   className="bg-white p-4 rounded-xl shadow hover:shadow-md transition-shadow duration-300"
                 >
                   <img
-                    src={`https://newmmdata-backend.onrender.com/api/books/cover/${book.id}`}
+                    src={`https://api.awes.in/api/books/cover/${book.id}`}
                     alt={book.title}
                     className="w-full h-48 sm:h-52 md:h-56 lg:h-64 object-cover rounded mb-3"
                   />

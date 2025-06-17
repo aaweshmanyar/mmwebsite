@@ -37,7 +37,7 @@ const EnhancedUIDesign = () => {
     const fetchQuestions = async () => {
       try {
         const response = await fetch(
-          "https://newmmdata-backend.onrender.com/api/questions"
+          "https://api.awes.in/api/questions"
         );
         const data = await response.json();
         setQuestions(data);

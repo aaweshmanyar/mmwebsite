@@ -14,7 +14,7 @@ const NewandEvent = () => {
     const fetchData = async () => {
       try {
         const Eventres = await fetch(
-          "https://newmmdata-backend.onrender.com/api/events"
+          "https://api.awes.in/api/events"
         );
         const EventData = await Eventres.json();
         setEvent(EventData);
@@ -321,7 +321,7 @@ const NewandEvent = () => {
               >
                 <div className="overflow-hidden rounded-xl mb-4">
                   <img
-                    src={`https://newmmdata-backend.onrender.com/api/events/image/${event.id}`}
+                    src={`https://api.awes.in/api/events/image/${event.id}`}
                     alt={event.title}
                     className="w-full h-[160px] object-cover rounded-xl"
                   />

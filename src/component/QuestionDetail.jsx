@@ -16,7 +16,7 @@ const QuestionDetail = () => {
     const fetchAllQuestions = async () => {
       try {
         const res = await fetch(
-          "https://newmmdata-backend.onrender.com/api/questions"
+          "https://api.awes.in/api/questions"
         );
         const data = await res.json();
         setAllQuestions(data);
@@ -32,7 +32,7 @@ const QuestionDetail = () => {
     const fetchSingleQuestion = async () => {
       try {
         const res = await fetch(
-          `https://newmmdata-backend.onrender.com/api/questions/${id}`
+          `https://api.awes.in/api/questions/${id}`
         );
         const data = await res.json(); // Safe to parse now
         setQuestion(data);

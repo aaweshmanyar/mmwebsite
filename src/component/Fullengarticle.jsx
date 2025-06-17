@@ -19,13 +19,13 @@ export default function Home() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const articleres = await fetch("https://newmmdata-backend.onrender.com/api/articles");
+        const articleres = await fetch("https://api.awes.in/api/articles");
         const articleData = await articleres.json();
         setArticles(articleData);
         console.log("The Article Data: ", articleData);
 
 
-        const writersres = await fetch("https://newmmdata-backend.onrender.com/api/writers");
+        const writersres = await fetch("https://api.awes.in/api/writers");
         const writersData = await writersres.json();
         setWriters(writersData);
         

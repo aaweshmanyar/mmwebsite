@@ -27,13 +27,13 @@ const ArticlesPage = () => {
       try {
         const [writerRes, translatorRes, languageRes, topicRes, articleRes] =
           await Promise.all([
-            fetch("https://newmmdata-backend.onrender.com/api/writers"),
-            fetch("https://newmmdata-backend.onrender.com/api/translators"),
+            fetch("https://api.awes.in/api/writers"),
+            fetch("https://api.awes.in/api/translators"),
             fetch(
-              "https://newmmdata-backend.onrender.com/api/languages/language"
+              "https://api.awes.in/api/languages/language"
             ),
-            fetch("https://newmmdata-backend.onrender.com/api/topics"),
-            fetch("https://newmmdata-backend.onrender.com/api/articles"),
+            fetch("https://api.awes.in/api/topics"),
+            fetch("https://api.awes.in/api/articles"),
           ]);
 
         setWriters(await writerRes.json());
@@ -630,7 +630,7 @@ const ArticlesPage = () => {
                     <div className="card-image-container relative h-[160px] w-full flex-shrink-0 overflow-hidden">
                       <img
                         src={
-                          `https://newmmdata-backend.onrender.com/api/articles/image/${article.id}` ||
+                          `https://api.awes.in/api/articles/image/${article.id}` ||
                           "https://minaramasjid.com/assets/image/default/articles.jpeg"
                         }
                         alt={article.title}

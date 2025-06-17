@@ -37,25 +37,25 @@ export default function Home() {
     const fetchData = async () => {
       try {
         const articlesRes = await fetch(
-          "https://newmmdata-backend.onrender.com/api/articles"
+          "https://api.awes.in/api/articles"
         );
         const articlesData = await articlesRes.json();
         setArticles(articlesData);
 
         const writerRes = await fetch(
-          "https://newmmdata-backend.onrender.com/api/writers"
+          "https://api.awes.in/api/writers"
         );
         const writerData = await writerRes.json();
         setWriter(writerData);
 
         const Bookres = await fetch(
-          "https://newmmdata-backend.onrender.com/api/books"
+          "https://api.awes.in/api/books"
         );
         const BookData = await Bookres.json();
         setBook(BookData);
 
         const Eventres = await fetch(
-          "https://newmmdata-backend.onrender.com/api/events"
+          "https://api.awes.in/api/events"
         );
         const EventData = await Eventres.json();
         setEvent(EventData);
@@ -356,7 +356,7 @@ export default function Home() {
               >
                 <div className="overflow-hidden rounded-xl mb-4">
                   <img
-                    src={`https://newmmdata-backend.onrender.com/api/events/image/${event.id}`}
+                    src={`https://api.awes.in/api/events/image/${event.id}`}
                     alt={event.title}
                     className="w-full h-[160px] object-cover rounded-xl"
                   />
@@ -442,7 +442,7 @@ export default function Home() {
                 className="min-w-[260px] max-w-[260px] h-[480px] bg-[#f1f7ea] rounded-xl py-6 px-4 shadow-sm flex flex-col justify-between items-start flex-shrink-0"
               >
                 <img
-                  src={`https://newmmdata-backend.onrender.com/api/books/cover/${book.id}`}
+                  src={`https://api.awes.in/api/books/cover/${book.id}`}
                   alt={book.title}
                   className="h-[220px] w-[200px] object-contain mb-4 self-center"
                 />
@@ -549,7 +549,7 @@ export default function Home() {
                   <div className="relative h-[200px] w-full cursor-pointer">
                     {article.id && (
                       <img
-                        src={`https://newmmdata-backend.onrender.com/api/articles/image/${article.id}`}
+                        src={`https://api.awes.in/api/articles/image/${article.id}`}
                         alt={article.title}
                         className="object-cover w-full h-full"
                         onError={(e) => {
@@ -665,7 +665,7 @@ export default function Home() {
                 {/* Profile Image */}
                 <div className="bg-white rounded-full border-4 border-green-200 p-1 mb-4">
                   <img
-                    src={`https://newmmdata-backend.onrender.com/api/writers/image/${scholar.id}`}
+                    src={`https://api.awes.in/api/writers/image/${scholar.id}`}
                     alt={scholar.name}
                     className="rounded-full w-24 h-24 object-cover bg-green-100"
                   />
