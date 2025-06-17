@@ -20,7 +20,7 @@ const Requestbook = () => {
     const fetchData = async () => {
       try {
         const booksRes = await fetch(
-          "https://api.awes.in/api/printedBooks"
+          "https://api.minaramasjid.com/api/printedBooks"
         );
         const booksData = await booksRes.json();
         setBook(booksData);

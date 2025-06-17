@@ -19,7 +19,6 @@ import WriterProfile from './component/WriterProfile'
 import NewandEvent from './component/NewandEvent'
 import ContactUs from './component/Contactus'
 import ScrollTop from './component/ScrollToTop'
-import Demo2 from './component/demo2'
 
 
 
@@ -47,7 +46,6 @@ const App = () => {
           <Route path="/writer/:id"  element={<WriterProfile/>} />
           <Route path="/newsandevent"  element={<NewandEvent/>} />
           <Route path="/contact"  element={<ContactUs/>} />
-          <Route path="/demo"  element={<Demo2/>} />
         
          
         

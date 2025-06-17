@@ -18,19 +18,19 @@ export default function WriterProfile() {
     const fetchData = async () => {
       try {
         const writerRes = await fetch(
-          `https://api.awes.in/api/writers/${id}`
+          `https://api.minaramasjid.com/api/writers/${id}`
         );
         const writerData = await writerRes.json();
         setWriter(writerData);
 
         const bookRes = await fetch(
-          `https://api.awes.in/api/books`
+          `https://api.minaramasjid.com/api/books`
         );
         const bookData = await bookRes.json();
         setBook(bookData);
 
         const questionRes = await fetch(
-          `https://api.awes.in/api/questions`
+          `https://api.minaramasjid.com/api/questions`
         );
         const questionData = await questionRes.json();
         setQuestion(questionData);
@@ -71,7 +71,7 @@ export default function WriterProfile() {
               <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full overflow-hidden bg-gray-200">
                 {writer && (
                   <img
-                    src={`https://api.awes.in/api/writers/image/${writer.id}`}
+                    src={`https://api.minaramasjid.com/api/writers/image/${writer.id}`}
                     alt={writer.name}
                     className="w-full h-full object-cover"
                   />
@@ -146,7 +146,7 @@ export default function WriterProfile() {
                 )}
                 <div className="flex justify-center mb-4">
                   <img
-                    src={`https://api.awes.in/api/books/cover/${book.id}`}
+                    src={`https://api.minaramasjid.com/api/books/cover/${book.id}`}
                     alt={book.title}
                     className="h-64 object-contain"
                   />
@@ -180,7 +180,7 @@ export default function WriterProfile() {
                     </button>
                   </Link>
                   <a
-                    href={`https://api.awes.in/api/books/attachment/${book.id}`}
+                    href={`https://api.minaramasjid.com/api/books/attachment/${book.id}`}
                     target="_blank"
                     rel="noopener noreferrer"
                   >

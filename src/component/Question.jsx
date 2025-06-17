@@ -13,7 +13,7 @@ const Question = () => {
     const fetchData = async () => {
       try {
         const questionres = await fetch(
-          "https://api.awes.in/api/questions"
+          "https://api.minaramasjid.com/api/questions"
         );
         const questionData = await questionres.json();
         setQuestion(questionData);

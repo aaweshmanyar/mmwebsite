@@ -15,7 +15,7 @@ export default function Home() {
     const fetchWriter = async () => {
       try {
         const response = await fetch(
-          "https://api.awes.in/api/writers"
+          "https://api.minaramasjid.com/api/writers"
         );
         const data = await response.json();
         console.log("Fetched data:", data);
@@ -187,7 +187,7 @@ export default function Home() {
               >
                 <div className="bg-white rounded-full border-4 border-green-200 p-1 mb-4">
                   <img
-                    src={`https://api.awes.in/api/writers/image/${writer.id}`}
+                    src={`https://api.minaramasjid.com/api/writers/image/${writer.id}`}
                     alt={writer.name}
                     className="rounded-full w-24 h-24 object-cover bg-green-100"
                   />

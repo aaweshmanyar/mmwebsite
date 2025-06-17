@@ -6,9 +6,12 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import bg from "../../public/images/newbg.png";
 import image from "../../public/images/image 2.png";
-import Banner from "../../public/images/banner.png";
+import Banner from "../../public/Sliderimage/banner.png";
+import Banner2 from "../../public/Sliderimage/banner2.jpg";
+import Banner3 from "../../public/Sliderimage/banner3.jpg";
 import about from "../../public/images/about.jpg";
 import Bookimg from "../../public/Aboutimg/bookclm.png";
+import Sampleimg from '../../public/Sliderimage/sampleimg.jpeg'
 
 import { useSearchParams, useNavigate } from "react-router-dom";
 
@@ -37,25 +40,25 @@ export default function Home() {
     const fetchData = async () => {
       try {
         const articlesRes = await fetch(
-          "https://api.awes.in/api/articles"
+          "https://api.minaramasjid.com/api/articles"
         );
         const articlesData = await articlesRes.json();
         setArticles(articlesData);
 
         const writerRes = await fetch(
-          "https://api.awes.in/api/writers"
+          "https://api.minaramasjid.com/api/writers"
         );
         const writerData = await writerRes.json();
         setWriter(writerData);
 
         const Bookres = await fetch(
-          "https://api.awes.in/api/books"
+          "https://api.minaramasjid.com/api/books"
         );
         const BookData = await Bookres.json();
         setBook(BookData);
 
         const Eventres = await fetch(
-          "https://api.awes.in/api/events"
+          "https://api.minaramasjid.com/api/events"
         );
         const EventData = await Eventres.json();
         setEvent(EventData);
@@ -99,15 +102,16 @@ export default function Home() {
           behavior: "smooth",
         });
       }
-    }, 8000);
+    }, 2000);
 
     return () => clearInterval(interval);
   }, []);
 
   const images = [
     Banner,
-    "https://minaramasjid.com/assets/image/slider/slider4.jpg",
-    "https://minaramasjid.com/assets/image/slider/slider3.jpg",
+    Banner2,
+    Banner3
+    
   ];
 
   const [order, setOrder] = useState([0, 1, 2]);
@@ -356,7 +360,7 @@ export default function Home() {
               >
                 <div className="overflow-hidden rounded-xl mb-4">
                   <img
-                    src={`https://api.awes.in/api/events/image/${event.id}`}
+                    src={`https://api.minaramasjid.com/api/events/image/${event.id}`}
                     alt={event.title}
                     className="w-full h-[160px] object-cover rounded-xl"
                   />
@@ -442,7 +446,7 @@ export default function Home() {
                 className="min-w-[260px] max-w-[260px] h-[480px] bg-[#f1f7ea] rounded-xl py-6 px-4 shadow-sm flex flex-col justify-between items-start flex-shrink-0"
               >
                 <img
-                  src={`https://api.awes.in/api/books/cover/${book.id}`}
+                  src={`https://api.minaramasjid.com/api/books/cover/${book.id}`}
                   alt={book.title}
                   className="h-[220px] w-[200px] object-contain mb-4 self-center"
                 />
@@ -549,13 +553,13 @@ export default function Home() {
                   <div className="relative h-[200px] w-full cursor-pointer">
                     {article.id && (
                       <img
-                        src={`https://api.awes.in/api/articles/image/${article.id}`}
+                        src={`https://api.minaramasjid.com/api/articles/image/${article.id}`}
                         alt={article.title}
                         className="object-cover w-full h-full"
                         onError={(e) => {
                           e.target.onerror = null; // Prevent infinite loop
                           e.target.src =
-                            "https://minaramasjid.com/assets/image/default/articles.jpeg";
+                            Sampleimg;
                         }}
                       />
                     )}
@@ -665,7 +669,7 @@ export default function Home() {
                 {/* Profile Image */}
                 <div className="bg-white rounded-full border-4 border-green-200 p-1 mb-4">
                   <img
-                    src={`https://api.awes.in/api/writers/image/${scholar.id}`}
+                    src={`https://api.minaramasjid.com/api/writers/image/${scholar.id}`}
                     alt={scholar.name}
                     className="rounded-full w-24 h-24 object-cover bg-green-100"
                   />

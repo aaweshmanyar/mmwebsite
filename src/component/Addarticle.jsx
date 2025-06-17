@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Search, ChevronDown, Eye, Menu, X } from "lucide-react";
 import Logo from "../../public/images/marclogo.png";
+import Sampleimg from '../../public/Sliderimage/sampleimg.jpeg'
 
 
 const ArticlesPage = () => {
@@ -27,13 +28,13 @@ const ArticlesPage = () => {
       try {
         const [writerRes, translatorRes, languageRes, topicRes, articleRes] =
           await Promise.all([
-            fetch("https://api.awes.in/api/writers"),
-            fetch("https://api.awes.in/api/translators"),
+            fetch("https://api.minaramasjid.com/api/writers"),
+            fetch("https://api.minaramasjid.com/api/translators"),
             fetch(
-              "https://api.awes.in/api/languages/language"
+              "https://api.minaramasjid.com/api/languages/language"
             ),
-            fetch("https://api.awes.in/api/topics"),
-            fetch("https://api.awes.in/api/articles"),
+            fetch("https://api.minaramasjid.com/api/topics"),
+            fetch("https://api.minaramasjid.com/api/articles"),
           ]);
 
         setWriters(await writerRes.json());
@@ -172,13 +173,20 @@ const ArticlesPage = () => {
     }
   }, [articles]); // Add articles as dependency to re-run when articles change
 
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center h-screen bg-slate-100">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-emerald-500"></div>
+ if (loading) {
+  return (
+    <div className="flex flex-col justify-center items-center h-screen bg-slate-100 space-y-6">
+      {/* Spinner */}
+      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-emerald-500"></div>
+
+      {/* Durood Shareef */}
+      <div className="amiri-regular  text-2xl text-emerald-700 font-semibold arabic-text">
+        صَلَّى ٱللّٰهُ عَلَيْهِ وَآلِهِ وَسَلَّمَ
       </div>
-    );
-  }
+    </div>
+  );
+}
+
 
   // Filter articles based on selected filters
   const filteredArticles = articles.filter((article) => {
@@ -630,8 +638,8 @@ const ArticlesPage = () => {
                     <div className="card-image-container relative h-[160px] w-full flex-shrink-0 overflow-hidden">
                       <img
                         src={
-                          `https://api.awes.in/api/articles/image/${article.id}` ||
-                          "https://minaramasjid.com/assets/image/default/articles.jpeg"
+                          `https://api.minaramasjid.com/api/articles/image/${article.id}` ||
+                          Sampleimg
                         }
                         alt={article.title}
                         dir={article.language === "English" ? "rtl" : "ltr"}
@@ -639,7 +647,7 @@ const ArticlesPage = () => {
                         onError={(e) => {
                           e.target.onerror = null; // Prevent infinite loop
                           e.target.src =
-                            "https://minaramasjid.com/assets/image/default/articles.jpeg";
+                            Sampleimg;
                         }}
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>

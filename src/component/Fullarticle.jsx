@@ -11,6 +11,7 @@ import Articleimg1 from "../../public/Articlepage/article1.png";
 import Articleimg2 from "../../public/Articlepage/article2.png";
 import Articleimg3 from "../../public/Articlepage/article3.png";
 import Feedbackform from "../component/Feebackform";
+import Sampleimg from '../../public/Sliderimage/sampleimg.jpeg'
 
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -27,17 +28,17 @@ export default function Home() {
       try {
         setLoading(true); // Start loading
         const res = await fetch(
-          `https://api.awes.in/api/articles/${id}`
+          `https://api.minaramasjid.com/api/articles/${id}`
         );
         const data = await res.json();
         setArticle(data);
 
         const articleres = await fetch(
-          "https://api.awes.in/api/articles"
+          "https://api.minaramasjid.com/api/articles"
         );
         const resdata = await articleres.json();
         setAllarticle(resdata);
-        console.log(resdata);
+        
         setLoading(false); // Done loading
       } catch (err) {
         console.error("Error fetching Article:", err);
@@ -213,7 +214,7 @@ export default function Home() {
         <div className="text-right">
           <p className="text-sm text-gray-600 gulzartext mt-1">استاد اسکالر</p>
           <h2 className="font-extrabold text-xl text-[#4a7031] gulzartext">
-            {article.writers}
+            {article.writers || "مظہر حسین علیم"}
           </h2>
         </div>
         <img
@@ -307,13 +308,13 @@ export default function Home() {
         <div className="md:col-span-1 space-y-6 order-2 md:order-1">
           <div className="bg-white rounded-lg overflow-hidden shadow-lg">
             <img
-              src={`https://api.awes.in/api/articles/image/${article.id}`}
+              src={`https://api.minaramasjid.com/api/articles/image/${article.id}`}
               alt="Book Cover"
               className="w-full h-60 object-cover"
               onError={(e) => {
                 e.target.onerror = null;
                 e.target.src =
-                  "https://minaramasjid.com/assets/image/default/articles.jpeg";
+                  Sampleimg;
               }}
             />
           </div>
@@ -347,13 +348,13 @@ export default function Home() {
                   {/* Top Image with Overlay Text */}
                   <div className="relative h-28 overflow-hidden rounded-t-xl">
                     <img
-                      src={`https://api.awes.in/api/articles/image/${item.id}`}
+                      src={`https://api.minaramasjid.com/api/articles/image/${item.id}`}
                       alt={item.title}
                       className="absolute inset-0 w-full h-full object-cover"
                       onError={(e) => {
                         e.target.onerror = null;
                         e.target.src =
-                          "https://minaramasjid.com/assets/image/default/articles.jpeg";
+                          Sampleimg;
                       }}
                     />
                     <div className="absolute inset-0 bg-black/30"></div>
@@ -414,10 +415,10 @@ export default function Home() {
                 اسلامک اسکالر
               </h1>
               <h2 className="text-xl md:text-2xl font-semibold text-gray-800 mb-4 gulzartext">
-                {article.writers}
+                {article.writers || "مظہر حسین علیم"}
               </h2>
               <p className="text-sm md:text-base text-gray-700 leading-relaxed gulzartext">
-                {article.writers} ایک معروف اسلامی عالم، مدرس اور مصنف ہیں۔ آپ
+                {article.writers || "مظہر حسین علیم"} ایک معروف اسلامی عالم، مدرس اور مصنف ہیں۔ آپ
                 دینی خدمات میں نمایاں شہرت رکھتے ہیں۔ آپ کئی اسلامی تحقیقی کتب
                 کے مصنف ہیں اور مختلف دینی اداروں سے وابستہ رہے ہیں۔ آپ نے
                 اسلامی تعلیمات کو عام فہم انداز میں پیش کرنے کا کام کیا ہے۔ آپ
@@ -464,11 +465,11 @@ export default function Home() {
             >
               <div className="relative h-48">
                 <img
-                  src={`https://api.awes.in/api/articles/image/${item.id}`}
+                  src={`https://api.minaramasjid.com/api/articles/image/${item.id}`}
                   onError={(e) => {
                     e.target.onerror = null;
                     e.target.src =
-                      "https://minaramasjid.com/assets/image/default/articles.jpeg";
+                      Sampleimg;
                   }}
                   alt="Article"
                   fill

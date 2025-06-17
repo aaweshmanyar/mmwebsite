@@ -16,7 +16,7 @@ const QuestionDetail = () => {
     const fetchAllQuestions = async () => {
       try {
         const res = await fetch(
-          "https://api.awes.in/api/questions"
+          "https://api.minaramasjid.com/api/questions"
         );
         const data = await res.json();
         setAllQuestions(data);
@@ -32,7 +32,7 @@ const QuestionDetail = () => {
     const fetchSingleQuestion = async () => {
       try {
         const res = await fetch(
-          `https://api.awes.in/api/questions/${id}`
+          `https://api.minaramasjid.com/api/questions/${id}`
         );
         const data = await res.json(); // Safe to parse now
         setQuestion(data);

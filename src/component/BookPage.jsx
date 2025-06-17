@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import bg from "../../public/images/newbg.png";
 import Logo from "../../public/images/marclogo.png";
+import Sampleimg from '../../public/Sliderimage/sampleimg.jpeg'
 
 export default function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -27,12 +28,10 @@ export default function Home() {
 
         const [writerRes, translatorRes, languageRes, booksRes] =
           await Promise.all([
-            fetch("https://api.awes.in/api/writers"),
-            fetch("https://api.awes.in/api/translators"),
-            fetch(
-              "https://api.awes.in/api/languages/language"
-            ),
-            fetch("https://api.awes.in/api/books"),
+            fetch("https://api.minaramasjid.com/api/writers"),
+            fetch("https://api.minaramasjid.com/api/translators"),
+            fetch("https://api.minaramasjid.com/api/languages/language"),
+            fetch("https://api.minaramasjid.com/api/books"),
           ]);
 
         setWriters(await writerRes.json());
@@ -382,9 +381,13 @@ export default function Home() {
                     }
                   >
                     <img
-                      src={`https://api.awes.in/api/books/cover/${book.id}`}
+                      src={`https://api.minaramasjid.com/api/books/cover/${book.id}`}
                       alt={`Cover of ${book.title}`}
                       className="w-full h-full object-cover"
+                      onError={(e) => {
+                        e.target.onerror = null; // Prevent infinite loop
+                        e.target.src = Sampleimg;
+                      }}
                     />
                   </div>
                   <div className="p-5 flex flex-col flex-grow">
@@ -410,7 +413,7 @@ export default function Home() {
                         Read More
                       </a>
                       <a
-                        href={`https://api.awes.in/api/books/attachment/${book.id}`}
+                        href={`https://api.minaramasjid.com/api/books/attachment/${book.id}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="cursor-pointer bg-amber-400 text-gray-800 px-2.5 py-1 rounded-full text-xs"

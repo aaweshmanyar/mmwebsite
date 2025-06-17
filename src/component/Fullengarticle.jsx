@@ -8,6 +8,7 @@ import user from "../../public/images/user.png";
 import Articleimg1 from "../../public/Articlepage/article1.png";
 import Articleimg2 from "../../public/Articlepage/article2.png";
 import Articleimg3 from "../../public/Articlepage/article3.png";
+import Sampleimg from '../../public/Sliderimage/sampleimg.jpeg'
 
 
 export default function Home() {
@@ -19,13 +20,13 @@ export default function Home() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const articleres = await fetch("https://api.awes.in/api/articles");
+        const articleres = await fetch("https://api.minaramasjid.com/api/articles");
         const articleData = await articleres.json();
         setArticles(articleData);
         console.log("The Article Data: ", articleData);
 
 
-        const writersres = await fetch("https://api.awes.in/api/writers");
+        const writersres = await fetch("https://api.minaramasjid.com/api/writers");
         const writersData = await writersres.json();
         setWriters(writersData);
         

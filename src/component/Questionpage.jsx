@@ -3,6 +3,7 @@ import { Search, ChevronDown, Eye, Menu, X } from "lucide-react";
 import Logo from "../../public/images/marclogo.png";
 import bg from "../../public/images/bg.png";
 import { useNavigate } from "react-router-dom";
+import sampleimg from "../../public/Sliderimage/sampleimg.jpeg";
 
 const EnhancedUIDesign = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -37,7 +38,7 @@ const EnhancedUIDesign = () => {
     const fetchQuestions = async () => {
       try {
         const response = await fetch(
-          "https://api.awes.in/api/questions"
+          "https://api.minaramasjid.com/api/questions"
         );
         const data = await response.json();
         setQuestions(data);
@@ -359,7 +360,15 @@ const EnhancedUIDesign = () => {
           }`}
         >
           {loading ? (
-            <p className="text-center text-slate-600">Loading...</p>
+            <div className="flex flex-col justify-center items-center h-screen bg-slate-100 space-y-6">
+              {/* Spinner */}
+              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-emerald-500"></div>
+
+              {/* Durood Shareef */}
+              <div className="amiri-regular  text-2xl text-emerald-700 font-semibold arabic-text">
+                صَلَّى ٱللّٰهُ عَلَيْهِ وَآلِهِ وَسَلَّمَ
+              </div>
+            </div>
           ) : (
             filteredQuestions.map((card, index) => (
               <div

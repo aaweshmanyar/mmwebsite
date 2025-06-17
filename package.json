@@ -10,8 +10,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@radix-ui/react-dialog": "^1.1.14",
     "@tailwindcss/vite": "^4.1.4",
-    "axios": "^1.9.0",
+    "axios": "^1.10.0",
     "gsap": "^3.13.0",
     "he": "^1.2.0",
     "html2canvas": "^1.4.1",
@@ -22,7 +23,8 @@
     "react-quill": "^2.0.0",
     "react-router-dom": "^7.5.3",
     "react-slick": "^0.30.3",
-    "slick-carousel": "^1.8.1"
+    "slick-carousel": "^1.8.1",
+    "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
     "@eslint/js": "^9.22.0",
