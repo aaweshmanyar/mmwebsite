@@ -6,6 +6,7 @@ import image4 from "../../public/Aboutcenter/about4.png";
 import bg from "../../public/images/bg.png";
 import Userimg from "../../public/Scholar/user.png";
 import Navbar from "./Navbar/Navbar";
+import { useNavigate } from "react-router-dom";
 
 export default function Home() {
   const [activeLang, setActiveLang] = useState("en");
@@ -18,17 +19,17 @@ export default function Home() {
           "https://api.minaramasjid.com/api/writers"
         );
         const data = await response.json();
-        console.log("Fetched data:", data);
+        // console.log("Fetched data:", data);
         setWriter(data); // assuming API returns { questions: [...] }
       } catch (error) {
         console.error("Failed to fetch questions:", error);
-      } finally {
-        setLoading(false);
-      }
+      } 
     };
 
     fetchWriter();
   }, []);
+
+  const navigate = useNavigate();
 
   const sections = [
     {
@@ -65,6 +66,9 @@ export default function Home() {
     },
   ];
 
+    const slugify = (text) =>
+  text.toLowerCase().replace(/\s+/g, '-').replace(/[^\w\-]+/g, '');
+
   return (
     <main
       className="min-h-screen bg-repeat bg-opacity-80 relative"
@@ -75,7 +79,7 @@ export default function Home() {
       }}
     >
       <Navbar />
-      <div className="absolute inset-0 z-0 opacity-20" />
+      <div className="absolute inset-0 z-0 opacity-20 pointer-events-none" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 py-16">
         <header className="text-center mb-20">
@@ -97,11 +101,10 @@ export default function Home() {
           {sections.map((section) => (
             <div
               key={section.id}
-              className={`relative flex flex-col ${
-                section.imgPosition === "right"
+              className={`relative flex flex-col ${section.imgPosition === "right"
                   ? "md:flex-row-reverse"
                   : "md:flex-row"
-              } items-center gap-8`}
+                } items-center gap-8`}
             >
               <div className="w-full md:w-1/3 relative">
                 <div className="relative aspect-square rounded-lg overflow-hidden shadow-xl border-4 border-white">
@@ -145,9 +148,8 @@ export default function Home() {
 
                         {/* Sliding indicator with active text */}
                         <div
-                          className={`absolute top-[2px] ${
-                            activeLang === "ur" ? "right-2" : "left-2"
-                          } w-[40%] h-[80%] bg-[#d4a762] text-white flex items-center justify-center text-sm font-semibold rounded-full transition-all duration-300 z-10`}
+                          className={`absolute top-[2px] ${activeLang === "ur" ? "right-2" : "left-2"
+                            } w-[40%] h-[80%] bg-[#d4a762] text-white flex items-center justify-center text-sm font-semibold rounded-full transition-all duration-300 z-10`}
                         >
                           {activeLang === "ur" ? "اردو" : "English"}
                         </div>
@@ -159,9 +161,8 @@ export default function Home() {
                     {section.title}
                   </h2>
                   <p
-                    className={`text-[#555] gulzartext leading-relaxed text-base md:text-lg whitespace-pre-wrap ${
-                      activeLang === "ur" ? "text-right" : ""
-                    }`}
+                    className={`text-[#555] gulzartext leading-relaxed text-base md:text-lg whitespace-pre-wrap ${activeLang === "ur" ? "text-right" : ""
+                      }`}
                     dir={activeLang === "ur" ? "rtl" : "ltr"}
                   >
                     {activeLang === "ur" ? section.ur : section.en}
@@ -199,8 +200,11 @@ export default function Home() {
                   Islamic Scholar
                 </p>
                 <a
-                  href="/writer"
-                  className=" text-[14px] font-semibold text-black hover:underline "
+                  onClick={(e) => {
+                    e.preventDefault();
+                    navigate(`/writer/${writer.id}/${slugify(writer.name)}`);
+                  }}
+                  className="text-[14px] font-semibold text-black hover:underline"
                   style={{ cursor: "pointer" }}
                 >
                   View Profile
