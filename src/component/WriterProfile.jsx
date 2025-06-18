@@ -233,6 +233,7 @@ export default function WriterProfile() {
             {question.slice(0, 4).map((questionItem) => (
               <div
                 key={questionItem.id}
+                onClick={() => navigate("/question")}
                 className="cursor-pointer bg-white shadow-sm border-0 rounded-lg overflow-hidden"
               >
                 <div className="p-6">

@@ -144,6 +144,11 @@ export default function Home() {
     return () => clearInterval(interval); // Clear on unmount
   }, []);
 
+
+  const slugify = (text) =>
+  text.toLowerCase().replace(/\s+/g, '-').replace(/[^\w\-]+/g, '');
+
+
   return (
     <main
       className="min-h-screen  bg-opacity-80  bg-repeat "
@@ -663,7 +668,7 @@ export default function Home() {
             {writer.map((scholar, index) => (
               <div
                 key={index}
-                onClick={() => navigate(`/writer/${scholar.id}`)}
+                onClick={() => navigate(`/writer/${scholar.id}/${slugify(scholar.name)}`)}
                 className="bg-white rounded-xl shadow-sm px-6 py-8 flex flex-col items-center"
               >
                 {/* Profile Image */}
