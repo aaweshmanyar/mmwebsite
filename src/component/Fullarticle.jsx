@@ -88,6 +88,17 @@ export default function Home() {
 
   const navigate = useNavigate();
 
+
+  const slugify = (text) =>
+  text
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, '-')                    // Replace spaces with hyphens
+    .replace(/[.,\/#!$%\^&\*;:{}=\_`~()؟“”"']/g, '')  // Remove punctuation
+    .replace(/[-]+/g, '-');                  // Replace multiple hyphens with single
+
+
+
   return (
     <main className="min-h-screen bg-[#f0f5e9] bg-cover z-10">
       <div
@@ -342,7 +353,8 @@ export default function Home() {
               return (
                 <div
                   key={index}
-                  onClick={() => navigate(`/detailarticle/${item.id}`)}
+                  onClick={() => navigate(`/detailarticle/${item.id}/${slugify(item.title)}`)}
+
                   className="rounded-xl overflow-hidden bg-[#ecf1e1] cursor-pointer"
                 >
                   {/* Top Image with Overlay Text */}
@@ -460,7 +472,7 @@ export default function Home() {
           {midArticles.map((item, index) => (
             <div
               key={index}
-              onClick={() => navigate(`/detailarticle/${item.id}`)}
+              onClick={() => navigate(`/detailarticle/${item.id}/${slugify(item.title)}`)}
               className="rounded-xl overflow-hidden shadow-sm border border-gray-200"
             >
               <div className="relative h-48">

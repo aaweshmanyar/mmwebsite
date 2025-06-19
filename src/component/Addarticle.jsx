@@ -290,6 +290,16 @@ const ArticlesPage = () => {
     );
   }
 
+
+const slugify = (text) =>
+  text
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, '-')                    // Replace spaces with hyphens
+    .replace(/[.,\/#!$%\^&\*;:{}=\_`~()؟“”"']/g, '')  // Remove punctuation
+    .replace(/[-]+/g, '-');                  // Replace multiple hyphens with single
+
+
   return (
     <div className="bg-slate-100">
       <Navbar/>
@@ -521,7 +531,7 @@ const ArticlesPage = () => {
                 <div
                   key={article._id}
                   className="article-card group bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ease-in-out flex flex-col cursor-pointer"
-                  onClick={() => navigate(`/detailarticle/${article.id}`)}
+                  onClick={() => navigate(`/detailarticle/${article.id}/${slugify(article.title)}`)}
                 >
                   <div className="card-image-container relative h-[160px] w-full flex-shrink-0 overflow-hidden">
                     <img

@@ -59,6 +59,15 @@ const QuestionDetail = () => {
 
   const slideQuestion = allQuestions.slice(1, 13);
 
+  
+  const slugify = (text) =>
+  text
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, '-')                    // Replace spaces with hyphens
+    .replace(/[.,\/#!$%\^&\*;:{}=\_`~()؟“”"']/g, '')  // Remove punctuation
+    .replace(/[-]+/g, '-');   
+
   return (
     <main className="min-h-screen bg-[#f0f2e6] relative">
       <header className="bg-[#718e56] sticky top-0 z-50 shadow-md border-b border-green-100">
@@ -246,7 +255,9 @@ const QuestionDetail = () => {
             {allQuestions.slice(0, 5).map((q, idx) => (
               <div
                 key={q.id || idx}
-                onClick={() => navigate(`/question/${q.id}`)}
+                // onClick={() => navigate(`/question/${q.id}`)}
+                onClick={() => navigate(`/question/${q.id}/${slugify(q.slug)}`)}
+
                 className="border-b border-green-200 pb-4 last:border-b-0"
               >
                 <div className="flex justify-end mb-2">
@@ -319,7 +330,9 @@ const QuestionDetail = () => {
             {allQuestions.slice(1, 14).map((q, idx) => (
               <div
                 key={q._id}
-                onClick={() => navigate(`/question/${q.id}`)}
+                // onClick={() => navigate(`/question/${q.id}`)}
+                onClick={() => navigate(`/question/${q.id}/${slugify(q.slug)}`)}
+
                 className="bg-[#eaf3df] rounded-xl p-4 cursor-pointer"
               >
                 <div className="flex justify-end mb-3">

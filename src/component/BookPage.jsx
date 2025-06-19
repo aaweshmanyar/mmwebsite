@@ -1,4 +1,4 @@
-import { Search, ChevronRight, Menu, X, ArrowDownToLine } from "lucide-react";
+import { Search, ChevronRight, ChevronDown, Menu, X, ArrowDownToLine } from "lucide-react";
 import React, { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import bg from "../../public/images/newbg.png";
@@ -27,49 +27,49 @@ export default function Home() {
   });
 
   // Fetch data from API
- useEffect(() => {
-  const fetchData = async () => {
-    try {
-      setLoading(true);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
 
-      const [writerRes, translatorRes, languageRes, booksRes] =
-        await Promise.all([
-          fetch("https://api.minaramasjid.com/api/writers"),
-          fetch("https://api.minaramasjid.com/api/translators"),
-          fetch("https://api.minaramasjid.com/api/languages/language"),
-          fetch("https://api.minaramasjid.com/api/books"),
-        ]);
+        const [writerRes, translatorRes, languageRes, booksRes] =
+          await Promise.all([
+            fetch("https://api.minaramasjid.com/api/writers"),
+            fetch("https://api.minaramasjid.com/api/translators"),
+            fetch("https://api.minaramasjid.com/api/languages/language"),
+            fetch("https://api.minaramasjid.com/api/books"),
+          ]);
 
-      const writersData = await writerRes.json();
-      const translatorsData = await translatorRes.json();
-      const languagesData = await languageRes.json();
-      const booksData = await booksRes.json();
+        const writersData = await writerRes.json();
+        const translatorsData = await translatorRes.json();
+        const languagesData = await languageRes.json();
+        const booksData = await booksRes.json();
 
-      // Set writers - extract names from objects
-      // const uniqueWriters = [...new Set(writersData.map(writer => writer.name))].filter(Boolean);
-      setWriters(writersData);
+        // Set writers - extract names from objects
+        // const uniqueWriters = [...new Set(writersData.map(writer => writer.name))].filter(Boolean);
+        setWriters(writersData);
 
-      // Set translators - extract names from objects
-      const uniqueTranslators = [...new Set(translatorsData.map(t => t.name))].filter(Boolean);
-      setTranslators(uniqueTranslators);
+        // Set translators - extract names from objects
+        // const uniqueTranslators = [...new Set(translatorsData.map(t => t.name))].filter(Boolean);
+        setTranslators(translatorsData);
 
-      // Set languages - extract language from objects
-      const uniqueLanguages = [...new Set(languagesData.map(lang => lang.language))].filter(Boolean);
-      setLanguages(uniqueLanguages);
+        // Set languages - extract language from objects
+        // const uniqueLanguages = [...new Set(languagesData.map(lang => lang.language))].filter(Boolean);
+        setLanguages(languagesData);
 
-      setAllBooks(booksData);
-      setFilteredBooks(booksData);
-      setDisplayedBooks(booksData.slice(0, booksPerPage));
-      setHasMore(booksData.length > booksPerPage);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
+        setAllBooks(booksData);
+        setFilteredBooks(booksData);
+        setDisplayedBooks(booksData.slice(0, booksPerPage));
+        setHasMore(booksData.length > booksPerPage);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  fetchData();
-}, []);
+    fetchData();
+  }, []);
 
   // Update filters and apply them
   const updateFilter = (filterName, value) => {
@@ -81,46 +81,6 @@ export default function Home() {
     applyFilters(newFilters);
   };
 
-  // Apply all filters to the books
-  const applyFilters = useCallback(
-    (filters) => {
-      let result = [...allBooks];
-
-      // Filter by writer
-      if (filters.writer) {
-        result = result.filter((book) => book.author === filters.writer);
-      }
-
-      // Filter by translator
-      if (filters.translator) {
-        result = result.filter(
-          (book) => book.translator === filters.translator
-        );
-      }
-
-      // Filter by language
-      if (filters.language) {
-        result = result.filter((book) => book.language === filters.language);
-      }
-
-      // Sort books
-      if (filters.sorting === "latest") {
-        result.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-      } else if (filters.sorting === "oldest") {
-        result.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
-      } else if (filters.sorting === "title-asc") {
-        result.sort((a, b) => a.title.localeCompare(b.title));
-      } else if (filters.sorting === "title-desc") {
-        result.sort((a, b) => b.title.localeCompare(a.title));
-      }
-
-      setFilteredBooks(result);
-      setDisplayedBooks(result.slice(0, booksPerPage));
-      setPage(1);
-      setHasMore(result.length > booksPerPage);
-    },
-    [allBooks]
-  );
 
   // Load more books when scrolling
   const loadMoreBooks = useCallback(() => {
@@ -168,11 +128,60 @@ export default function Home() {
     setActiveButton("list");
   };
 
+  const applyFilters = (filters) => {
+    let filtered = [...allBooks];
+
+    if (filters.writer) {
+  filtered = filtered.filter(
+    (book) =>
+      book.author?.trim().toLowerCase() === filters.writer.trim().toLowerCase()
+  );
+}
+
+    if (filters.translator) {
+      filtered = filtered.filter(
+        (book) => book.translator?.name?.toLowerCase() === filters.translator.toLowerCase()
+      );
+    }
+
+    if (filters.language) {
+      filtered = filtered.filter(
+        (book) => book.language?.toLowerCase() === filters.language.toLowerCase()
+      );
+    }
+
+    // Sorting
+    if (filters.sorting === "latest") {
+      filtered.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    } else if (filters.sorting === "oldest") {
+      filtered.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+    } else if (filters.sorting === "title-asc") {
+      filtered.sort((a, b) => a.title.localeCompare(b.title));
+    } else if (filters.sorting === "title-desc") {
+      filtered.sort((a, b) => b.title.localeCompare(a.title));
+    }
+
+    setFilteredBooks(filtered);
+    setDisplayedBooks(filtered.slice(0, booksPerPage));
+    setPage(1);
+    setHasMore(filtered.length > booksPerPage);
+  };
+
+
+  const slugify = (text) =>
+  text
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, '-')                    // Replace spaces with hyphens
+    .replace(/[.,\/#!$%\^&\*;:{}=\_`~()؟“”"']/g, '')  // Remove punctuation
+    .replace(/[-]+/g, '-');                  // Replace multiple hyphens with single
+
+
   return (
     <main className="min-h-screen bg-cover bg-center bg-no-repeat flex flex-col relative">
       {/* Background Image Layer */}
       <div
-        className="fixed inset-0 bg-cover bg-center bg-no-repeat opacity-100 z-10"
+        className=" inset-0 bg-cover bg-center bg-no-repeat opacity-100 z-10"
         style={{ backgroundImage: `url(${bg})` }}
       ></div>
 
@@ -250,9 +259,8 @@ export default function Home() {
 
           {/* Mobile Dropdown Menu */}
           <div
-            className={`md:hidden transition-all overflow-hidden ${
-              menuOpen ? "max-h-screen opacity-100" : "max-h-0 opacity-0"
-            }`}
+            className={`md:hidden transition-all overflow-hidden ${menuOpen ? "max-h-screen opacity-100" : "max-h-0 opacity-0"
+              }`}
           >
             <div className="flex flex-col gap-3 py-4 px-2 bg-white text-gray-700 rounded-b-xl">
               <a
@@ -309,7 +317,7 @@ export default function Home() {
       </header>
 
       {/* Main Content */}
-      <div className="bg-slate-100 text-gray-700 antialiased">
+      <div className="bg-slate-100 text-gray-700 antialiased ">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-20">
           {/* Hero Section */}
           <section className="py-12 mb-10 text-center">
@@ -349,88 +357,105 @@ export default function Home() {
 
           {/* Filters */}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mb-10">
+            {/* Writer */}
             <div>
-              <label className="text-sm text-green-700 font-semibold mb-1.5 block text-left">
+              <label className=" block mb-1 font-medium text-slate-700 gulzartext text-sm">
                 Writer
               </label>
-              <select
-                value={selectedFilters.writer}
-                onChange={(e) => updateFilter("writer", e.target.value)}
-                className="w-full border-gray-300 rounded-lg px-4 py-2.5 text-sm bg-white text-gray-700 focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none shadow-sm transition-shadow"
-              >
-                <option value="">All Writers</option>
-                {writers.map((writer, index) => (
-                  <option key={index} value={writer.name}>
-                    {writer.name}
-                
-                  </option>
-                ))}
-              </select>
+              <div className="relative cursor-pointer">
+                <select
+                  className="appearance-none bg-slate-50 cursor-pointer w-full border border-slate-300 rounded-md py-2 px-3 text-slate-700 gulzartext focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition"
+                  value={selectedFilters.writer}
+                  onChange={(e) => updateFilter("writer", e.target.value)}
+                >
+                  <option value="" >All Writers</option>
+                  {writers.map((writer) => (
+                    <option key={writer._id} value={writer.name}>
+                      {writer.name}
+                    </option>
+                  ))}
+                </select>
+                <ChevronDown className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-700" />
+              </div>
             </div>
 
+
+            {/* Translator */}
             <div>
-              <label className="text-sm text-green-700 font-semibold mb-1.5 block text-left">
+              <label className="block mb-1 font-medium text-slate-700 gulzartext text-sm">
                 Translator
               </label>
-              <select
-                value={selectedFilters.translator}
-                onChange={(e) => updateFilter("translator", e.target.value)}
-                className="w-full border-gray-300 rounded-lg px-4 py-2.5 text-sm bg-white text-gray-700 focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none shadow-sm transition-shadow"
-              >
-                <option value="">All Translators</option>
-                {translators.map((translator, index) => (
-                  <option key={index} value={translator}>
-                    {translator}
-                  </option>
-                ))}
-              </select>
+              <div className="relative">
+                <select
+                  className="appearance-none bg-slate-50 w-full border border-slate-300 rounded-md py-2 px-3 text-slate-700 gulzartext focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition"
+                  value={selectedFilters.translator}
+                  onChange={(e) => updateFilter("translator", e.target.value)}
+                >
+                  <option value="">All Translators</option>
+                  {translators.map((translator) => (
+                    <option key={translator.id} value={translator.name}>
+                      {translator.name}
+                    </option>
+                  ))}
+                </select>
+                <ChevronDown className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-700" />
+              </div>
             </div>
 
+            {/* Language */}
             <div>
-              <label className="text-sm text-green-700 font-semibold mb-1.5 block text-left">
+              <label className="block mb-1 font-medium text-slate-700 gulzartext text-sm">
                 Language
               </label>
-              <select
-                value={selectedFilters.language}
-                onChange={(e) => updateFilter("language", e.target.value)}
-                className="w-full border-gray-300 rounded-lg px-4 py-2.5 text-sm bg-white text-gray-700 focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none shadow-sm transition-shadow"
-              >
-                <option value="">All Languages</option>
-                {languages.map((lang, index) => (
-                  <option key={index} value={lang}>
-                    {lang}
-                  </option>
-                ))}
-              </select>
+              <div className="relative">
+                <select
+                  className="appearance-none bg-slate-50 w-full border border-slate-300 rounded-md py-2 px-3 text-slate-700 gulzartext focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition"
+                  value={selectedFilters.language}
+                  onChange={(e) => updateFilter("language", e.target.value)}
+                >
+                  <option value="">All Languages</option>
+                  {languages.map((lang) => (
+                    <option key={lang.id} value={lang.language}>
+                      {lang.language}
+                    </option>
+                  ))}
+                </select>
+                <ChevronDown className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-700" />
+              </div>
             </div>
 
+            {/* Sorting */}
             <div>
-              <label className="text-sm text-green-700 font-semibold mb-1.5 block text-left">
+              <label className="block mb-1 font-medium text-slate-700 gulzartext text-sm">
                 Sort By
               </label>
-              <select
-                value={selectedFilters.sorting}
-                onChange={(e) => updateFilter("sorting", e.target.value)}
-                className="w-full border-gray-300 rounded-lg px-4 py-2.5 text-sm bg-white text-gray-700 focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none shadow-sm transition-shadow"
-              >
-                <option value="latest">Latest</option>
-                <option value="oldest">Oldest</option>
-                <option value="title-asc">Title (A-Z)</option>
-                <option value="title-desc">Title (Z-A)</option>
-              </select>
+              <div className="relative">
+                <select
+                  className="appearance-none bg-slate-50 w-full border border-slate-300 rounded-md py-2 px-3 text-slate-700 gulzartext focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition"
+                  value={selectedFilters.sorting}
+                  onChange={(e) => updateFilter("sorting", e.target.value)}
+                >
+                  <option value="latest">Latest</option>
+                  <option value="oldest">Oldest</option>
+                  <option value="title-asc">Title (A-Z)</option>
+                  <option value="title-desc">Title (Z-A)</option>
+                </select>
+                <ChevronDown className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-700" />
+              </div>
             </div>
           </div>
+
+
 
           {/* Layout Toggle */}
           <div className="flex justify-end items-center mb-8 space-x-3">
             <button
               id="gridViewBtn"
               onClick={applyGridView}
-              className={`toggle-button p-2.5 rounded-full ${
-                viewMode === "grid"
-                  ? "bg-green-600 text-white active"
-                  : "bg-white text-gray-500 hover:bg-gray-100"
-              }`}
+              className={`toggle-button p-2.5 rounded-full ${viewMode === "grid"
+                ? "bg-green-600 text-white active"
+                : "bg-white text-gray-500 hover:bg-gray-100"
+                }`}
               title="Grid view"
             >
               <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -440,11 +465,10 @@ export default function Home() {
             <button
               id="listViewBtn"
               onClick={applyListView}
-              className={`toggle-button p-2.5 rounded-full ${
-                viewMode === "list"
-                  ? "bg-green-600 text-white active"
-                  : "bg-white text-gray-500 hover:bg-gray-100"
-              }`}
+              className={`toggle-button p-2.5 rounded-full ${viewMode === "list"
+                ? "bg-green-600 text-white active"
+                : "bg-white text-gray-500 hover:bg-gray-100"
+                }`}
               title="List view"
             >
               <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -459,11 +483,10 @@ export default function Home() {
 
           {/* Books Display */}
           <div
-            className={`${
-              viewMode === "grid"
-                ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
-                : "flex flex-col space-y-6"
-            } mb-10`}
+            className={`${viewMode === "grid"
+              ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
+              : "flex flex-col space-y-6"
+              } mb-10`}
           >
             {loading ? (
               <div className="col-span-full flex justify-center py-10">
@@ -479,11 +502,10 @@ export default function Home() {
               displayedBooks.map((book) => (
                 <div
                   key={book._id}
-                  className={`bg-white rounded-xl shadow-lg overflow-hidden ${
-                    viewMode === "grid"
-                      ? "flex flex-col"
-                      : "sm:flex sm:max-h-40"
-                  }`}
+                  className={`bg-white rounded-xl shadow-lg overflow-hidden ${viewMode === "grid"
+                    ? "flex flex-col"
+                    : "sm:flex sm:max-h-40"
+                    }`}
                 >
                   <div
                     className={
@@ -506,7 +528,7 @@ export default function Home() {
                     <h3 className="text-green-700 text-lg font-semibold mb-1.5 gulzartext">
                       {book.title}
                     </h3>
-                    <p className="text-xs text-gray-500 mb-0.5 font-bold">
+                    {/* <p className="text-xs text-gray-500 mb-0.5 font-bold">
                       Writer
                     </p>
                     <p className="text-sm text-gray-600 truncate mb-2.5">
@@ -521,7 +543,29 @@ export default function Home() {
                           {book.translator}
                         </p>
                       </>
-                    )}
+                    )} */}
+                    {/* {!(book.author === "Author Placeholder" && book.translator === "Translator Placeholder") && (
+                      <>
+                        <p className="text-xs text-gray-500 mb-0.5 font-bold">
+                          Writer
+                        </p>
+                        <p className="text-sm text-gray-600 truncate mb-2.5">
+                          {book.author}
+                        </p>
+
+                        {book.translator && (
+                          <>
+                            <p className="text-xs text-gray-500 mb-0.5 font-bold">
+                              Translator
+                            </p>
+                            <p className="text-sm text-gray-600 truncate mb-2.5">
+                              {book.translator}
+                            </p>
+                          </>
+                        )}
+                      </>
+                    )} */}
+
                     <div className="mb-4">
                       <span className="text-xs bg-amber-100 text-amber-700 border border-amber-200 px-2.5 py-0.5 rounded-full font-medium">
                         {book.language}
@@ -529,7 +573,7 @@ export default function Home() {
                     </div>
                     <div className="mt-auto flex gap-2">
                       <a
-                        href={`/bookdetail/${book.id}`}
+                        href={`/bookdetail/${book.id}/${slugify(book.title)}`}
                         className="cursor-pointer bg-green-600 text-white px-2.5 py-1 rounded-full text-xs"
                       >
                         Read More

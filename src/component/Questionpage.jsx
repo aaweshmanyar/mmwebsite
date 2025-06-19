@@ -42,6 +42,7 @@ const EnhancedUIDesign = () => {
         );
         const data = await response.json();
         setQuestions(data);
+   
       } catch (error) {
         console.error("Failed to fetch questions:", error);
       } finally {
@@ -58,6 +59,17 @@ const EnhancedUIDesign = () => {
   });
 
   const navigate = useNavigate();
+
+
+  const slugify = (text) =>
+  text
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, '-')                    // Replace spaces with hyphens
+    .replace(/[.,\/#!$%\^&\*;:{}=\_`~()؟“”"']/g, '')  // Remove punctuation
+    .replace(/[-]+/g, '-');                  // Replace multiple hyphens with single
+
+
 
   return (
     <div className="bg-slate-50 text-slate-800">
@@ -126,12 +138,12 @@ const EnhancedUIDesign = () => {
                 About
               </a>
               <a
-                href="/newsandevent"
+                href="/books"
                 className="hover:bg-[#4f6639] px-4 py-2 rounded"
               >
                 Books
               </a>
-              <a href="/books" className="hover:bg-[#4f6639] px-4 py-2 rounded">
+              <a href="/newsandevent" className="hover:bg-[#4f6639] px-4 py-2 rounded">
                 News & Event
               </a>
               <a
@@ -373,7 +385,9 @@ const EnhancedUIDesign = () => {
             filteredQuestions.map((card, index) => (
               <div
                 key={card._id}
-                onClick={() => navigate(`/question/${card.id}`)}
+                // onClick={() => navigate(`/question/${card.id}`)}
+                onClick={() => navigate(`/question/${card.id}/${slugify(card.slug)}`)}
+
                 className={`card-item bg-white rounded-xl shadow-lg p-5 flex cursor-pointer w-full transition-all duration-300 ease-in-out hover:shadow-2xl hover:-translate-y-1 ${
                   viewMode === "list" ? "flex-row items-center" : "flex-col"
                 }`}
