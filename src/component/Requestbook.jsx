@@ -1,8 +1,8 @@
-// import bg from "../../public/images/bg.png";
-// import Logo from "../../public/images/marclogo.png";
+import bg from "../../public/images/bg.png";
+import Logo from "../../public/images/marclogo.png";
 import React, { useState, useEffect } from "react";
 import { Check, Menu, X, Search } from "lucide-react";
-// import QrCode from "../../public/images/fake-qr.jpg";
+import QrCode from "../../public/images/qr.jpg";
 
 const Requestbook = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -159,6 +159,7 @@ const Requestbook = () => {
           {/* Logo */}
           <div className="absolute left-1/2 transform -translate-x-1/2 -bottom-14 z-30 bg-white rounded-full p-1 shadow-md">
             <img
+            src={Logo}
               alt="Logo"
               className="w-20 h-20 object-contain rounded-full"
             />
@@ -368,6 +369,7 @@ const Requestbook = () => {
               </p>
               <div className="flex justify-center mt-4">
                 <img
+                src={QrCode}
                   alt="Donation QR Code"
                   className="w-28 h-28 object-contain"
                 />

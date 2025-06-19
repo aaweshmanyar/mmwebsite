@@ -3,9 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { Search, ChevronDown, Eye, Menu, X } from "lucide-react";
 import Logo from "../../public/images/marclogo.png";
 import Sampleimg from '../../public/Sliderimage/sampleimg.jpeg';
+import bg from "../../public/images/newbg.png";
+import Navbar from '../component/Navbar/Navbar'
 
 const ArticlesPage = () => {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [writers, setWriters] = useState([]);
   const [translators, setTranslators] = useState([]);
   const [languages, setLanguages] = useState([]);
@@ -45,6 +46,7 @@ const ArticlesPage = () => {
         setLanguages(await languageRes.json());
         setTopics(await topicRes.json());
         const articlesData = await articleRes.json();
+        console.log(articlesData)
         setAllArticles(articlesData);
         setFilteredArticles(articlesData); // Initially set filtered articles to all articles
         // Initially load first 4 articles
@@ -290,75 +292,7 @@ const ArticlesPage = () => {
 
   return (
     <div className="bg-slate-100">
-      <header className="relative z-50 bg-[#718e56] text-white">
-        <div className="max-w-[1200px] mx-auto px-4 py-3 flex items-center justify-between relative">
-          <button
-            className="md:hidden text-white z-20"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          >
-            {mobileMenuOpen ? (
-              <X className="w-6 h-6" />
-            ) : (
-              <Menu className="w-6 h-6" />
-            )}
-          </button>
-
-          <nav className="hidden md:flex items-center space-x-6 text-[15px] font-medium">
-            <a href="/" className="hover:text-amber-300">Home</a>
-            <a href="/about" className="hover:text-amber-300">About</a>
-            <a href="/newsandevent" className="hover:text-amber-300">News & Events</a>
-            <a href="/books" className="hover:text-amber-300">Books</a>
-          </nav>
-
-          <div className="absolute left-1/2 transform -translate-x-1/2 -bottom-14 z-30 bg-white rounded-full p-1 shadow-md">
-            <img
-              src={Logo}
-              alt="Logo"
-              className="w-20 h-20 object-contain rounded-full"
-            />
-          </div>
-
-          <div className="hidden md:flex items-center space-x-5 font-medium text-[15px]">
-            <a href="/article" className="hover:text-amber-300">Articles</a>
-            <a href="/question" className="hover:text-amber-300">Question Answer</a>
-            <a href="/requestbook" className="hover:text-amber-300">Request a Book</a>
-            <a href="/contact" className="hover:text-amber-300">Contact</a>
-          </div>
-        </div>
-
-        {mobileMenuOpen && (
-          <div className="fixed inset-0 z-40 flex">
-            <div
-              className="fixed inset-0 bg-black bg-opacity-30"
-              onClick={() => setMobileMenuOpen(false)}
-            />
-            <div className="relative w-1/2 h-full bg-[#718e56] p-4 space-y-4 text-[15px] font-medium z-50">
-              <button
-                onClick={() => setMobileMenuOpen(false)}
-                className="absolute top-4 right-4 text-white"
-              >
-                <X className="w-5 h-5" />
-              </button>
-              <a href="/" className="block hover:text-white">Home</a>
-              <a href="/about" className="block hover:text-white">About</a>
-              <a href="/newsandevent" className="block hover:text-white">News & Events</a>
-              <a href="/books" className="block hover:text-white">Books</a>
-              <a href="/article" className="block hover:text-white">Articles</a>
-              <a href="/question" className="block hover:text-white">Question Answer</a>
-              <a href="/requestbook" className="block hover:text-white">Request a Book</a>
-              <a href="/contact" className="block hover:text-white">Contact</a>
-              <div className="flex items-center bg-white rounded-full px-3 py-1 mt-2 w-full">
-                <input
-                  type="text"
-                  placeholder="Search"
-                  className="cursor-pointer bg-transparent outline-none text-black text-sm w-full"
-                />
-                <Search className="w-4 h-4 text-black ml-2" />
-              </div>
-            </div>
-          </div>
-        )}
-      </header>
+      <Navbar/>
 
       <div className="relative z-10 container mx-auto px-4 py-8">
         <header className="text-center mb-10">
