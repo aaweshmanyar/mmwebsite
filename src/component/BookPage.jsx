@@ -27,58 +27,49 @@ export default function Home() {
   });
 
   // Fetch data from API
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true);
+ useEffect(() => {
+  const fetchData = async () => {
+    try {
+      setLoading(true);
 
-        const [writerRes, translatorRes, languageRes, booksRes] =
-          await Promise.all([
-            fetch("https://api.minaramasjid.com/api/writers"),
-            fetch("https://api.minaramasjid.com/api/translators"),
-            fetch("https://api.minaramasjid.com/api/languages/language"),
-            fetch("https://api.minaramasjid.com/api/books"),
-          ]);
+      const [writerRes, translatorRes, languageRes, booksRes] =
+        await Promise.all([
+          fetch("https://api.minaramasjid.com/api/writers"),
+          fetch("https://api.minaramasjid.com/api/translators"),
+          fetch("https://api.minaramasjid.com/api/languages/language"),
+          fetch("https://api.minaramasjid.com/api/books"),
+        ]);
 
-        const writersData = await writerRes.json();
-        const translatorsData = await translatorRes.json();
-        const languagesData = await languageRes.json();
-        const booksData = await booksRes.json();
+      const writersData = await writerRes.json();
+      const translatorsData = await translatorRes.json();
+      const languagesData = await languageRes.json();
+      const booksData = await booksRes.json();
 
-        console.log({ writersData, translatorsData, languagesData, booksData });
+      // Set writers - extract names from objects
+      // const uniqueWriters = [...new Set(writersData.map(writer => writer.name))].filter(Boolean);
+      setWriters(writersData);
 
-        // Set writers
-        const uniqueWriters = [
-          ...new Set(writersData.map((writer) => writer.name)),
-        ];
-        setWriters(uniqueWriters); // No need to wrap with { name }
+      // Set translators - extract names from objects
+      const uniqueTranslators = [...new Set(translatorsData.map(t => t.name))].filter(Boolean);
+      setTranslators(uniqueTranslators);
 
-        // Set translators
-        const uniqueTranslators = [
-          ...new Set(translatorsData.map((translator) => translator.name)),
-        ];
-        setTranslators(uniqueTranslators);
+      // Set languages - extract language from objects
+      const uniqueLanguages = [...new Set(languagesData.map(lang => lang.language))].filter(Boolean);
+      setLanguages(uniqueLanguages);
 
-        // Set languages
-        const uniqueLanguages = [
-          ...new Set(languagesData.map((lang) => lang.language)),
-        ];
-        setLanguages(uniqueLanguages);
+      setAllBooks(booksData);
+      setFilteredBooks(booksData);
+      setDisplayedBooks(booksData.slice(0, booksPerPage));
+      setHasMore(booksData.length > booksPerPage);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-        setAllBooks(booksData);
-        setFilteredBooks(booksData);
-
-        setDisplayedBooks(booksData.slice(0, booksPerPage));
-        setHasMore(booksData.length > booksPerPage);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
+  fetchData();
+}, []);
 
   // Update filters and apply them
   const updateFilter = (filterName, value) => {
@@ -369,12 +360,14 @@ export default function Home() {
               >
                 <option value="">All Writers</option>
                 {writers.map((writer, index) => (
-                  <option key={index} value={writer}>
-                    {writer}
+                  <option key={index} value={writer.name}>
+                    {writer.name}
+                
                   </option>
                 ))}
               </select>
             </div>
+
             <div>
               <label className="text-sm text-green-700 font-semibold mb-1.5 block text-left">
                 Translator
@@ -392,6 +385,7 @@ export default function Home() {
                 ))}
               </select>
             </div>
+
             <div>
               <label className="text-sm text-green-700 font-semibold mb-1.5 block text-left">
                 Language
@@ -402,13 +396,14 @@ export default function Home() {
                 className="w-full border-gray-300 rounded-lg px-4 py-2.5 text-sm bg-white text-gray-700 focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none shadow-sm transition-shadow"
               >
                 <option value="">All Languages</option>
-                {languages.map((language, index) => (
-                  <option key={index} value={language}>
-                    {language}
+                {languages.map((lang, index) => (
+                  <option key={index} value={lang}>
+                    {lang}
                   </option>
                 ))}
               </select>
             </div>
+
             <div>
               <label className="text-sm text-green-700 font-semibold mb-1.5 block text-left">
                 Sort By
