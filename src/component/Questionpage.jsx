@@ -8,11 +8,16 @@ import sampleimg from "../../public/Sliderimage/sampleimg.jpeg";
 const EnhancedUIDesign = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [viewMode, setViewMode] = useState("grid");
-  const [language, setLanguage] = useState("Urdu");
+  const [language, setLanguage] = useState("All");
   const [sorting, setSorting] = useState("Latest");
   const [search, setSearch] = useState("");
   const [questions, setQuestions] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [showLanguageDropdown, setShowLanguageDropdown] = useState(false);
+  const [showSortDropdown, setShowSortDropdown] = useState(false);
+
+  const languageOptions = ["All", "اردو", "English", "Roman"];
+  const sortOptions = ["Latest", "Oldest"];
 
   useEffect(() => {
     const savedViewMode = localStorage.getItem("viewMode");
@@ -42,7 +47,6 @@ const EnhancedUIDesign = () => {
         );
         const data = await response.json();
         setQuestions(data);
-   
       } catch (error) {
         console.error("Failed to fetch questions:", error);
       } finally {
@@ -52,31 +56,45 @@ const EnhancedUIDesign = () => {
     fetchQuestions();
   }, []);
 
-  // Filtered questions based on search input
-  const filteredQuestions = questions.filter((q) => {
-    const text = (q.questionUrdu || q.questionEnglish || "").toLowerCase();
-    return text.includes(search.toLowerCase());
-  });
+  // Filtered questions based on search input and language
+  const filteredQuestions = questions
+    .filter((q) => {
+      // Language filter
+      if (language !== "All") {
+        return q.language === language;
+      }
+      return true;
+    })
+    .filter((q) => {
+      // Search filter
+      const text = (q.questionUrdu || q.questionEnglish || "").toLowerCase();
+      return text.includes(search.toLowerCase());
+    })
+    .sort((a, b) => {
+      // Sorting
+      if (sorting === "Latest") {
+        return new Date(b.createdAt) - new Date(a.createdAt);
+      } else {
+        return new Date(a.createdAt) - new Date(b.createdAt);
+      }
+    });
 
   const navigate = useNavigate();
 
-
   const slugify = (text) =>
-  text
-    .toLowerCase()
-    .trim()
-    .replace(/\s+/g, '-')                    // Replace spaces with hyphens
-    .replace(/[.,\/#!$%\^&\*;:{}=\_`~()؟“”"']/g, '')  // Remove punctuation
-    .replace(/[-]+/g, '-');                  // Replace multiple hyphens with single
-
-
+    text
+      .toLowerCase()
+      .trim()
+      .replace(/\s+/g, '-')                    // Replace spaces with hyphens
+      .replace(/[.,\/#!$%\^&\*;:{}=\_`~()؟""']/g, '')  // Remove punctuation
+      .replace(/[-]+/g, '-');                  // Replace multiple hyphens with single
 
   return (
     <div className="bg-slate-50 text-slate-800">
-      <header className="bg-[#718e56] sticky  top-0 z-50 shadow-md border-b border-green-100">
+      <header className="bg-[#718e56] sticky top-0 z-50 shadow-md border-b border-green-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4 relative">
-            <nav className="hidden md:flex gap-6 text-md  text-white tracking-wide">
+            <nav className="hidden md:flex gap-6 text-md text-white tracking-wide">
               <a href="/">Home</a>
               <a href="/about">About</a>
               <a href="/newsandevent">News & Event</a>
@@ -91,7 +109,7 @@ const EnhancedUIDesign = () => {
               />
             </div>
 
-            <nav className="hidden md:flex gap-6 text-md  text-white tracking-wide">
+            <nav className="hidden md:flex gap-6 text-md text-white tracking-wide">
               <a href="/article">Articles</a>
               <a href="/question">Question Answer</a>
               <a href="/requestbook">Request a Book</a>
@@ -203,22 +221,7 @@ const EnhancedUIDesign = () => {
         <header className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4 px-2 md:px-4">
           <div className="relative w-full md:w-2/5 lg:w-1/3">
             <div className="absolute inset-y-0 right-0 flex items-center pr-3.5 pointer-events-none">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="lucide lucide-search h-5 w-5 text-slate-400"
-                aria-hidden="true"
-              >
-                <circle cx="11" cy="11" r="8"></circle>
-                <path d="m21 21-4.3-4.3"></path>
-              </svg>
+              <Search className="h-5 w-5 text-slate-400" />
             </div>
             <input
               type="text"
@@ -230,6 +233,7 @@ const EnhancedUIDesign = () => {
           </div>
 
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 w-full md:w-auto">
+            {/* Sort Dropdown */}
             <div className="relative">
               <div className="flex flex-col">
                 <label
@@ -238,29 +242,38 @@ const EnhancedUIDesign = () => {
                 >
                   ترتیب
                 </label>
-                <button
-                  id="sort-by"
-                  className="flex items-center justify-between gap-2 bg-white border border-slate-300 rounded-md px-3 py-1.5 w-40 text-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
-                >
-                  <span className="text-slate-700">Latest</span>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="lucide lucide-chevron-down h-4 w-4 text-slate-500"
-                    aria-hidden="true"
+                <div className="relative">
+                  <button
+                    id="sort-by"
+                    onClick={() => setShowSortDropdown(!showSortDropdown)}
+                    className="flex items-center justify-between gap-2 bg-white border border-slate-300 rounded-md px-3 py-1.5 w-40 text-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                   >
-                    <path d="m6 9 6 6 6-6"></path>
-                  </svg>
-                </button>
+                    <span className="text-slate-700">{sorting}</span>
+                    <ChevronDown className="h-4 w-4 text-slate-500" />
+                  </button>
+                  {showSortDropdown && (
+                    <div className="absolute z-10 mt-1 w-40 bg-white shadow-lg rounded-md py-1 border border-slate-200">
+                      {sortOptions.map((option) => (
+                        <button
+                          key={option}
+                          className={`w-full text-left px-3 py-1.5 text-sm hover:bg-slate-100 ${
+                            sorting === option ? "bg-emerald-50 text-emerald-700" : "text-slate-700"
+                          }`}
+                          onClick={() => {
+                            setSorting(option);
+                            setShowSortDropdown(false);
+                          }}
+                        >
+                          {option}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
+
+            {/* Language Dropdown */}
             <div className="relative">
               <div className="flex flex-col">
                 <label
@@ -269,29 +282,37 @@ const EnhancedUIDesign = () => {
                 >
                   زبان
                 </label>
-                <button
-                  id="language-filter"
-                  className="flex items-center justify-between gap-2 bg-white border border-slate-300 rounded-md px-3 py-1.5 w-40 text-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
-                >
-                  <span className="font-nastaliq text-slate-700">Urdu</span>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="lucide lucide-chevron-down h-4 w-4 text-slate-500"
-                    aria-hidden="true"
+                <div className="relative">
+                  <button
+                    id="language-filter"
+                    onClick={() => setShowLanguageDropdown(!showLanguageDropdown)}
+                    className="flex items-center justify-between gap-2 bg-white border border-slate-300 rounded-md px-3 py-1.5 w-40 text-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                   >
-                    <path d="m6 9 6 6 6-6"></path>
-                  </svg>
-                </button>
+                    <span className="font-nastaliq text-slate-700">{language}</span>
+                    <ChevronDown className="h-4 w-4 text-slate-500" />
+                  </button>
+                  {showLanguageDropdown && (
+                    <div className="absolute z-10 mt-1 w-40 bg-white shadow-lg rounded-md py-1 border border-slate-200">
+                      {languageOptions.map((lang) => (
+                        <button
+                          key={lang}
+                          className={`w-full text-left px-3 py-1.5 text-sm hover:bg-slate-100 ${
+                            language === lang ? "bg-emerald-50 text-emerald-700" : "text-slate-700"
+                          }`}
+                          onClick={() => {
+                            setLanguage(lang);
+                            setShowLanguageDropdown(false);
+                          }}
+                        >
+                          {lang}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
+
             <div className="relative sm:mt-[1.35rem]">
               <div className="flex items-center gap-1 p-0.5 bg-slate-100 rounded-md border border-slate-200">
                 <button
@@ -377,17 +398,21 @@ const EnhancedUIDesign = () => {
               <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-emerald-500"></div>
 
               {/* Durood Shareef */}
-              <div className="amiri-regular  text-2xl text-emerald-700 font-semibold arabic-text">
+              <div className="amiri-regular text-2xl text-emerald-700 font-semibold arabic-text">
                 صَلَّى ٱللّٰهُ عَلَيْهِ وَآلِهِ وَسَلَّمَ
               </div>
+            </div>
+          ) : filteredQuestions.length === 0 ? (
+            <div className="w-full text-center py-10">
+              <p className="font-nastaliq text-lg text-slate-600">
+                کوئی سوال دستیاب نہیں ہے
+              </p>
             </div>
           ) : (
             filteredQuestions.map((card, index) => (
               <div
                 key={card._id}
-                // onClick={() => navigate(`/question/${card.id}`)}
                 onClick={() => navigate(`/question/${card.id}/${slugify(card.slug)}`)}
-
                 className={`card-item bg-white rounded-xl shadow-lg p-5 flex cursor-pointer w-full transition-all duration-300 ease-in-out hover:shadow-2xl hover:-translate-y-1 ${
                   viewMode === "list" ? "flex-row items-center" : "flex-col"
                 }`}
@@ -416,8 +441,8 @@ const EnhancedUIDesign = () => {
                       viewMode === "list" ? "line-clamp-1 mb-2" : "line-clamp-2"
                     } ${
                       card.language === "Urdu"
-                        ? "text-right font-nastaliq"
-                        : "text-left"
+                        ? "text-center font-nastaliq"
+                        : "text-center"
                     } text-slate-700 text-base leading-relaxed gulzartext`}
                     dir={card.language === "Urdu" ? "rtl" : "ltr"}
                     dangerouslySetInnerHTML={{
@@ -433,10 +458,10 @@ const EnhancedUIDesign = () => {
                   }`}
                 >
                   <button className="cursor-pointer bg-emerald-50 hover:bg-emerald-100 text-emerald-700 px-3.5 py-1.5 rounded-lg text-xs font-medium transition-colors">
-                    Roman
+                    {card.language === "اردو" ? "اردو" : "English"}
                   </button>
                   <button className="cursor-pointer font-nastaliq bg-slate-100 hover:bg-slate-200 text-slate-700 px-3.5 py-1.5 rounded-lg text-xs font-medium transition-colors">
-                    اردو
+                    {card.language === "اردو" ? "اردو" : "English"}
                   </button>
                 </div>
               </div>
@@ -452,6 +477,9 @@ const EnhancedUIDesign = () => {
         }
         .font-nastaliq {
           font-family: "Noto Nastaliq Urdu", serif;
+        }
+        .gulzartext {
+          font-family: "Gulzar", serif;
         }
         .line-clamp-1 {
           overflow: hidden;
@@ -471,6 +499,9 @@ const EnhancedUIDesign = () => {
         }
         .layout-toggle-active:hover {
           background-color: #059669;
+        }
+        .arabic-text {
+          font-family: "Amiri", serif;
         }
       `}</style>
     </div>
