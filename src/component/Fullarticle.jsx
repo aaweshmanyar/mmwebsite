@@ -170,12 +170,12 @@ export default function Home() {
                      About
                    </a>
                    <a
-                     href="/newsandevent"
+                     href="/books"
                      className="hover:bg-[#4f6639] px-4 py-2 rounded"
                    >
                      Books
                    </a>
-                   <a href="/books" className="hover:bg-[#4f6639] px-4 py-2 rounded">
+                   <a href="/newsandevent" className="hover:bg-[#4f6639] px-4 py-2 rounded">
                      News & Event
                    </a>
                    <a

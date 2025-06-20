@@ -80,10 +80,10 @@ const QuestionDetail = () => {
               <a href="/about" className="hover:text-yellow-200">
                 About
               </a>
-              <a href="/books" className="hover:text-yellow-200">
+              <a href="/newsandevent" className="hover:text-yellow-200">
                 News & Event
               </a>
-              <a href="/newsandevent" className="hover:text-yellow-200">
+              <a href="/books" className="hover:text-yellow-200">
                 Books
               </a>
             </nav>
