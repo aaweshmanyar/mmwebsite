@@ -19,6 +19,7 @@ import WriterProfile from './component/WriterProfile'
 import NewandEvent from './component/NewandEvent'
 import ContactUs from './component/Contactus'
 import ScrollTop from './component/ScrollToTop'
+import Fullevents from './component/Fullevents'
 
 
 
@@ -47,6 +48,7 @@ const App = () => {
           <Route path="/requestbook"  element={<Requestbook/>} />
           <Route path="/writer/:id/:name"  element={<WriterProfile/>} />
           <Route path="/newsandevent"  element={<NewandEvent/>} />
+          <Route path="/newsandevent/:id/:slug"  element={<Fullevents/>} />
           <Route path="/contact"  element={<ContactUs/>} />
         
          

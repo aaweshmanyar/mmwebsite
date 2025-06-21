@@ -56,6 +56,8 @@ const NewandEvent = () => {
 
     return () => clearInterval(interval); // cleanup on unmount
   }, []);
+
+  const navigate = useNavigate();
   return (
     <div className="min-h-screen bg-[#e4f0d0] relative">
       <div
@@ -334,7 +336,7 @@ const NewandEvent = () => {
                 </p>
                 <div className="flex justify-between items-center">
                   <a
-                    href="/newsandevent"
+                    href={`/newsandevent/${event.id}/${event.slug}`}
                     className="flex items-center text-sm text-yellow-700 bg-yellow-50 px-3 py-1.5 rounded-full hover:bg-yellow-100 transition"
                   >
                     Read More

@@ -2,9 +2,9 @@ import { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { Search, ChevronDown, Eye, Menu, X } from "lucide-react";
 import Logo from "../../public/images/marclogo.png";
-import Sampleimg from '../../public/Sliderimage/sampleimg.jpeg';
+import Sampleimg from "../../public/Sliderimage/sampleimg.jpeg";
 import bg from "../../public/images/newbg.png";
-import Navbar from '../component/Navbar/Navbar'
+import Navbar from "../component/Navbar/Navbar";
 
 const ArticlesPage = () => {
   const [writers, setWriters] = useState([]);
@@ -46,7 +46,7 @@ const ArticlesPage = () => {
         setLanguages(await languageRes.json());
         setTopics(await topicRes.json());
         const articlesData = await articleRes.json();
-        console.log(articlesData)
+        console.log(articlesData);
         setAllArticles(articlesData);
         setFilteredArticles(articlesData); // Initially set filtered articles to all articles
         // Initially load first 4 articles
@@ -72,7 +72,7 @@ const ArticlesPage = () => {
 
     setTimeout(() => {
       const newArticles = filteredArticles.slice(startIndex, endIndex);
-      setDisplayedArticles(prev => [...prev, ...newArticles]);
+      setDisplayedArticles((prev) => [...prev, ...newArticles]);
       setPage(nextPage);
       setHasMore(endIndex < filteredArticles.length);
       setLoadingMore(false);
@@ -89,8 +89,8 @@ const ArticlesPage = () => {
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, [loadMoreArticles]);
 
   const handleFilterChange = (filterType, value) => {
@@ -98,41 +98,52 @@ const ArticlesPage = () => {
       ...selectedFilters,
       [filterType]: value,
     };
-    
+
     setSelectedFilters(newFilters);
     applyFilters(newFilters);
   };
 
-  const applyFilters = useCallback((filters) => {
-    let filtered = [...allArticles];
-    
-    // Apply each filter if it has a value
-    if (filters.writer) {
-      filtered = filtered.filter(article => article.writers === filters.writer);
-    }
-    
-    if (filters.translator) {
-      filtered = filtered.filter(article => article.translator === filters.translator);
-    }
-    
-    if (filters.language) {
-      filtered = filtered.filter(article => article.language === filters.language);
-    }
-    
-    if (filters.topic) {
-      filtered = filtered.filter(article => article.topic === filters.topic);
-    }
-    
-    // Apply sorting
-    filtered = sortArticles(filtered, filters.sorting);
-    
-    // Update filtered articles
-    setFilteredArticles(filtered);
-    // Reset displayed articles with first page
-    setDisplayedArticles(filtered.slice(0, articlesPerLoad));
-    setPage(1);
-    setHasMore(filtered.length > articlesPerLoad);
-  }, [allArticles]);
+  const applyFilters = useCallback(
+    (filters) => {
+      let filtered = [...allArticles];
+
+      // Apply each filter if it has a value
+      if (filters.writer) {
+        filtered = filtered.filter(
+          (article) => article.writers === filters.writer
+        );
+      }
+
+      if (filters.translator) {
+        filtered = filtered.filter(
+          (article) => article.translator === filters.translator
+        );
+      }
+
+      if (filters.language) {
+        filtered = filtered.filter(
+          (article) => article.language === filters.language
+        );
+      }
+
+      if (filters.topic) {
+        filtered = filtered.filter(
+          (article) => article.topic === filters.topic
+        );
+      }
+
+      // Apply sorting
+      filtered = sortArticles(filtered, filters.sorting);
+
+      // Update filtered articles
+      setFilteredArticles(filtered);
+      // Reset displayed articles with first page
+      setDisplayedArticles(filtered.slice(0, articlesPerLoad));
+      setPage(1);
+      setHasMore(filtered.length > articlesPerLoad);
+    },
+    [allArticles]
+  );
 
   const sortArticles = (articles, sorting) => {
     return [...articles].sort((a, b) => {
@@ -152,11 +163,13 @@ const ArticlesPage = () => {
       sorting: "latest",
       topic: "",
     };
-    
+
     setSelectedFilters(resetFiltersState);
     setFilteredArticles(sortArticles(allArticles, "latest"));
     setPage(1);
-    setDisplayedArticles(sortArticles(allArticles, "latest").slice(0, articlesPerLoad));
+    setDisplayedArticles(
+      sortArticles(allArticles, "latest").slice(0, articlesPerLoad)
+    );
     setHasMore(allArticles.length > articlesPerLoad);
   };
 
@@ -290,19 +303,22 @@ const ArticlesPage = () => {
     );
   }
 
+  const slugify = (text) =>
+    text
+      .toLowerCase()
+      .trim()
+      .replace(/\s+/g, "-") // Replace spaces with hyphens
+      .replace(/[.,\/#!$%\^&\*;:{}=\_`~()؟“”"']/g, "") // Remove punctuation
+      .replace(/[-]+/g, "-"); // Replace multiple hyphens with single
 
-const slugify = (text) =>
-  text
-    .toLowerCase()
-    .trim()
-    .replace(/\s+/g, '-')                    // Replace spaces with hyphens
-    .replace(/[.,\/#!$%\^&\*;:{}=\_`~()؟“”"']/g, '')  // Remove punctuation
-    .replace(/[-]+/g, '-');                  // Replace multiple hyphens with single
-
+  function isUrdu(text) {
+    const urduRegex = /[\u0600-\u06FF]/; // Unicode range for Arabic script
+    return urduRegex.test(text);
+  }
 
   return (
     <div className="bg-slate-100">
-      <Navbar/>
+      <Navbar />
 
       <div className="relative z-10 container mx-auto px-4 py-8">
         <header className="text-center mb-10">
@@ -377,7 +393,9 @@ const slugify = (text) =>
                   <select
                     className="cursor-pointer appearance-none bg-slate-50 w-full border border-slate-300 rounded-md py-2 px-3 text-slate-700 gulzartext focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition"
                     value={selectedFilters.writer}
-                    onChange={(e) => handleFilterChange("writer", e.target.value)}
+                    onChange={(e) =>
+                      handleFilterChange("writer", e.target.value)
+                    }
                   >
                     <option value="">Select Writer</option>
                     {writers.map((writer) => (
@@ -397,7 +415,9 @@ const slugify = (text) =>
                   <select
                     className="cursor-pointer appearance-none bg-slate-50 w-full border border-slate-300 rounded-md py-2 px-3 text-slate-700 gulzartext focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition"
                     value={selectedFilters.translator}
-                    onChange={(e) => handleFilterChange("translator", e.target.value)}
+                    onChange={(e) =>
+                      handleFilterChange("translator", e.target.value)
+                    }
                   >
                     <option value="">Select Translator</option>
                     {translators.map((translator) => (
@@ -417,7 +437,9 @@ const slugify = (text) =>
                   <select
                     className="cursor-pointer appearance-none bg-slate-50 w-full border border-slate-300 rounded-md py-2 px-3 text-slate-700 gulzartext focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition"
                     value={selectedFilters.sorting}
-                    onChange={(e) => handleFilterChange("sorting", e.target.value)}
+                    onChange={(e) =>
+                      handleFilterChange("sorting", e.target.value)
+                    }
                   >
                     <option value="latest">Latest</option>
                     <option value="oldest">Oldest</option>
@@ -433,7 +455,9 @@ const slugify = (text) =>
                   <select
                     className="cursor-pointer appearance-none bg-slate-50 w-full border border-slate-300 rounded-md py-2 px-3 text-slate-700 gulzartext focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition"
                     value={selectedFilters.language}
-                    onChange={(e) => handleFilterChange("language", e.target.value)}
+                    onChange={(e) =>
+                      handleFilterChange("language", e.target.value)
+                    }
                   >
                     <option value="">Select Language</option>
                     {languages.map((language) => (
@@ -453,7 +477,9 @@ const slugify = (text) =>
                   <select
                     className="appearance-none bg-slate-50 w-full border border-slate-300 rounded-md py-2 px-3 text-slate-700 gulzartext focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition"
                     value={selectedFilters.topic}
-                    onChange={(e) => handleFilterChange("topic", e.target.value)}
+                    onChange={(e) =>
+                      handleFilterChange("topic", e.target.value)
+                    }
                   >
                     <option value="">Select Topic</option>
                     {topics.map((topic) => (
@@ -531,11 +557,18 @@ const slugify = (text) =>
                 <div
                   key={article._id}
                   className="article-card group bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ease-in-out flex flex-col cursor-pointer"
-                  onClick={() => navigate(`/detailarticle/${article.id}/${slugify(article.title)}`)}
+                  onClick={() =>
+                    navigate(
+                      `/detailarticle/${article.id}/${slugify(article.title)}`
+                    )
+                  }
                 >
                   <div className="card-image-container relative h-[160px] w-full flex-shrink-0 overflow-hidden">
                     <img
-                      src={`https://api.minaramasjid.com/api/articles/image/${article.id}` || Sampleimg}
+                      src={
+                        `https://api.minaramasjid.com/api/articles/image/${article.id}` ||
+                        Sampleimg
+                      }
                       alt={article.title}
                       className="card-image object-cover w-full h-full group-hover:scale-105 transition-transform duration-300 ease-in-out"
                       onError={(e) => {
@@ -547,7 +580,7 @@ const slugify = (text) =>
                     <div className="absolute top-3 left-3 right-3 flex justify-between items-start">
                       <div className="flex gap-2">
                         <button className="bg-black/50 text-white px-2.5 py-1 rounded-full text-xs backdrop-blur-sm font-medium hover:bg-black/75 transition-colors">
-                          {/[؀-ۿ]/.test(article.title) ? 'اردو' : 'Roman'}
+                          {/[؀-ۿ]/.test(article.title) ? "اردو" : "Roman"}
                         </button>
                         {article.translationLanguage && (
                           <button className="bg-black/50 text-white px-2.5 py-1 rounded-full text-xs backdrop-blur-sm font-medium gulzartext hover:bg-black/75 transition-colors">
@@ -557,7 +590,11 @@ const slugify = (text) =>
                       </div>
                     </div>
                     <div className="absolute bottom-0 left-0 right-0 p-3 text-white">
-                      <h2 className="gulzartext card-title font-bold text-lg leading-tight title-line-clamp-2">
+                      <h2
+                        className={`gulzartext card-title font-bold text-lg leading-tight title-line-clamp-2 ${
+                          isUrdu(article.title) ? "text-right" : "text-left"
+                        }`}
+                      >
                         {article.title}
                       </h2>
                     </div>
@@ -567,14 +604,17 @@ const slugify = (text) =>
                       <p
                         className="gulzartext text-description line-clamp-2 text-sm text-slate-600"
                         dangerouslySetInnerHTML={{
-                          __html: article.englishDescription || article.urduDescription,
+                          __html:
+                            article.englishDescription ||
+                            article.urduDescription,
                         }}
                       ></p>
                     </div>
                     <div className="mt-3 pt-3 border-t border-slate-200">
                       <p className="gulzartext text-xs font-medium text-slate-500 text-left mb-1">
                         {article.author && `Author: ${article.author}`}
-                        {article.translator && ` | Translator: ${article.translator}`}
+                        {article.translator &&
+                          ` | Translator: ${article.translator}`}
                       </p>
                       <div className="flex justify-end items-center gap-1 text-slate-500">
                         <Eye className="h-4 w-4" />
@@ -584,19 +624,19 @@ const slugify = (text) =>
                   </div>
                 </div>
               ))}
-              
+
               {loadingMore && (
                 <div className="col-span-full flex justify-center py-6">
                   <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-emerald-500"></div>
                 </div>
               )}
-              
+
               {!hasMore && displayedArticles.length > 0 && (
                 <div className="col-span-full text-center py-6 text-slate-500">
                   No more articles to load
                 </div>
               )}
-              
+
               {displayedArticles.length === 0 && !loading && (
                 <div className="col-span-full text-center py-10">
                   <p className="text-slate-600">

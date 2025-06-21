@@ -3,7 +3,6 @@ import { Search } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 import Logo from "../../public/images/marclogo.png";
 
-
 import bg from "../../public/images/bg.png";
 import Book from "../../public/images/book.png";
 import user from "../../public/images/user.png";
@@ -11,7 +10,7 @@ import Articleimg1 from "../../public/Articlepage/article1.png";
 import Articleimg2 from "../../public/Articlepage/article2.png";
 import Articleimg3 from "../../public/Articlepage/article3.png";
 import Feedbackform from "../component/Feebackform";
-import Sampleimg from '../../public/Sliderimage/sampleimg.jpeg'
+import Sampleimg from "../../public/Sliderimage/sampleimg.jpeg";
 
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -38,7 +37,7 @@ export default function Home() {
         );
         const resdata = await articleres.json();
         setAllarticle(resdata);
-        
+
         setLoading(false); // Done loading
       } catch (err) {
         console.error("Error fetching Article:", err);
@@ -88,16 +87,13 @@ export default function Home() {
 
   const navigate = useNavigate();
 
-
   const slugify = (text) =>
-  text
-    .toLowerCase()
-    .trim()
-    .replace(/\s+/g, '-')                    // Replace spaces with hyphens
-    .replace(/[.,\/#!$%\^&\*;:{}=\_`~()؟“”"']/g, '')  // Remove punctuation
-    .replace(/[-]+/g, '-');                  // Replace multiple hyphens with single
-
-
+    text
+      .toLowerCase()
+      .trim()
+      .replace(/\s+/g, "-") // Replace spaces with hyphens
+      .replace(/[.,\/#!$%\^&\*;:{}=\_`~()؟“”"']/g, "") // Remove punctuation
+      .replace(/[-]+/g, "-"); // Replace multiple hyphens with single
 
   return (
     <main className="min-h-screen bg-[#f0f5e9] bg-cover z-10">
@@ -106,106 +102,106 @@ export default function Home() {
         style={{ backgroundImage: `url(${bg})`, backgroundPosition: "center" }}
       ></div>
       <header className="bg-[#718e56] sticky  top-0 z-50 shadow-md border-b border-green-100">
-             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-               <div className="flex justify-between items-center py-4 relative">
-                 <nav className="hidden md:flex gap-6 text-md font-semibold text-white tracking-wide">
-                   <a href="/">Home</a>
-                   <a href="/about">About</a>
-                   <a href="/newsandevent">News & Event</a>
-                   <a href="/books">Books</a>
-                 </nav>
-     
-                 <div className="absolute left-1/2 transform -translate-x-1/2 -bottom-7 bg-white rounded-full p-1 shadow-lg border border-green-100 z-10">
-                   <img
-                     src={Logo}
-                     alt="Logo"
-                     className="w-16 h-16 rounded-full object-contain"
-                   />
-                 </div>
-     
-                 <nav className="hidden md:flex gap-6 text-md font-semibold text-white tracking-wide">
-                   <a href="/article">Articles</a>
-                   <a href="/question">Question Answer</a>
-                   <a href="/requestbook">Request a Book</a>
-                   <a href="/contact">Contact</a>
-                 </nav>
-     
-                 <div className="md:hidden">
-                   <button
-                     onClick={() => setMenuOpen(!menuOpen)}
-                     className="text-gray-700 focus:outline-none"
-                   >
-                     <svg
-                       className="w-7 h-7"
-                       fill="none"
-                       viewBox="0 0 24 24"
-                       stroke="currentColor"
-                     >
-                       <path
-                         strokeLinecap="round"
-                         strokeLinejoin="round"
-                         strokeWidth={2}
-                         d={
-                           menuOpen
-                             ? "M6 18L18 6M6 6l12 12"
-                             : "M4 6h16M4 12h16M4 18h16"
-                         }
-                       />
-                     </svg>
-                   </button>
-                 </div>
-               </div>
-     
-               {/* Mobile menu */}
-               <div
-                 className={`md:hidden transition-all overflow-hidden ${
-                   menuOpen ? "max-h-screen opacity-100" : "max-h-0 opacity-0"
-                 }`}
-               >
-                 <div className="flex flex-col gap-3 py-4 px-2 text-white bg-[#5a7544] rounded-b-xl">
-                   <a href="/" className="hover:bg-[#4f6639] px-4 py-2 rounded">
-                     Home
-                   </a>
-                   <a href="/about" className="hover:bg-[#4f6639] px-4 py-2 rounded">
-                     About
-                   </a>
-                   <a
-                     href="/books"
-                     className="hover:bg-[#4f6639] px-4 py-2 rounded"
-                   >
-                     Books
-                   </a>
-                   <a href="/newsandevent" className="hover:bg-[#4f6639] px-4 py-2 rounded">
-                     News & Event
-                   </a>
-                   <a
-                     href="/article"
-                     className="hover:bg-[#4f6639] px-4 py-2 rounded"
-                   >
-                     Articles
-                   </a>
-                   <a
-                     href="/question"
-                     className="hover:bg-[#4f6639] px-4 py-2 rounded"
-                   >
-                     Question Answer
-                   </a>
-                   <a
-                     href="/requestbook"
-                     className="hover:bg-[#4f6639] px-4 py-2 rounded"
-                   >
-                     Request a Book
-                   </a>
-                   <a
-                     href="/contact"
-                     className="hover:bg-[#4f6639] px-4 py-2 rounded"
-                   >
-                     Contact
-                   </a>
-                 </div>
-               </div>
-             </div>
-           </header>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center py-4 relative">
+            <nav className="hidden md:flex gap-6 text-md font-semibold text-white tracking-wide">
+              <a href="/">Home</a>
+              <a href="/about">About</a>
+              <a href="/newsandevent">News & Event</a>
+              <a href="/books">Books</a>
+            </nav>
+
+            <div className="absolute left-1/2 transform -translate-x-1/2 -bottom-7 bg-white rounded-full p-1 shadow-lg border border-green-100 z-10">
+              <img
+                src={Logo}
+                alt="Logo"
+                className="w-16 h-16 rounded-full object-contain"
+              />
+            </div>
+
+            <nav className="hidden md:flex gap-6 text-md font-semibold text-white tracking-wide">
+              <a href="/article">Articles</a>
+              <a href="/question">Question Answer</a>
+              <a href="/requestbook">Request a Book</a>
+              <a href="/contact">Contact</a>
+            </nav>
+
+            <div className="md:hidden">
+              <button
+                onClick={() => setMenuOpen(!menuOpen)}
+                className="text-gray-700 focus:outline-none"
+              >
+                <svg
+                  className="w-7 h-7"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d={
+                      menuOpen
+                        ? "M6 18L18 6M6 6l12 12"
+                        : "M4 6h16M4 12h16M4 18h16"
+                    }
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          {/* Mobile menu */}
+          <div
+            className={`md:hidden transition-all overflow-hidden ${
+              menuOpen ? "max-h-screen opacity-100" : "max-h-0 opacity-0"
+            }`}
+          >
+            <div className="flex flex-col gap-3 py-4 px-2 text-white bg-[#5a7544] rounded-b-xl">
+              <a href="/" className="hover:bg-[#4f6639] px-4 py-2 rounded">
+                Home
+              </a>
+              <a href="/about" className="hover:bg-[#4f6639] px-4 py-2 rounded">
+                About
+              </a>
+              <a href="/books" className="hover:bg-[#4f6639] px-4 py-2 rounded">
+                Books
+              </a>
+              <a
+                href="/newsandevent"
+                className="hover:bg-[#4f6639] px-4 py-2 rounded"
+              >
+                News & Event
+              </a>
+              <a
+                href="/article"
+                className="hover:bg-[#4f6639] px-4 py-2 rounded"
+              >
+                Articles
+              </a>
+              <a
+                href="/question"
+                className="hover:bg-[#4f6639] px-4 py-2 rounded"
+              >
+                Question Answer
+              </a>
+              <a
+                href="/requestbook"
+                className="hover:bg-[#4f6639] px-4 py-2 rounded"
+              >
+                Request a Book
+              </a>
+              <a
+                href="/contact"
+                className="hover:bg-[#4f6639] px-4 py-2 rounded"
+              >
+                Contact
+              </a>
+            </div>
+          </div>
+        </div>
+      </header>
 
       {/* Background Pattern */}
       {/* Main Title */}
@@ -317,17 +313,20 @@ export default function Home() {
 
         {/* Left Sidebar - moved second in DOM for mobile */}
         <div className="md:col-span-1 space-y-6 order-2 md:order-1">
-          <div className="bg-white rounded-lg overflow-hidden shadow-lg">
+          <div className="relative bg-white rounded-lg overflow-hidden shadow-lg group">
             <img
-              src={`https://api.minaramasjid.com/api/articles/image/${article.id}`}
+              src={
+                `https://api.minaramasjid.com/api/articles/image/${article.id}` ||
+                Sampleimg
+              }
               alt="Book Cover"
-              className="w-full h-60 object-cover"
+              className="w-full h-60 object-cover group-hover:scale-105 transition-transform duration-300 ease-in-out"
               onError={(e) => {
                 e.target.onerror = null;
-                e.target.src =
-                  Sampleimg;
+                e.target.src = Sampleimg;
               }}
             />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
           </div>
 
           {[...allarticle]
@@ -353,8 +352,9 @@ export default function Home() {
               return (
                 <div
                   key={index}
-                  onClick={() => navigate(`/detailarticle/${item.id}/${slugify(item.title)}`)}
-
+                  onClick={() =>
+                    navigate(`/detailarticle/${item.id}/${slugify(item.title)}`)
+                  }
                   className="rounded-xl overflow-hidden bg-[#ecf1e1] cursor-pointer"
                 >
                   {/* Top Image with Overlay Text */}
@@ -365,11 +365,10 @@ export default function Home() {
                       className="absolute inset-0 w-full h-full object-cover"
                       onError={(e) => {
                         e.target.onerror = null;
-                        e.target.src =
-                          Sampleimg;
+                        e.target.src = Sampleimg;
                       }}
                     />
-                    <div className="absolute inset-0 bg-black/30"></div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
                     <div className="relative z-10 flex items-center justify-center h-full text-white text-center font-bold text-lg gulzartext rtl">
                       {item.title}
                     </div>
@@ -430,13 +429,14 @@ export default function Home() {
                 {article.writers || "مظہر حسین علیم"}
               </h2>
               <p className="text-sm md:text-base text-gray-700 leading-relaxed gulzartext">
-                {article.writers || "مظہر حسین علیم"} ایک معروف اسلامی عالم، مدرس اور مصنف ہیں۔ آپ
-                دینی خدمات میں نمایاں شہرت رکھتے ہیں۔ آپ کئی اسلامی تحقیقی کتب
-                کے مصنف ہیں اور مختلف دینی اداروں سے وابستہ رہے ہیں۔ آپ نے
-                اسلامی تعلیمات کو عام فہم انداز میں پیش کرنے کا کام کیا ہے۔ آپ
-                کی تحریریں مختلف دینی رسائل میں شائع ہوتی رہتی ہیں۔ آپ نے مختلف
-                مذہبی اور اخلاقی موضوعات پر تقاریر بھی کی ہیں اور آپ کی خدمات کو
-                سراہا گیا ہے۔ آپ کو عوام میں خاصی مقبولیت حاصل ہے۔
+                {article.writers || "مظہر حسین علیم"} ایک معروف اسلامی عالم،
+                مدرس اور مصنف ہیں۔ آپ دینی خدمات میں نمایاں شہرت رکھتے ہیں۔ آپ
+                کئی اسلامی تحقیقی کتب کے مصنف ہیں اور مختلف دینی اداروں سے
+                وابستہ رہے ہیں۔ آپ نے اسلامی تعلیمات کو عام فہم انداز میں پیش
+                کرنے کا کام کیا ہے۔ آپ کی تحریریں مختلف دینی رسائل میں شائع ہوتی
+                رہتی ہیں۔ آپ نے مختلف مذہبی اور اخلاقی موضوعات پر تقاریر بھی کی
+                ہیں اور آپ کی خدمات کو سراہا گیا ہے۔ آپ کو عوام میں خاصی مقبولیت
+                حاصل ہے۔
               </p>
             </div>
             <div className="order-1 md:order-2">
@@ -472,7 +472,9 @@ export default function Home() {
           {midArticles.map((item, index) => (
             <div
               key={index}
-              onClick={() => navigate(`/detailarticle/${item.id}/${slugify(item.title)}`)}
+              onClick={() =>
+                navigate(`/detailarticle/${item.id}/${slugify(item.title)}`)
+              }
               className="rounded-xl overflow-hidden shadow-sm border border-gray-200"
             >
               <div className="relative h-48">
@@ -480,13 +482,13 @@ export default function Home() {
                   src={`https://api.minaramasjid.com/api/articles/image/${item.id}`}
                   onError={(e) => {
                     e.target.onerror = null;
-                    e.target.src =
-                      Sampleimg;
+                    e.target.src = Sampleimg;
                   }}
                   alt="Article"
                   fill
                   className="object-cover h-full w-full"
                 />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent"></div>
 
                 {/* Show Tag only if it's valid */}
                 {item.tags &&
