@@ -58,124 +58,22 @@ const NewandEvent = () => {
   }, []);
 
   const navigate = useNavigate();
+
+  const slugify = (text) =>
+  text
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, '-')                    // Replace spaces with hyphens
+    .replace(/[.,\/#!$%\^&\*;:{}=\_`~()؟“”"']/g, '')  // Remove punctuation
+    .replace(/[-]+/g, '-');   
+
   return (
     <div className="min-h-screen bg-[#e4f0d0] relative">
       <div
         className="absolute inset-0 opacity-36 pointer-events-none"
         style={{ backgroundImage: `url(${bg})` }}
       ></div>
-      {/* <header className="relative z-50 bg-[#718e56] text-white">
-
-        <div className="max-w-[1200px] mx-auto px-4 py-3 flex items-center justify-between relative">
-         
-          <button
-            className="md:hidden text-white z-20"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          >
-            {mobileMenuOpen ? (
-              <X className="w-6 h-6" />
-            ) : (
-              <Menu className="w-6 h-6" />
-            )}
-          </button>
-
-         
-          <nav className="hidden md:flex items-center space-x-6 text-[15px] font-medium">
-            <a href="/" className="hover:text-amber-300">
-              Home
-            </a>
-            <a href="/about" className="hover:text-amber-300">
-              About
-            </a>
-            <a href="/newsandevent" className="hover:text-amber-300">
-              News & Events
-            </a>
-            <a href="/books" className="hover:text-amber-300">
-              Books
-            </a>
-          </nav>
-
-        
-          <div className="absolute left-1/2 transform -translate-x-1/2 -bottom-14 z-30 bg-white rounded-full p-1 shadow-md">
-            <img
-              src={Logo}
-              alt="Logo"
-              className="w-20 h-20 object-contain rounded-full"
-            />
-          </div>
-
-          
-          <div className="hidden md:flex items-center space-x-5 font-medium text-[15px]">
-           
-            <a href="/article" className="hover:text-amber-300">
-              Articles
-            </a>
-            <a href="/question" className="hover:text-amber-300">
-              Question Answer
-            </a>
-            <a href="/requestbook" className="hover:text-amber-300">
-              Request a Book
-            </a>
-            <a href="/contact" className="hover:text-amber-300">
-              Contact
-            </a>
-          </div>
-        </div>
-
-        {mobileMenuOpen && (
-          <div className="fixed inset-0 z-40 flex">
-          
-            <div
-              className="fixed inset-0 bg-black bg-opacity-30"
-              onClick={() => setMobileMenuOpen(false)}
-            />
-
-          
-            <div className="relative w-1/2 h-full bg-[#718e56] p-4 space-y-4 text-[15px] font-medium z-50">
-              <button
-                onClick={() => setMobileMenuOpen(false)}
-                className="absolute top-4 right-4 text-white"
-              >
-                <X className="w-5 h-5" />
-              </button>
-              <a href="/" className="block hover:text-white">
-                Home
-              </a>
-              <a href="/about" className="block hover:text-white">
-                About
-              </a>
-              <a href="/newsandevent" className="block hover:text-white">
-                News & Events
-              </a>
-              <a href="/books" className="block hover:text-white">
-                Books
-              </a>
-              <a href="/article" className="block hover:text-white">
-                Articles
-              </a>
-              <a href="/question" className="block hover:text-white">
-                Question Answer
-              </a>
-              <a href="/requestbook" className="block hover:text-white">
-                Request a Book
-              </a>
-              <a href="/contact" className="block hover:text-white">
-                Contact
-              </a>
-
-              
-              <div className="flex items-center bg-white rounded-full px-3 py-1 mt-2 w-full">
-                <input
-                  type="text"
-                  placeholder="Search"
-                  className="bg-transparent outline-none text-black text-sm w-full"
-                />
-                <Search className="w-4 h-4 text-black ml-2" />
-              </div>
-            </div>
-          </div>
-        )}
-      </header> */}
+     
 
       <header className="bg-[#718e56] sticky  top-0 z-50 shadow-md border-b border-green-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -319,6 +217,9 @@ const NewandEvent = () => {
             {event.map((event, idx) => (
               <div
                 key={idx}
+                onClick={() =>
+                    navigate(`/newsandevent/${event.id}/${slugify(event.title)}`)
+                  }
                 className="w-[90%] sm:w-[47%] md:w-[47%] lg:w-[23%] mb-2 flex-shrink-0 bg-gradient-to-b from-[#f6fbf1] rounded-2xl p-4 shadow-md"
               >
                 <div className="overflow-hidden rounded-xl mb-4">

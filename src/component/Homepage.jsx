@@ -11,7 +11,7 @@ import Banner2 from "../../public/Sliderimage/banner2.jpg";
 import Banner3 from "../../public/Sliderimage/banner3.jpg";
 import about from "../../public/images/about.jpg";
 import Bookimg from "../../public/Aboutimg/bookclm.png";
-import Sampleimg from '../../public/Sliderimage/sampleimg.jpeg'
+import Sampleimg from "../../public/Sliderimage/sampleimg.jpeg";
 
 import { useSearchParams, useNavigate } from "react-router-dom";
 
@@ -51,15 +51,11 @@ export default function Home() {
         const writerData = await writerRes.json();
         setWriter(writerData);
 
-        const Bookres = await fetch(
-          "https://api.minaramasjid.com/api/books"
-        );
+        const Bookres = await fetch("https://api.minaramasjid.com/api/books");
         const BookData = await Bookres.json();
         setBook(BookData);
 
-        const Eventres = await fetch(
-          "https://api.minaramasjid.com/api/events"
-        );
+        const Eventres = await fetch("https://api.minaramasjid.com/api/events");
         const EventData = await Eventres.json();
         setEvent(EventData);
       } catch (error) {
@@ -102,17 +98,12 @@ export default function Home() {
           behavior: "smooth",
         });
       }
-    }, 2000);
+    }, 4000);
 
     return () => clearInterval(interval);
   }, []);
 
-  const images = [
-    Banner,
-    Banner2,
-    Banner3
-    
-  ];
+  const images = [Banner, Banner2, Banner3];
 
   const [order, setOrder] = useState([0, 1, 2]);
 
@@ -144,10 +135,13 @@ export default function Home() {
     return () => clearInterval(interval); // Clear on unmount
   }, []);
 
-
   const slugify = (text) =>
-  text.toLowerCase().replace(/\s+/g, '-').replace(/[^\w\-]+/g, '');
-
+    text
+      .toLowerCase()
+      .trim()
+      .replace(/\s+/g, "-") // Replace spaces with hyphens
+      .replace(/[.,\/#!$%\^&\*;:{}=\_`~()؟“”"']/g, "") // Remove punctuation
+      .replace(/[-]+/g, "-");
 
   return (
     <main
@@ -159,8 +153,6 @@ export default function Home() {
       }}
     >
       <Navbar />
-     
-      
 
       {/* Banner */}
       <div className="w-full py-6 px-4 flex justify-center items-center mt-6">
@@ -361,6 +353,7 @@ export default function Home() {
             {event.map((event, idx) => (
               <div
                 key={idx}
+                onClick={() => navigate("/newsandevent")}
                 className="w-[90%] sm:w-[47%] md:w-[47%] lg:w-[23%] mb-2 ml-10 flex-shrink-0 bg-gradient-to-b from-[#f6fbf1] rounded-2xl p-4 shadow-md"
               >
                 <div className="overflow-hidden rounded-xl mb-4">
@@ -448,7 +441,10 @@ export default function Home() {
             {book.map((book, index) => (
               <div
                 key={index}
-                className="min-w-[260px] max-w-[260px] h-[480px] bg-[#f1f7ea] rounded-xl py-6 px-4 shadow-sm flex flex-col justify-between items-start flex-shrink-0"
+                onClick={() =>
+                  navigate(`/bookdetail/${book.id}/${slugify(book.title)}`)
+                }
+                className="cursor-pointer min-w-[260px] max-w-[260px] h-[480px] bg-[#f1f7ea] rounded-xl py-6 px-4 shadow-sm flex flex-col justify-between items-start flex-shrink-0"
               >
                 <img
                   src={`https://api.minaramasjid.com/api/books/cover/${book.id}`}
@@ -473,12 +469,12 @@ export default function Home() {
 
                   <div className="text-left ">
                     <span className="text-xs bg-[#4A7C3A] text-white px-2 py-0.5 rounded">
-                      {book.language}
+                      {/[ء-ي]/.test(book.title) ? "Urdu" : "English"}
                     </span>
                   </div>
                 </div>
                 <a
-                  href={`/bookdetail/${book.id}`}
+                  href={`/bookdetail/${book.id}/${slugify(book.title)}`}
                   className="inline-flex items-center text-sm text-yellow-700 bg-white px-4 py-1.5 rounded-full hover:bg-yellow-200 transition"
                 >
                   Read More <ChevronRight className="h-4 w-4 ml-1" />
@@ -563,8 +559,7 @@ export default function Home() {
                         className="object-cover w-full h-full"
                         onError={(e) => {
                           e.target.onerror = null; // Prevent infinite loop
-                          e.target.src =
-                            Sampleimg;
+                          e.target.src = Sampleimg;
                         }}
                       />
                     )}
@@ -668,7 +663,9 @@ export default function Home() {
             {writer.map((scholar, index) => (
               <div
                 key={index}
-                onClick={() => navigate(`/writer/${scholar.id}/${slugify(scholar.name)}`)}
+                onClick={() =>
+                  navigate(`/writer/${scholar.id}/${slugify(scholar.name)}`)
+                }
                 className="bg-white rounded-xl shadow-sm px-6 py-8 flex flex-col items-center"
               >
                 {/* Profile Image */}

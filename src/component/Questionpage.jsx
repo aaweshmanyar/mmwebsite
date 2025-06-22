@@ -47,6 +47,7 @@ const EnhancedUIDesign = () => {
         );
         const data = await response.json();
         setQuestions(data);
+        console.log(data)
       } catch (error) {
         console.error("Failed to fetch questions:", error);
       } finally {

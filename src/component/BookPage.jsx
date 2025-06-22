@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import bg from "../../public/images/newbg.png";
 import Logo from "../../public/images/marclogo.png";
 import Sampleimg from "../../public/Sliderimage/sampleimg.jpeg";
+import { useNavigate } from "react-router-dom";
 
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -14,6 +15,7 @@ export default function Home() {
   const [filteredBooks, setFilteredBooks] = useState([]);
   const [displayedBooks, setDisplayedBooks] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [initialLoad, setInitialLoad] = useState(true);
   const [viewMode, setViewMode] = useState("grid");
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
@@ -31,6 +33,7 @@ export default function Home() {
     const fetchData = async () => {
       try {
         setLoading(true);
+        setInitialLoad(true);
 
         const [writerRes, translatorRes, languageRes, booksRes] =
           await Promise.all([
@@ -45,18 +48,9 @@ export default function Home() {
         const languagesData = await languageRes.json();
         const booksData = await booksRes.json();
 
-        // Set writers - extract names from objects
-        // const uniqueWriters = [...new Set(writersData.map(writer => writer.name))].filter(Boolean);
         setWriters(writersData);
-
-        // Set translators - extract names from objects
-        // const uniqueTranslators = [...new Set(translatorsData.map(t => t.name))].filter(Boolean);
         setTranslators(translatorsData);
-
-        // Set languages - extract language from objects
-        // const uniqueLanguages = [...new Set(languagesData.map(lang => lang.language))].filter(Boolean);
         setLanguages(languagesData);
-
         setAllBooks(booksData);
         setFilteredBooks(booksData);
         setDisplayedBooks(booksData.slice(0, booksPerPage));
@@ -65,6 +59,7 @@ export default function Home() {
         console.error("Error fetching data:", error);
       } finally {
         setLoading(false);
+        setInitialLoad(false);
       }
     };
 
@@ -81,62 +76,16 @@ export default function Home() {
     applyFilters(newFilters);
   };
 
-
-  // Load more books when scrolling
-  const loadMoreBooks = useCallback(() => {
-    if (!hasMore) return;
-
-    const nextPage = page + 1;
-    const startIndex = (nextPage - 1) * booksPerPage;
-    const endIndex = startIndex + booksPerPage;
-    const newBooks = filteredBooks.slice(startIndex, endIndex);
-
-    if (newBooks.length === 0) {
-      setHasMore(false);
-      return;
-    }
-
-    setDisplayedBooks((prev) => [...prev, ...newBooks]);
-    setPage(nextPage);
-    setHasMore(endIndex < filteredBooks.length);
-  }, [page, hasMore, filteredBooks]);
-
-  // Infinite scroll handler
-  useEffect(() => {
-    const handleScroll = () => {
-      if (
-        window.innerHeight + document.documentElement.scrollTop >=
-        document.documentElement.offsetHeight - 500
-      ) {
-        loadMoreBooks();
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [loadMoreBooks]);
-
-  const setActiveButton = (activeMode) => {
-    setViewMode(activeMode);
-  };
-
-  const applyGridView = () => {
-    setActiveButton("grid");
-  };
-
-  const applyListView = () => {
-    setActiveButton("list");
-  };
-
-  const applyFilters = (filters) => {
+  // Apply filters to books
+  const applyFilters = useCallback((filters) => {
     let filtered = [...allBooks];
 
     if (filters.writer) {
-  filtered = filtered.filter(
-    (book) =>
-      book.author?.trim().toLowerCase() === filters.writer.trim().toLowerCase()
-  );
-}
+      filtered = filtered.filter(
+        (book) =>
+          book.author?.trim().toLowerCase() === filters.writer.trim().toLowerCase()
+      );
+    }
 
     if (filters.translator) {
       filtered = filtered.filter(
@@ -165,17 +114,69 @@ export default function Home() {
     setDisplayedBooks(filtered.slice(0, booksPerPage));
     setPage(1);
     setHasMore(filtered.length > booksPerPage);
+  }, [allBooks, booksPerPage]);
+
+  // Load more books when scrolling
+  const loadMoreBooks = useCallback(() => {
+    if (!hasMore || loading) return;
+
+    setLoading(true);
+    
+    const nextPage = page + 1;
+    const startIndex = (nextPage - 1) * booksPerPage;
+    const endIndex = startIndex + booksPerPage;
+    const newBooks = filteredBooks.slice(startIndex, endIndex);
+
+    if (newBooks.length === 0) {
+      setHasMore(false);
+      setLoading(false);
+      return;
+    }
+
+    setTimeout(() => {
+      setDisplayedBooks((prev) => [...prev, ...newBooks]);
+      setPage(nextPage);
+      setHasMore(endIndex < filteredBooks.length);
+      setLoading(false);
+    }, 500); // Small delay for smoother UX
+  }, [page, hasMore, filteredBooks, loading, booksPerPage]);
+
+  // Infinite scroll handler
+  useEffect(() => {
+    const handleScroll = () => {
+      if (
+        window.innerHeight + document.documentElement.scrollTop >=
+        document.documentElement.offsetHeight - 300
+      ) {
+        loadMoreBooks();
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [loadMoreBooks]);
+
+  const setActiveButton = (activeMode) => {
+    setViewMode(activeMode);
   };
 
+  const applyGridView = () => {
+    setActiveButton("grid");
+  };
+
+  const applyListView = () => {
+    setActiveButton("list");
+  };
 
   const slugify = (text) =>
-  text
-    .toLowerCase()
-    .trim()
-    .replace(/\s+/g, '-')                    // Replace spaces with hyphens
-    .replace(/[.,\/#!$%\^&\*;:{}=\_`~()؟“”"']/g, '')  // Remove punctuation
-    .replace(/[-]+/g, '-');                  // Replace multiple hyphens with single
+    text
+      .toLowerCase()
+      .trim()
+      .replace(/\s+/g, '-')
+      .replace(/[.,\/#!$%\^&\*;:{}=\_`~()؟"']/g, '')
+      .replace(/[-]+/g, '-');
 
+  const navigate = useNavigate();
 
   return (
     <main className="min-h-screen bg-cover bg-center bg-no-repeat flex flex-col relative">
@@ -337,29 +338,14 @@ export default function Home() {
               className="w-full bg-white py-4 pl-6 pr-12 rounded-full shadow-md text-base text-gray-700 placeholder-gray-500 focus:ring-2 focus:ring-green-500 focus:outline-none transition-shadow font-gulzar text-right"
               placeholder="تلاش کریں..."
             />
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="absolute right-5 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400"
-              aria-hidden="true"
-            >
-              <circle cx="11" cy="11" r="8"></circle>
-              <path d="m21 21-4.3-4.3"></path>
-            </svg>
+            <Search className="absolute right-5 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
           </div>
 
           {/* Filters */}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mb-10">
             {/* Writer */}
             <div>
-              <label className=" block mb-1 font-medium text-slate-700 gulzartext text-sm">
+              <label className="block mb-1 font-medium text-slate-700 gulzartext text-sm">
                 Writer
               </label>
               <div className="relative cursor-pointer">
@@ -368,7 +354,7 @@ export default function Home() {
                   value={selectedFilters.writer}
                   onChange={(e) => updateFilter("writer", e.target.value)}
                 >
-                  <option value="" >All Writers</option>
+                  <option value="">All Writers</option>
                   {writers.map((writer) => (
                     <option key={writer._id} value={writer.name}>
                       {writer.name}
@@ -378,7 +364,6 @@ export default function Home() {
                 <ChevronDown className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-700" />
               </div>
             </div>
-
 
             {/* Translator */}
             <div>
@@ -445,17 +430,15 @@ export default function Home() {
             </div>
           </div>
 
-
-
           {/* Layout Toggle */}
           <div className="flex justify-end items-center mb-8 space-x-3">
             <button
-              id="gridViewBtn"
               onClick={applyGridView}
-              className={`toggle-button p-2.5 rounded-full ${viewMode === "grid"
-                ? "bg-green-600 text-white active"
-                : "bg-white text-gray-500 hover:bg-gray-100"
-                }`}
+              className={`p-2.5 rounded-full ${
+                viewMode === "grid"
+                  ? "bg-green-600 text-white"
+                  : "bg-white text-gray-500 hover:bg-gray-100"
+              }`}
               title="Grid view"
             >
               <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -463,12 +446,12 @@ export default function Home() {
               </svg>
             </button>
             <button
-              id="listViewBtn"
               onClick={applyListView}
-              className={`toggle-button p-2.5 rounded-full ${viewMode === "list"
-                ? "bg-green-600 text-white active"
-                : "bg-white text-gray-500 hover:bg-gray-100"
-                }`}
+              className={`p-2.5 rounded-full ${
+                viewMode === "list"
+                  ? "bg-green-600 text-white"
+                  : "bg-white text-gray-500 hover:bg-gray-100"
+              }`}
               title="List view"
             >
               <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -483,12 +466,13 @@ export default function Home() {
 
           {/* Books Display */}
           <div
-            className={`${viewMode === "grid"
-              ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
-              : "flex flex-col space-y-6"
-              } mb-10`}
+            className={`${
+              viewMode === "grid"
+                ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
+                : "flex flex-col space-y-6"
+            } mb-10`}
           >
-            {loading ? (
+            {initialLoad ? (
               <div className="col-span-full flex justify-center py-10">
                 <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-500"></div>
               </div>
@@ -502,10 +486,12 @@ export default function Home() {
               displayedBooks.map((book) => (
                 <div
                   key={book._id}
-                  className={`bg-white rounded-xl shadow-lg overflow-hidden ${viewMode === "grid"
-                    ? "flex flex-col"
-                    : "sm:flex sm:max-h-40"
-                    }`}
+                  onClick={() =>
+                    navigate(`/bookdetail/${book.id}/${slugify(book.title)}`)
+                  }
+                  className={`cursor-pointer bg-white rounded-xl shadow-lg overflow-hidden transition-transform hover:scale-[1.02] ${
+                    viewMode === "grid" ? "flex flex-col" : "sm:flex sm:max-h-40"
+                  }`}
                 >
                   <div
                     className={
@@ -528,61 +514,23 @@ export default function Home() {
                     <h3 className="text-green-700 text-lg font-semibold mb-1.5 gulzartext">
                       {book.title}
                     </h3>
-                    {/* <p className="text-xs text-gray-500 mb-0.5 font-bold">
-                      Writer
-                    </p>
-                    <p className="text-sm text-gray-600 truncate mb-2.5">
-                      {book.author}
-                    </p>
-                    {book.translator && (
-                      <>
-                        <p className="text-xs text-gray-500 mb-0.5 font-bold">
-                          Translator
-                        </p>
-                        <p className="text-sm text-gray-600 truncate mb-2.5">
-                          {book.translator}
-                        </p>
-                      </>
-                    )} */}
-                    {/* {!(book.author === "Author Placeholder" && book.translator === "Translator Placeholder") && (
-                      <>
-                        <p className="text-xs text-gray-500 mb-0.5 font-bold">
-                          Writer
-                        </p>
-                        <p className="text-sm text-gray-600 truncate mb-2.5">
-                          {book.author}
-                        </p>
-
-                        {book.translator && (
-                          <>
-                            <p className="text-xs text-gray-500 mb-0.5 font-bold">
-                              Translator
-                            </p>
-                            <p className="text-sm text-gray-600 truncate mb-2.5">
-                              {book.translator}
-                            </p>
-                          </>
-                        )}
-                      </>
-                    )} */}
-
                     <div className="mb-4">
                       <span className="text-xs bg-amber-100 text-amber-700 border border-amber-200 px-2.5 py-0.5 rounded-full font-medium">
-                        {book.language}
+                        {/[ء-ي]/.test(book.title) ? "Urdu" : "English"}
                       </span>
                     </div>
                     <div className="mt-auto flex gap-2">
-                      <a
-                        href={`/bookdetail/${book.id}/${slugify(book.title)}`}
+                      <button
                         className="cursor-pointer bg-green-600 text-white px-2.5 py-1 rounded-full text-xs"
                       >
                         Read More
-                      </a>
+                      </button>
                       <a
                         href={`https://api.minaramasjid.com/api/books/attachment/${book.id}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="cursor-pointer bg-amber-400 text-gray-800 px-2.5 py-1 rounded-full text-xs"
+                        onClick={(e) => e.stopPropagation()}
                       >
                         Download
                       </a>
@@ -594,7 +542,7 @@ export default function Home() {
           </div>
 
           {/* Loading indicator for infinite scroll */}
-          {hasMore && !loading && (
+          {loading && !initialLoad && (
             <div className="flex justify-center py-6">
               <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-green-500"></div>
             </div>

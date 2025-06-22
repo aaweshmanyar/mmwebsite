@@ -161,14 +161,12 @@ export default function Fullevents() {
         <div className="max-w-4xl mx-auto mb-8 relative">
           {/* Image Container - Added above the title */}
           <div className="flex justify-center mb-6">
-            <div className="w-full max-h-96 overflow-hidden rounded-2xl shadow-lg bg-white p-1 flex items-center justify-center">
 
               <img
                 src={`https://api.minaramasjid.com/api/events/image/${article.id}`}
                 alt={article.title}
-                className="w-full h-[160px] object-cover rounded-xl"
+                className="w-[60%] h-[200px] object-cover rounded-xl"
               />
-            </div>
           </div>
 
 

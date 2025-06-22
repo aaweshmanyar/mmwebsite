@@ -23,7 +23,7 @@ export default function Home() {
         setWriter(data); // assuming API returns { questions: [...] }
       } catch (error) {
         console.error("Failed to fetch questions:", error);
-      } 
+      }
     };
 
     fetchWriter();
@@ -66,8 +66,11 @@ export default function Home() {
     },
   ];
 
-    const slugify = (text) =>
-  text.toLowerCase().replace(/\s+/g, '-').replace(/[^\w\-]+/g, '');
+  const slugify = (text) =>
+    text
+      .toLowerCase()
+      .replace(/\s+/g, "-")
+      .replace(/[^\w\-]+/g, "");
 
   return (
     <main
@@ -101,10 +104,11 @@ export default function Home() {
           {sections.map((section) => (
             <div
               key={section.id}
-              className={`relative flex flex-col ${section.imgPosition === "right"
+              className={`relative flex flex-col ${
+                section.imgPosition === "right"
                   ? "md:flex-row-reverse"
                   : "md:flex-row"
-                } items-center gap-8`}
+              } items-center gap-8`}
             >
               <div className="w-full md:w-1/3 relative">
                 <div className="relative aspect-square rounded-lg overflow-hidden shadow-xl border-4 border-white">
@@ -148,8 +152,9 @@ export default function Home() {
 
                         {/* Sliding indicator with active text */}
                         <div
-                          className={`absolute top-[2px] ${activeLang === "ur" ? "right-2" : "left-2"
-                            } w-[40%] h-[80%] bg-[#d4a762] text-white flex items-center justify-center text-sm font-semibold rounded-full transition-all duration-300 z-10`}
+                          className={`absolute top-[2px] ${
+                            activeLang === "ur" ? "right-2" : "left-2"
+                          } w-[40%] h-[80%] bg-[#d4a762] text-white flex items-center justify-center text-sm font-semibold rounded-full transition-all duration-300 z-10`}
                         >
                           {activeLang === "ur" ? "اردو" : "English"}
                         </div>
@@ -161,8 +166,9 @@ export default function Home() {
                     {section.title}
                   </h2>
                   <p
-                    className={`text-[#555] gulzartext leading-relaxed text-base md:text-lg whitespace-pre-wrap ${activeLang === "ur" ? "text-right" : ""
-                      }`}
+                    className={`text-[#555] gulzartext leading-relaxed text-base md:text-lg whitespace-pre-wrap ${
+                      activeLang === "ur" ? "text-right" : ""
+                    }`}
                     dir={activeLang === "ur" ? "rtl" : "ltr"}
                   >
                     {activeLang === "ur" ? section.ur : section.en}
@@ -188,9 +194,13 @@ export default function Home() {
               >
                 <div className="bg-white rounded-full border-4 border-green-200 p-1 mb-4">
                   <img
-                    src={`https://api.minaramasjid.com/api/writers/image/${writer.id}`}
+                    src={`https://api.minaramasjid.com/api/writers/image/${writer.id} `}
                     alt={writer.name}
                     className="rounded-full w-24 h-24 object-cover bg-green-100"
+                    onError={(e) => {
+                      e.target.onerror = null; // prevent infinite loop
+                      e.target.src = Userimg; // set fallback image
+                    }}
                   />
                 </div>
                 <h3 className="  text-lg font-semibold text-gray-800 mb-1">
