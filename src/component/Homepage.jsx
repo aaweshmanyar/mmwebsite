@@ -321,10 +321,11 @@ export default function Home() {
       {/* News & Events */}
       <section className="w-full py-10 px-4  cursor-pointer">
         <div className="max-w-7xl mx-auto bg-gradient-to-b from-white rounded-3xl shadow-md px-6 py-8 relative">
-          <div className="flex justify-between items-center mb-6">
-            <h2 className="text-2xl md:text-3xl font-bold text-green-800">
+          <div className="text-center mb-4">
+            <h2 className="text-3xl font-bold text-[#3c4b28] mb-1">
               News & Events
             </h2>
+           
           </div>
 
           {/* Manual Arrows */}
@@ -353,7 +354,9 @@ export default function Home() {
             {event.map((event, idx) => (
               <div
                 key={idx}
-                onClick={() => navigate("/newsandevent")}
+                 onClick={() =>
+                    navigate(`/newsandevent/${event.id}/${slugify(event.title)}`)
+                  }
                 className="w-[90%] sm:w-[47%] md:w-[47%] lg:w-[23%] mb-2 ml-10 flex-shrink-0 bg-gradient-to-b from-[#f6fbf1] rounded-2xl p-4 shadow-md"
               >
                 <div className="overflow-hidden rounded-xl mb-4">
@@ -371,7 +374,7 @@ export default function Home() {
                 </p>
                 <div className="flex justify-between items-center">
                   <a
-                    href="/newsandevent"
+                    href={`/newsandevent/${event.id}/${slugify(event.title)}`}
                     className="flex items-center text-sm text-yellow-700 bg-yellow-50 px-3 py-1.5 rounded-full hover:bg-yellow-100 transition"
                   >
                     Read More

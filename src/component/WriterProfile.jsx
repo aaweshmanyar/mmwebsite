@@ -63,12 +63,12 @@ export default function WriterProfile() {
         // Handle cases where writers might be an array, object, or null
         const writers = article.writers || [];
         const writersArray = Array.isArray(writers) ? writers : [writers];
-        
+
         return (
-          writersArray.some(articleWriter => 
-            articleWriter?.name?.toLowerCase() === writer.name.toLowerCase()
-          ) ||
-          (article.writers?.toLowerCase() === writer.name.toLowerCase())
+          writersArray.some(
+            (articleWriter) =>
+              articleWriter?.name?.toLowerCase() === writer.name.toLowerCase()
+          ) || article.writers?.toLowerCase() === writer.name.toLowerCase()
         );
       });
       setFilteredArticles(matchedArticles);
@@ -101,18 +101,17 @@ export default function WriterProfile() {
       .replace(/&nbsp;/g, " ");
   }
 
-function slugify(text) {
-  return text
-    .toString()
-    .trim()
-    .toLowerCase()
-    .replace(/\s+/g, "-") // Replace spaces with hyphens
-    .replace(/[\u200C\u200D]/g, "") // Remove zero-width characters (common in Arabic)
-    .replace(/[^\p{L}\p{N}\-]+/gu, "") // Allow Unicode letters, numbers, and dashes
-    .replace(/\-\-+/g, "-") // Replace multiple hyphens with one
-    .replace(/^-+|-+$/g, ""); // Trim leading/trailing hyphens
-}
-
+  function slugify(text) {
+    return text
+      .toString()
+      .trim()
+      .toLowerCase()
+      .replace(/\s+/g, "-") // Replace spaces with hyphens
+      .replace(/[\u200C\u200D]/g, "") // Remove zero-width characters (common in Arabic)
+      .replace(/[^\p{L}\p{N}\-]+/gu, "") // Allow Unicode letters, numbers, and dashes
+      .replace(/\-\-+/g, "-") // Replace multiple hyphens with one
+      .replace(/^-+|-+$/g, ""); // Trim leading/trailing hyphens
+  }
 
   function isUrdu(text) {
     return /[؀-ۿ]/.test(text);
@@ -120,32 +119,29 @@ function slugify(text) {
 
   function renderWriters(writers) {
     if (!writers) return null;
-    
+
     const writersArray = Array.isArray(writers) ? writers : [writers];
-    const validWriters = writersArray.filter(w => w?.name);
-    
+    const validWriters = writersArray.filter((w) => w?.name);
+
     if (validWriters.length === 0) return null;
-    
-    return `Author: ${validWriters.map(w => w.name).join(", ")}`;
+
+    return `Author: ${validWriters.map((w) => w.name).join(", ")}`;
   }
 
-
-
-
-  
   // Number of suggested books to show
-const questionLimit = 4;
+  const questionLimit = 4;
 
-// Filter out the current book
-const suggestedquestion = question && question.length > 0
-  ? question.filter((b) => b.id !== question.id)
-  : [];
+  // Filter out the current book
+  const suggestedquestion =
+    question && question.length > 0
+      ? question.filter((b) => b.id !== question.id)
+      : [];
 
-// Optional: Shuffle books randomly (to avoid same suggestions every time)
-const shuffledSuggestions = suggestedquestion.sort(() => 0.5 - Math.random());
+  // Optional: Shuffle books randomly (to avoid same suggestions every time)
+  const shuffledSuggestions = suggestedquestion.sort(() => 0.5 - Math.random());
 
-// Final limited suggestions
-const limitedSuggestions = shuffledSuggestions.slice(0, questionLimit);
+  // Final limited suggestions
+  const limitedSuggestions = shuffledSuggestions.slice(0, questionLimit);
 
   return (
     <div>
@@ -230,7 +226,9 @@ const limitedSuggestions = shuffledSuggestions.slice(0, questionLimit);
                 {filteredBooks.map((book, i) => (
                   <div
                     key={i}
-                   onClick={() => navigate(`/bookdetail/${book.id}/${slugify(book.title)}`)}
+                    onClick={() =>
+                      navigate(`/bookdetail/${book.id}/${slugify(book.title)}`)
+                    }
                     className="cursor-pointer bg-gradient-to-t from-white border border-white p-4 rounded-lg hover:shadow-lg transition relative"
                   >
                     {book.tag && (
@@ -248,7 +246,9 @@ const limitedSuggestions = shuffledSuggestions.slice(0, questionLimit);
                     <h3 className="text-[#4A7C3A] text-lg font-bold text-center mb-2 amiri-bold ">
                       {book.title}
                     </h3>
-                    <div className="text-left text-xs text-gray-600">Writer</div>
+                    <div className="text-left text-xs text-gray-600">
+                      Writer
+                    </div>
                     <div className="text-left text-[15px] mb-2">
                       {book.author === "Author Placeholder"
                         ? "Farooque Mahaimi"
@@ -266,15 +266,16 @@ const limitedSuggestions = shuffledSuggestions.slice(0, questionLimit);
                         </div>
                       </>
                     )}
-                    <div className="text-left mb-3">
-                     
-                    </div>
+                    <div className="text-left mb-3"></div>
                     <div className="flex justify-center gap-2 flex-wrap">
-                      <Link to={`/bookdetail/${book.id}/${slugify(book.title)}`}>
-                        <button className="cursor-pointer text-[#783F1D] border border-black hover:bg-[#783F1D] hover:text-white px-3 py-1 rounded flex items-center text-sm">
+                      <a
+                        href={`/bookdetail/${book.id}/${slugify(book.title)}`}
+                        className="cursor-pointer border inline-flex items-center text-sm text-yellow-700 bg-white px-4 py-1.5 rounded-full hover:bg-yellow-200 transition"
+                      >
+                        {" "}
                           Read More <ChevronRight className="h-4 w-4 ml-1" />
-                        </button>
-                      </Link>
+                      </a>
+
                       <a
                         href={`https://api.minaramasjid.com/api/books/attachment/${book.id}`}
                         target="_blank"
@@ -462,7 +463,6 @@ const limitedSuggestions = shuffledSuggestions.slice(0, questionLimit);
                         {article.translator &&
                           ` ${article.writers?.length ? '| ' : ''}Translator: ${article.translator}`}
                       </p> */}
-                      
                     </div>
                   </div>
                 </div>

@@ -1,5 +1,5 @@
 import React from 'react'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route, useLocation  } from 'react-router-dom'
 import Homepage from './component/Homepage'
 import Addarticle from './component/Addarticle'
 import Navbar from './component/Navbar/Navbar'
@@ -20,14 +20,19 @@ import NewandEvent from './component/NewandEvent'
 import ContactUs from './component/Contactus'
 import ScrollTop from './component/ScrollToTop'
 import Fullevents from './component/Fullevents'
+import FaviconManager from './component/FaviconManager'
+
 
 
 
 
 const App = () => {
+
+  
   return (
     <Router>
           <ScrollTop/>
+          <FaviconManager/>
       <div>
         {/* <Navbar /> */}
         <Routes>
