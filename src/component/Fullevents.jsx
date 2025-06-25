@@ -60,14 +60,14 @@ export default function Fullevents() {
 
       {article && (
         <Helmet>
-          <title>{article.title}</title>
-          <meta property="og:title" content={article.title} />
+          <title>{article.title || 'Minara Masjid Event'}</title>
+          <meta property="og:title" content={article.title || 'Minara Masjid Event'} />
           <meta property="og:description" content="Minara Masjid Event Details" />
           <meta property="og:image" content={`https://api.minaramasjid.com/api/events/image/${article.id}`} />
-          <meta property="og:url" content={`https://yourdomain.com/fullevents/${article.id}`} />
+          <meta property="og:url" content={`https://minaramasjid-eight.vercel.app/newsandevent/${article.id}/${encodeURIComponent(article.title)}`} />
           <meta property="og:type" content="website" />
 
-          {/* Optional Twitter card support */}
+          {/* Twitter Card Support */}
           <meta name="twitter:card" content="summary_large_image" />
           <meta name="twitter:image" content={`https://api.minaramasjid.com/api/events/image/${article.id}`} />
         </Helmet>
