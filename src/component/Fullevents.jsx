@@ -5,6 +5,8 @@ import bg from "../../public/images/bg.png";
 import user from "../../public/images/user.png";
 import Feedbackform from "../component/Feebackform";
 import Sampleimg from '../../public/Sliderimage/sampleimg.jpeg'
+import { Helmet } from "react-helmet";
+
 
 export default function Fullevents() {
   const [menuOpen, setMenuOpen] = useState(false);
