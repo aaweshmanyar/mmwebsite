@@ -5,7 +5,6 @@ import bg from "../../public/images/bg.png";
 import user from "../../public/images/user.png";
 import Feedbackform from "../component/Feebackform";
 import Sampleimg from '../../public/Sliderimage/sampleimg.jpeg'
-import { Helmet } from "react-helmet";
 
 
 export default function Fullevents() {
@@ -58,21 +57,7 @@ export default function Fullevents() {
 
     <main className="min-h-screen bg-[#f0f5e9] bg-cover z-10">
 
-      {article && (
-        <Helmet>
-          <title>{article.title || 'Minara Masjid Event'}</title>
-          <link rel="icon" type="image/svg+xml" href={`https://api.minaramasjid.com/api/events/image/${article.id}`} />
-          <meta property="og:title" content={article.title || 'Minara Masjid Event'} />
-          <meta property="og:description" content="Minara Masjid Event Details" />
-          <meta property="og:image" content={`https://api.minaramasjid.com/api/events/image/${article.id}`} />
-          <meta property="og:url" content={`https://minaramasjid-eight.vercel.app/newsandevent/${article.id}/${encodeURIComponent(article.title)}`} />
-          <meta property="og:type" content="website" />
-
-          {/* Twitter Card Support */}
-          <meta name="twitter:card" content="summary_large_image" />
-          <meta name="twitter:image" content={`https://api.minaramasjid.com/api/events/image/${article.id}`} />
-        </Helmet>
-      )}
+    
       <div
         className="absolute inset-0 bg-cover bg-no-repeat opacity-70"
         style={{ backgroundImage: `url(${bg})` }}
