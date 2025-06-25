@@ -5,9 +5,7 @@ import bg from "../../public/images/bg.png";
 import user from "../../public/images/user.png";
 import Feedbackform from "../component/Feebackform";
 import Sampleimg from "../../public/Sliderimage/sampleimg.jpeg";
-import { FaShareAlt } from "react-icons/fa";
-import { FiCopy } from "react-icons/fi";
-import { toast } from 'react-toastify'; 
+import { Helmet } from "react-helmet"; // Add this import
 
 
 export default function Fullevents() {
@@ -57,6 +55,24 @@ export default function Fullevents() {
 
   return (
     <main className="min-h-screen bg-[#f0f5e9] bg-cover z-10">
+      <Helmet>
+        <title>{article?.title || "Event Details"}</title>
+        <meta property="og:title" content={article?.title || "Event Details"} />
+        <meta
+          property="og:description"
+          content={article?.content?.substring(0, 160) || ""}
+        />
+        <meta property="og:url" content={window.location.href} />
+        <meta property="og:type" content="article" />
+        <meta
+          property="og:image"
+          content={`https://api.minaramasjid.com/api/events/image/${id}`}
+        />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta name="twitter:card" content="summary_large_image" />
+      </Helmet>
+
       <div
         className="absolute inset-0 bg-cover bg-no-repeat opacity-70"
         style={{ backgroundImage: `url(${bg})` }}
