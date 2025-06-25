@@ -52,7 +52,24 @@ export default function Fullevents() {
   }
 
   return (
+
+
     <main className="min-h-screen bg-[#f0f5e9] bg-cover z-10">
+
+      {article && (
+        <Helmet>
+          <title>{article.title}</title>
+          <meta property="og:title" content={article.title} />
+          <meta property="og:description" content="Minara Masjid Event Details" />
+          <meta property="og:image" content={`https://api.minaramasjid.com/api/events/image/${article.id}`} />
+          <meta property="og:url" content={`https://yourdomain.com/fullevents/${article.id}`} />
+          <meta property="og:type" content="website" />
+
+          {/* Optional Twitter card support */}
+          <meta name="twitter:card" content="summary_large_image" />
+          <meta name="twitter:image" content={`https://api.minaramasjid.com/api/events/image/${article.id}`} />
+        </Helmet>
+      )}
       <div
         className="absolute inset-0 bg-cover bg-no-repeat opacity-70"
         style={{ backgroundImage: `url(${bg})` }}
@@ -162,11 +179,11 @@ export default function Fullevents() {
           {/* Image Container - Added above the title */}
           <div className="flex justify-center mb-6">
 
-              <img
-                src={`https://api.minaramasjid.com/api/events/image/${article.id}`}
-                alt={article.title}
-                className="w-[60%] h-[200px] object-cover rounded-xl"
-              />
+            <img
+              src={`https://api.minaramasjid.com/api/events/image/${article.id}`}
+              alt={article.title}
+              className="w-[60%] h-[200px] object-cover rounded-xl"
+            />
           </div>
 
 
