@@ -6,6 +6,9 @@ import user from "../../public/images/user.png";
 import Feedbackform from "../component/Feebackform";
 import Sampleimg from "../../public/Sliderimage/sampleimg.jpeg";
 import { FaShareAlt } from "react-icons/fa";
+import { FiCopy } from "react-icons/fi";
+import { toast } from 'react-toastify'; 
+
 
 export default function Fullevents() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -54,8 +57,6 @@ export default function Fullevents() {
 
   return (
     <main className="min-h-screen bg-[#f0f5e9] bg-cover z-10">
-     
-
       <div
         className="absolute inset-0 bg-cover bg-no-repeat opacity-70"
         style={{ backgroundImage: `url(${bg})` }}
@@ -260,51 +261,86 @@ export default function Fullevents() {
           </div>
         </div>
 
-         <div className="mt-6 flex justify-center">
-        <button
-          onClick={() => {
-            const shareData = {
-              title: article.title || "Event from Minhaj-ul-Quran",
-              text: article.content
-                ? `${article.content.substring(0, 100)}...`
-                : "Check out this interesting event",
-              url: window.location.href,
-            };
+        <div className="mt-6 flex justify-center">
+          <button
+            onClick={async () => {
+              try {
+                const imageUrl = `https://api.minaramasjid.com/api/events/image/${article.id}`;
+                const shareText = `${
+                  article.title
+                }\n\n${article.content?.substring(0, 100)}...`;
+                const shareUrl = window.location.href;
 
-            // Try the Web Share API first
-            if (navigator.share) {
-              navigator
-                .share(shareData)
-                .catch((err) => console.log("Error sharing:", err));
-            } else {
-              // Fallback for browsers that don't support the Web Share API
-              const imageUrl = `https://api.minaramasjid.com/api/events/image/${article.id}`;
-              const textToShare = `${shareData.title}\n\n${shareData.text}\n\n${shareData.url}\n\n${imageUrl}`;
+                // For mobile devices with share API
+                if (navigator.share) {
+                  // First fetch the image to convert to a file
+                  const response = await fetch(imageUrl);
+                  const blob = await response.blob();
+                  const file = new File([blob], "event-image.jpg", {
+                    type: blob.type,
+                  });
 
-              // Copy to clipboard
-              navigator.clipboard
-                .writeText(textToShare)
-                .then(() => {
-                  alert(
-                    "Event information copied to clipboard! You can now paste it anywhere."
-                  );
-                })
-                .catch((err) => {
-                  console.error("Could not copy text: ", err);
-                  // Fallback to opening mail client
+                  await navigator.share({
+                    title: article.title,
+                    text: shareText,
+                    url: shareUrl,
+                    files: [file],
+                  });
+                }
+                // For WhatsApp (will open in new tab)
+                else if (navigator.userAgent.match(/WhatsApp/i)) {
                   window.open(
-                    `mailto:?subject=${encodeURIComponent(
-                      shareData.title
-                    )}&body=${encodeURIComponent(textToShare)}`
+                    `whatsapp://send?text=${encodeURIComponent(
+                      `${shareText}\n\n${shareUrl}`
+                    )}`
                   );
-                });
-            }
-          }}
-          className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-full transition-colors"
-        >
-          <FaShareAlt /> Share This Event
-        </button>
-      </div>
+                }
+                // For Facebook
+                else if (navigator.userAgent.match(/Facebook/i)) {
+                  window.open(
+                    `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+                      shareUrl
+                    )}`
+                  );
+                }
+                // For other desktop browsers
+                else {
+                  // Copy rich text to clipboard
+                  const textWithImage = `${shareText}\n\nImage: ${imageUrl}\n\nRead more: ${shareUrl}`;
+
+                  // Modern clipboard API
+                  if (navigator.clipboard && window.ClipboardItem) {
+                    const response = await fetch(imageUrl);
+                    const blob = await response.blob();
+
+                    const clipboardItem = new ClipboardItem({
+                      "text/plain": new Blob([textWithImage], {
+                        type: "text/plain",
+                      }),
+                      "image/png": blob,
+                    });
+
+                    await navigator.clipboard.write([clipboardItem]);
+                    toast.success(
+                      "Event details copied to clipboard with image reference!"
+                    );
+                  }
+                  // Fallback for older browsers
+                  else {
+                    await navigator.clipboard.writeText(textWithImage);
+                    toast.success("Event details copied to clipboard!");
+                  }
+                }
+              } catch (err) {
+                console.error("Sharing failed:", err);
+                toast.error("Sharing failed. Please try again.");
+              }
+            }}
+            className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-full transition-colors"
+          >
+            <FaShareAlt /> Share This Event
+          </button>
+        </div>
         <Feedbackform />
       </div>
     </main>
