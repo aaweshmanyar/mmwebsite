@@ -1,28 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Helmet } from "react-helmet-async";
 import Logo from "../../public/images/marclogo.png";
 import bg from "../../public/images/bg.png";
 import user from "../../public/images/user.png";
 import Feedbackform from "../component/Feebackform";
-import Sampleimg from '../../public/Sliderimage/sampleimg.jpeg';
+import Sampleimg from '../../public/Sliderimage/sampleimg.jpeg'
+
 
 export default function Fullevents() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [article, setArticle] = useState(null);
   const [activeLanguage, setActiveLanguage] = useState("urdu");
   const [loading, setLoading] = useState(true);
-  const [currentUrl, setCurrentUrl] = useState("");
 
   const { id } = useParams();
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Set current URL only when window is available (client-side)
-    if (typeof window !== "undefined") {
-      setCurrentUrl(window.location.href);
-    }
-
     const fetchSingleArticle = async () => {
       try {
         setLoading(true);
@@ -42,29 +36,16 @@ export default function Fullevents() {
   }, [id]);
 
   const getActiveDescription = () => {
-    if (!article) return "";
     switch (activeLanguage) {
       case "english":
-        return article.content || "No English description available.";
+        return article?.content || "No English description available.";
       case "urdu":
-        return article.content || "اردو تفصیل دستیاب نہیں ہے۔";
+        return article?.content || "اردو تفصیل دستیاب نہیں ہے۔";
       case "roman":
-        return article.content || "No Roman description available.";
+        return article?.content || "No Roman description available.";
       default:
-        return article.content || "اردو تفصیل دستیاب نہیں ہے۔";
+        return article?.content || "اردو تفصیل دستیاب نہیں ہے۔";
     }
-  };
-
-  const getImageUrl = () => {
-    if (!article) return '';
-    return `https://api.minaramasjid.com/api/events/image/${article.id}`;
-  };
-
-  const getMetaDescription = () => {
-    if (!article?.content) return "Event details";
-    // Remove HTML tags for meta description
-    const plainText = article.content.replace(/<[^>]*>/g, '');
-    return plainText.substring(0, 160);
   };
 
   if (loading || !article) {
@@ -72,34 +53,16 @@ export default function Fullevents() {
   }
 
   return (
-    <main className="min-h-screen bg-[#f0f5e9] bg-cover z-10">
-      <Helmet>
-        <title>{article.title || "Event Details"}</title>
-        <meta name="description" content={getMetaDescription()} />
-        
-        {/* Open Graph / Facebook */}
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content={currentUrl} />
-        <meta property="og:title" content={article.title || "Event Details"} />
-        <meta property="og:description" content={getMetaDescription()} />
-        <meta property="og:image" content={getImageUrl()} />
-        <meta property="og:image:width" content="1200" />
-        <meta property="og:image:height" content="630" />
-        
-        {/* Twitter */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:url" content={currentUrl} />
-        <meta name="twitter:title" content={article.title || "Event Details"} />
-        <meta name="twitter:description" content={getMetaDescription()} />
-        <meta name="twitter:image" content={getImageUrl()} />
-      </Helmet>
 
+
+    <main className="min-h-screen bg-[#f0f5e9] bg-cover z-10">
+
+    
       <div
         className="absolute inset-0 bg-cover bg-no-repeat opacity-70"
         style={{ backgroundImage: `url(${bg})` }}
       ></div>
-      
-      <header className="bg-[#718e56] sticky top-0 z-50 shadow-md border-b border-green-100">
+      <header className="bg-[#718e56] sticky  top-0 z-50 shadow-md border-b border-green-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4 relative">
             <nav className="hidden md:flex gap-6 text-md font-semibold text-white tracking-wide">
@@ -152,34 +115,65 @@ export default function Fullevents() {
 
           {/* Mobile menu */}
           <div
-            className={`md:hidden transition-all overflow-hidden ${
-              menuOpen ? "max-h-screen opacity-100" : "max-h-0 opacity-0"
-            }`}
+            className={`md:hidden transition-all overflow-hidden ${menuOpen ? "max-h-screen opacity-100" : "max-h-0 opacity-0"
+              }`}
           >
             <div className="flex flex-col gap-3 py-4 px-2 text-white bg-[#5a7544] rounded-b-xl">
-              <a href="/" className="hover:bg-[#4f6639] px-4 py-2 rounded">Home</a>
-              <a href="/about" className="hover:bg-[#4f6639] px-4 py-2 rounded">About</a>
-              <a href="/books" className="hover:bg-[#4f6639] px-4 py-2 rounded">Books</a>
-              <a href="/newsandevent" className="hover:bg-[#4f6639] px-4 py-2 rounded">News & Event</a>
-              <a href="/article" className="hover:bg-[#4f6639] px-4 py-2 rounded">Articles</a>
-              <a href="/question" className="hover:bg-[#4f6639] px-4 py-2 rounded">Question Answer</a>
-              <a href="/requestbook" className="hover:bg-[#4f6639] px-4 py-2 rounded">Request a Book</a>
-              <a href="/contact" className="hover:bg-[#4f6639] px-4 py-2 rounded">Contact</a>
+              <a href="/" className="hover:bg-[#4f6639] px-4 py-2 rounded">
+                Home
+              </a>
+              <a href="/about" className="hover:bg-[#4f6639] px-4 py-2 rounded">
+                About
+              </a>
+              <a href="/books" className="hover:bg-[#4f6639] px-4 py-2 rounded">
+                Books
+              </a>
+              <a
+                href="/newsandevent"
+                className="hover:bg-[#4f6639] px-4 py-2 rounded"
+              >
+                News & Event
+              </a>
+              <a
+                href="/article"
+                className="hover:bg-[#4f6639] px-4 py-2 rounded"
+              >
+                Articles
+              </a>
+              <a
+                href="/question"
+                className="hover:bg-[#4f6639] px-4 py-2 rounded"
+              >
+                Question Answer
+              </a>
+              <a
+                href="/requestbook"
+                className="hover:bg-[#4f6639] px-4 py-2 rounded"
+              >
+                Request a Book
+              </a>
+              <a
+                href="/contact"
+                className="hover:bg-[#4f6639] px-4 py-2 rounded"
+              >
+                Contact
+              </a>
             </div>
           </div>
         </div>
       </header>
-
       <div className="min-h-screen p-4 md:p-8 font-sans">
         <div className="max-w-4xl mx-auto mb-8 relative">
-          {/* Image Container */}
+          {/* Image Container - Added above the title */}
           <div className="flex justify-center mb-6">
+
             <img
-              src={getImageUrl()}
+              src={`https://api.minaramasjid.com/api/events/image/${article.id}`}
               alt={article.title}
               className="w-[60%] h-[200px] object-cover rounded-xl"
             />
           </div>
+
 
           {/* Title Section */}
           <div className="text-center mb-8">
@@ -197,31 +191,28 @@ export default function Fullevents() {
             <div className="flex mb-6 rounded-full overflow-hidden border border-[#d6e5c4]">
               <button
                 onClick={() => setActiveLanguage("urdu")}
-                className={`gulzartext flex-1 text-center py-2 font-medium ${
-                  activeLanguage === "urdu"
-                    ? "bg-green-100 text-green-700"
-                    : "bg-gray-100 text-gray-700"
-                }`}
+                className={`gulzartext flex-1 text-center py-2 font-medium ${activeLanguage === "urdu"
+                  ? "bg-green-100 text-green-700"
+                  : "bg-gray-100 text-gray-700"
+                  }`}
               >
                 اردو
               </button>
               <button
                 onClick={() => setActiveLanguage("roman")}
-                className={`gulzartext flex-1 text-center py-2 font-medium ${
-                  activeLanguage === "roman"
-                    ? "bg-green-100 text-green-700"
-                    : "bg-gray-100 text-gray-700"
-                }`}
+                className={`gulzartext flex-1 text-center py-2 font-medium ${activeLanguage === "roman"
+                  ? "bg-green-100 text-green-700"
+                  : "bg-gray-100 text-gray-700"
+                  }`}
               >
                 Roman
               </button>
               <button
                 onClick={() => setActiveLanguage("english")}
-                className={`gulzartext flex-1 text-center py-2 font-medium ${
-                  activeLanguage === "english"
-                    ? "bg-green-100 text-green-700"
-                    : "bg-gray-100 text-gray-700"
-                }`}
+                className={`gulzartext flex-1 text-center py-2 font-medium ${activeLanguage === "english"
+                  ? "bg-green-100 text-green-700"
+                  : "bg-gray-100 text-gray-700"
+                  }`}
               >
                 English
               </button>
@@ -229,9 +220,8 @@ export default function Fullevents() {
 
             {/* Description */}
             <div
-              className={`leading-loose text-gray-800 ${
-                activeLanguage === "urdu" ? "text-right" : "text-left"
-              }`}
+              className={`leading-loose text-gray-800 ${activeLanguage === "urdu" ? "text-right" : "text-left"
+                }`}
               dir={activeLanguage === "urdu" ? "rtl" : "ltr"}
             >
               <div
@@ -245,11 +235,10 @@ export default function Fullevents() {
                 article.translator.trim().toLowerCase() !== "null" &&
                 article.translator.trim() !== "" && (
                   <p
-                    className={`gulzartext mt-4 text-sm font-semibold text-green-700 ${
-                      /[\u0600-\u06FF]/.test(article.translator)
-                        ? "text-right"
-                        : "text-left"
-                    }`}
+                    className={`gulzartext mt-4 text-sm font-semibold text-green-700 ${/[\u0600-\u06FF]/.test(article.translator)
+                      ? "text-right"
+                      : "text-left"
+                      }`}
                   >
                     {/[\u0600-\u06FF]/.test(article.translator)
                       ? `مترجم: ${article.translator}`
