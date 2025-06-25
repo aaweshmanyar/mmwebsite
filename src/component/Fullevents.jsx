@@ -5,6 +5,7 @@ import bg from "../../public/images/bg.png";
 import user from "../../public/images/user.png";
 import Feedbackform from "../component/Feebackform";
 import Sampleimg from '../../public/Sliderimage/sampleimg.jpeg'
+import { Helmet } from "react-helmet-async"; // Add this import
 
 
 export default function Fullevents() {
@@ -52,10 +53,35 @@ export default function Fullevents() {
     return <div className="text-center p-4">لوڈ ہو رہا ہے...</div>;
   }
 
+   const getImageUrl = () => {
+    if (!article) return '';
+    return `https://api.minaramasjid.com/api/events/image/${article.id}`;
+  };
+
+
   return (
 
 
     <main className="min-h-screen bg-[#f0f5e9] bg-cover z-10">
+
+     <Helmet>
+        <title>{article?.title || "Event Details"}</title>
+        <meta name="description" content={article?.content?.substring(0, 160) || "Event details"} />
+        
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={window.location.href} />
+        <meta property="og:title" content={article?.title || "Event Details"} />
+        <meta property="og:description" content={article?.content?.substring(0, 160) || "Event details"} />
+        <meta property="og:image" content={getImageUrl()} />
+        
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:url" content={window.location.href} />
+        <meta name="twitter:title" content={article?.title || "Event Details"} />
+        <meta name="twitter:description" content={article?.content?.substring(0, 160) || "Event details"} />
+        <meta name="twitter:image" content={getImageUrl()} />
+      </Helmet>
 
     
       <div
