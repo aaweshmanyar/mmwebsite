@@ -4,8 +4,8 @@ import Logo from "../../public/images/marclogo.png";
 import bg from "../../public/images/bg.png";
 import user from "../../public/images/user.png";
 import Feedbackform from "../component/Feebackform";
-import Sampleimg from '../../public/Sliderimage/sampleimg.jpeg'
-
+import Sampleimg from "../../public/Sliderimage/sampleimg.jpeg";
+import { FaShareAlt } from "react-icons/fa";
 
 export default function Fullevents() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -53,11 +53,9 @@ export default function Fullevents() {
   }
 
   return (
-
-
     <main className="min-h-screen bg-[#f0f5e9] bg-cover z-10">
+     
 
-    
       <div
         className="absolute inset-0 bg-cover bg-no-repeat opacity-70"
         style={{ backgroundImage: `url(${bg})` }}
@@ -115,8 +113,9 @@ export default function Fullevents() {
 
           {/* Mobile menu */}
           <div
-            className={`md:hidden transition-all overflow-hidden ${menuOpen ? "max-h-screen opacity-100" : "max-h-0 opacity-0"
-              }`}
+            className={`md:hidden transition-all overflow-hidden ${
+              menuOpen ? "max-h-screen opacity-100" : "max-h-0 opacity-0"
+            }`}
           >
             <div className="flex flex-col gap-3 py-4 px-2 text-white bg-[#5a7544] rounded-b-xl">
               <a href="/" className="hover:bg-[#4f6639] px-4 py-2 rounded">
@@ -166,14 +165,12 @@ export default function Fullevents() {
         <div className="max-w-4xl mx-auto mb-8 relative">
           {/* Image Container - Added above the title */}
           <div className="flex justify-center mb-6">
-
             <img
               src={`https://api.minaramasjid.com/api/events/image/${article.id}`}
               alt={article.title}
               className="w-[60%] h-[200px] object-cover rounded-xl"
             />
           </div>
-
 
           {/* Title Section */}
           <div className="text-center mb-8">
@@ -191,28 +188,31 @@ export default function Fullevents() {
             <div className="flex mb-6 rounded-full overflow-hidden border border-[#d6e5c4]">
               <button
                 onClick={() => setActiveLanguage("urdu")}
-                className={`gulzartext flex-1 text-center py-2 font-medium ${activeLanguage === "urdu"
-                  ? "bg-green-100 text-green-700"
-                  : "bg-gray-100 text-gray-700"
-                  }`}
+                className={`gulzartext flex-1 text-center py-2 font-medium ${
+                  activeLanguage === "urdu"
+                    ? "bg-green-100 text-green-700"
+                    : "bg-gray-100 text-gray-700"
+                }`}
               >
                 اردو
               </button>
               <button
                 onClick={() => setActiveLanguage("roman")}
-                className={`gulzartext flex-1 text-center py-2 font-medium ${activeLanguage === "roman"
-                  ? "bg-green-100 text-green-700"
-                  : "bg-gray-100 text-gray-700"
-                  }`}
+                className={`gulzartext flex-1 text-center py-2 font-medium ${
+                  activeLanguage === "roman"
+                    ? "bg-green-100 text-green-700"
+                    : "bg-gray-100 text-gray-700"
+                }`}
               >
                 Roman
               </button>
               <button
                 onClick={() => setActiveLanguage("english")}
-                className={`gulzartext flex-1 text-center py-2 font-medium ${activeLanguage === "english"
-                  ? "bg-green-100 text-green-700"
-                  : "bg-gray-100 text-gray-700"
-                  }`}
+                className={`gulzartext flex-1 text-center py-2 font-medium ${
+                  activeLanguage === "english"
+                    ? "bg-green-100 text-green-700"
+                    : "bg-gray-100 text-gray-700"
+                }`}
               >
                 English
               </button>
@@ -220,8 +220,9 @@ export default function Fullevents() {
 
             {/* Description */}
             <div
-              className={`leading-loose text-gray-800 ${activeLanguage === "urdu" ? "text-right" : "text-left"
-                }`}
+              className={`leading-loose text-gray-800 ${
+                activeLanguage === "urdu" ? "text-right" : "text-left"
+              }`}
               dir={activeLanguage === "urdu" ? "rtl" : "ltr"}
             >
               <div
@@ -235,10 +236,11 @@ export default function Fullevents() {
                 article.translator.trim().toLowerCase() !== "null" &&
                 article.translator.trim() !== "" && (
                   <p
-                    className={`gulzartext mt-4 text-sm font-semibold text-green-700 ${/[\u0600-\u06FF]/.test(article.translator)
-                      ? "text-right"
-                      : "text-left"
-                      }`}
+                    className={`gulzartext mt-4 text-sm font-semibold text-green-700 ${
+                      /[\u0600-\u06FF]/.test(article.translator)
+                        ? "text-right"
+                        : "text-left"
+                    }`}
                   >
                     {/[\u0600-\u06FF]/.test(article.translator)
                       ? `مترجم: ${article.translator}`
@@ -257,6 +259,52 @@ export default function Fullevents() {
             </div>
           </div>
         </div>
+
+         <div className="mt-6 flex justify-center">
+        <button
+          onClick={() => {
+            const shareData = {
+              title: article.title || "Event from Minhaj-ul-Quran",
+              text: article.content
+                ? `${article.content.substring(0, 100)}...`
+                : "Check out this interesting event",
+              url: window.location.href,
+            };
+
+            // Try the Web Share API first
+            if (navigator.share) {
+              navigator
+                .share(shareData)
+                .catch((err) => console.log("Error sharing:", err));
+            } else {
+              // Fallback for browsers that don't support the Web Share API
+              const imageUrl = `https://api.minaramasjid.com/api/events/image/${article.id}`;
+              const textToShare = `${shareData.title}\n\n${shareData.text}\n\n${shareData.url}\n\n${imageUrl}`;
+
+              // Copy to clipboard
+              navigator.clipboard
+                .writeText(textToShare)
+                .then(() => {
+                  alert(
+                    "Event information copied to clipboard! You can now paste it anywhere."
+                  );
+                })
+                .catch((err) => {
+                  console.error("Could not copy text: ", err);
+                  // Fallback to opening mail client
+                  window.open(
+                    `mailto:?subject=${encodeURIComponent(
+                      shareData.title
+                    )}&body=${encodeURIComponent(textToShare)}`
+                  );
+                });
+            }
+          }}
+          className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-full transition-colors"
+        >
+          <FaShareAlt /> Share This Event
+        </button>
+      </div>
         <Feedbackform />
       </div>
     </main>
