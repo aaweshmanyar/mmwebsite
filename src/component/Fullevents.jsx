@@ -61,6 +61,7 @@ export default function Fullevents() {
       {article && (
         <Helmet>
           <title>{article.title || 'Minara Masjid Event'}</title>
+          <link rel="icon" type="image/svg+xml" href={`https://api.minaramasjid.com/api/events/image/${article.id}`} />
           <meta property="og:title" content={article.title || 'Minara Masjid Event'} />
           <meta property="og:description" content="Minara Masjid Event Details" />
           <meta property="og:image" content={`https://api.minaramasjid.com/api/events/image/${article.id}`} />
