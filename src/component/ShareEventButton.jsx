@@ -2,7 +2,7 @@ import React from "react";
 
 export default function ShareEventButton({ eventId, title }) {
   // Share preview page (HTML file with OG meta) instead of full route
-  const sharePageUrl = `https://minaramasjid-eight.vercel.app/sharepages/event-123.html`;
+  const sharePageUrl = `https://mm-server-tbbo.onrender.com/share/event/${eventId}`;
 
   const handleShare = async () => {
     try {
