@@ -1,9 +1,8 @@
 import React from "react";
 
 export default function ShareEventButton({ eventId, title }) {
-  // Safely encode the title for use in the URL
-  const encodedTitle = encodeURIComponent(title || "event");
-  const shareUrl = `https://minaramasjid-eight.vercel.app/newsandevent/${eventId}/${encodedTitle}`;
+  // Share preview page (HTML file with OG meta) instead of full route
+  const sharePageUrl = `https://minaramasjid-eight.vercel.app/sharepages/event-${eventId}.html`;
 
   const handleShare = async () => {
     try {
@@ -12,11 +11,11 @@ export default function ShareEventButton({ eventId, title }) {
         await navigator.share({
           title: title || "Event Details",
           text: "Check out this event!",
-          url: shareUrl,
+          url: sharePageUrl, // <-- ✅ Point to static share page
         });
       } else {
         // Fallback: Copy link to clipboard
-        await navigator.clipboard.writeText(shareUrl);
+        await navigator.clipboard.writeText(sharePageUrl);
         alert("✅ Event link copied to clipboard!");
       }
     } catch (error) {
