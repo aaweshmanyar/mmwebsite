@@ -6,6 +6,7 @@ import user from "../../public/images/user.png";
 import Feedbackform from "../component/Feebackform";
 import Sampleimg from "../../public/Sliderimage/sampleimg.jpeg";
 import { Helmet } from "react-helmet"; // Add this import
+import ShareEventButton from "./ShareEventButton";
 
 
 export default function Fullevents() {
@@ -199,6 +200,7 @@ export default function Fullevents() {
             />
           </div>
 
+<ShareEventButton eventId={article.id} title={article.title} />
           {/* Title Section */}
           <div className="text-center mb-8">
             <h1
