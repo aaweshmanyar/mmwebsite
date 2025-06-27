@@ -1,7 +1,7 @@
 import React from "react";
 
 export default function ShareEventButton({ eventId, title }) {
-  const shareUrl = `https://yourdomain.com/fullevent/${eventId}`;
+  const shareUrl = `https://minaramasjid-eight.vercel.app/newsandevent/${eventId}`;
 
   const handleShare = async () => {
     try {
