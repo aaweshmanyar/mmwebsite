@@ -1,11 +1,13 @@
 import React from "react";
 
 export default function ShareEventButton({ eventId, title }) {
-  const shareUrl = `https://minaramasjid-eight.vercel.app/newsandevent/${eventId}`;
+  // Safely encode the title for use in the URL
+  const encodedTitle = encodeURIComponent(title || "event");
+  const shareUrl = `https://minaramasjid-eight.vercel.app/newsandevent/${eventId}/${encodedTitle}`;
 
   const handleShare = async () => {
     try {
-      // Native share if supported
+      // Use native share if available
       if (navigator.share) {
         await navigator.share({
           title: title || "Event Details",
@@ -13,9 +15,9 @@ export default function ShareEventButton({ eventId, title }) {
           url: shareUrl,
         });
       } else {
-        // Fallback - copy link
+        // Fallback: Copy link to clipboard
         await navigator.clipboard.writeText(shareUrl);
-        alert("Link copied to clipboard!");
+        alert("✅ Event link copied to clipboard!");
       }
     } catch (error) {
       console.error("Sharing failed:", error);
