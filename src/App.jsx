@@ -21,6 +21,7 @@ import ContactUs from './component/Contactus'
 import ScrollTop from './component/ScrollToTop'
 import Fullevents from './component/Fullevents'
 import FaviconManager from './component/FaviconManager'
+import BookDetailsBySlug from './component/BookDetailsBySlug'
 
 
 
@@ -45,7 +46,7 @@ const App = () => {
           <Route path="/engarticle" element={<Fullengarticle/>} />
           <Route path="/books" element={<Bookpage/>} />
           <Route path="/bookdetail/:id/:title" element={<BookDetailsPage/>} />
-          <Route path="/bookdetail/:id/:slug" element={<BookDetailsPage/>} />
+          <Route path="/bookdetail/:id/:slug" element={<BookDetailsBySlug/>} />
           <Route path="/bookslist" element={<Books/>} />
           <Route path="/articlefullpage" element={<ArticleFullpage/>} />
           <Route path="/questionlist" element={<Question/>} />
