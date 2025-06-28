@@ -9,9 +9,7 @@ import Book3 from "../../public/OurBooks/book3.png";
 import Book4 from "../../public/OurBooks/book4.png";
 import sampleimg from "../../public/Sliderimage/sampleimg.jpeg";
 import { Helmet } from "react-helmet"; // Add this import
-import ShareButton from './ShareEventButton';
-
-
+import ShareButton from "./ShareEventButton";
 
 export default function BookDetailsPage() {
   const { id } = useParams();
@@ -65,51 +63,48 @@ export default function BookDetailsPage() {
 
   const navigate = useNavigate();
 
-
   // Number of suggested books to show
-const bookLimit = 5;
+  const bookLimit = 5;
 
-// Filter out the current book
-const suggestedBooks = book && allBooks.length > 0
-  ? allBooks.filter((b) => b.id !== book.id)
-  : [];
+  // Filter out the current book
+  const suggestedBooks =
+    book && allBooks.length > 0 ? allBooks.filter((b) => b.id !== book.id) : [];
 
-// Optional: Shuffle books randomly (to avoid same suggestions every time)
-const shuffledSuggestions = suggestedBooks.sort(() => 0.5 - Math.random());
+  // Optional: Shuffle books randomly (to avoid same suggestions every time)
+  const shuffledSuggestions = suggestedBooks.sort(() => 0.5 - Math.random());
 
-// Final limited suggestions
-const limitedSuggestions = shuffledSuggestions.slice(0, bookLimit);
+  // Final limited suggestions
+  const limitedSuggestions = shuffledSuggestions.slice(0, bookLimit);
 
-
-const title = book?.title || "Book Details";
-const pageUrl = window.location.href;
-const description = book?.description
-  ? stripHTML(book.description).substring(0, 150)
-  : "Explore this book.";
-const imageUrl = `https://api.minaramasjid.com/api/books/cover/${book?.id}`;
+  const title = book?.title || "Book Details";
+  const pageUrl = window.location.href;
+  const description = book?.description
+    ? stripHTML(book.description).substring(0, 150)
+    : "Explore this book.";
+  const imageUrl = `https://api.minaramasjid.com/api/books/cover/${book?.id}`;
 
   return (
     <main className="min-h-screen font-sans bg-[#F8F3E9] bg-[url('/images/bg.png')] bg-repeat">
-       <Helmet>
-              <title>{title}</title>
-              <meta name="description" content={description} />
-              
-              {/* Open Graph / Facebook */}
-              <meta property="og:type" content="website" />
-              <meta property="og:url" content={pageUrl} />
-              <meta property="og:title" content={title} />
-              <meta property="og:description" content={description} />
-              <meta property="og:image" content={imageUrl} />
-              <meta property="og:image:width" content="1200" />
-              <meta property="og:image:height" content="630" />
-              
-              {/* Twitter */}
-              <meta name="twitter:card" content="summary_large_image" />
-              <meta name="twitter:url" content={pageUrl} />
-              <meta name="twitter:title" content={title} />
-              <meta name="twitter:description" content={description} />
-              <meta name="twitter:image" content={imageUrl} />
-            </Helmet>
+      <Helmet>
+        <title>{title}</title>
+        <meta name="description" content={description} />
+
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={pageUrl} />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:image" content={imageUrl} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:url" content={pageUrl} />
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={description} />
+        <meta name="twitter:image" content={imageUrl} />
+      </Helmet>
       {/* Header */}
       <header className="relative z-50 bg-[#783F1D] text-white">
         {/* Desktop + Mobile Nav */}
@@ -377,8 +372,7 @@ const imageUrl = `https://api.minaramasjid.com/api/books/cover/${book?.id}`;
         </div>
       </section>
 
-<ShareButton type="book" id={book?.id} title={book?.title} />
-
+      <ShareButton type="book" id={book?.id} title={book?.title} />
     </main>
   );
 }

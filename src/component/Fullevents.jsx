@@ -6,7 +6,7 @@ import user from "../../public/images/user.png";
 import Feedbackform from "../component/Feebackform";
 import Sampleimg from "../../public/Sliderimage/sampleimg.jpeg";
 import { Helmet } from "react-helmet"; // Add this import
-import ShareEventButton from "./ShareEventButton";
+import ShareButton from './ShareEventButton'
 
 
 export default function Fullevents() {
