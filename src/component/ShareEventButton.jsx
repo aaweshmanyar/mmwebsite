@@ -2,7 +2,8 @@ import React from "react";
 
 export default function ShareEventButton({ eventId, title }) {
   // Only include the event ID (no title in path)
-const sharePageUrl = `https://mm-server-tbbo.onrender.com/share/event/${eventId}`;
+const encodedTitle = encodeURIComponent(title || "event");
+const sharePageUrl = `https://mm-server-tbbo.onrender.com/share/event/${eventId}/${encodedTitle}`;
 
   const handleShare = async () => {
     try {
