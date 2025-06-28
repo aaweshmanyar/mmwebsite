@@ -1,9 +1,9 @@
 import React from "react";
+import { Share2 } from "lucide-react"; // Install via: npm install lucide-react
 
 export default function ShareEventButton({ eventId, title }) {
-  // Only include the event ID (no title in path)
-const encodedTitle = encodeURIComponent(title || "event");
-const sharePageUrl = `https://mm-server-tbbo.onrender.com/share/event/${eventId}/${encodedTitle}`;
+  const encodedTitle = encodeURIComponent(title || "event");
+  const sharePageUrl = `https://mm-server-tbbo.onrender.com/share/event/${eventId}/${encodedTitle}`;
 
   const handleShare = async () => {
     try {
@@ -23,11 +23,12 @@ const sharePageUrl = `https://mm-server-tbbo.onrender.com/share/event/${eventId}
   };
 
   return (
-    <button
+    <div
       onClick={handleShare}
-      className="mt-4 bg-green-600 text-white px-4 py-2 rounded-full hover:bg-green-700 transition"
+      className="fixed bottom-6 right-6 z-50 bg-green-600 hover:bg-green-700 text-white p-4 rounded-full shadow-lg cursor-pointer transition duration-300 ease-in-out flex items-center justify-center"
+      title="Share Event"
     >
-      Share Event
-    </button>
+      <Share2 className="w-5 h-5" />
+    </div>
   );
 }

@@ -200,7 +200,6 @@ export default function Fullevents() {
             />
           </div>
 
-<ShareEventButton eventId={article.id} title={article.title} />
           {/* Title Section */}
           <div className="text-center mb-8">
             <h1
@@ -289,7 +288,8 @@ export default function Fullevents() {
           </div>
         </div>
 
-        
+        <ShareEventButton eventId={article.id} title={article.title}/>
+
         <Feedbackform />
       </div>
     </main>
