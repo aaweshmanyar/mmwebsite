@@ -11,6 +11,10 @@ import Articleimg2 from "../../public/Articlepage/article2.png";
 import Articleimg3 from "../../public/Articlepage/article3.png";
 import Feedbackform from "../component/Feebackform";
 import Sampleimg from "../../public/Sliderimage/sampleimg.jpeg";
+import { Helmet } from "react-helmet"; // Add this import
+import ShareButton from './ShareEventButton';
+
+
 
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -95,8 +99,47 @@ export default function Home() {
       .replace(/[.,\/#!$%\^&\*;:{}=\_`~()؟“”"']/g, "") // Remove punctuation
       .replace(/[-]+/g, "-"); // Replace multiple hyphens with single
 
+  
+  // Utility to remove HTML tags and decode basic entities
+const stripHTML = (html) => {
+  if (!html) return "";
+  const tmp = document.createElement("DIV");
+  tmp.innerHTML = html;
+  return tmp.textContent || tmp.innerText || "";
+};
+
+const title = article?.title || "Book Details | Minara Masjid";
+const pageUrl = window.location.href;
+const rawDescription = article?.englishDescription || article?.urduDescription || "";
+const description = stripHTML(rawDescription).substring(0, 150) || "Explore this Islamic article on Minara Masjid.";
+const imageUrl = article?.id
+  ? `https://api.minaramasjid.com/api/articles/image/${article.id}`
+  : Sampleimg; // Optional fallback
+
+
   return (
     <main className="min-h-screen bg-[#f0f5e9] bg-cover z-10">
+       <Helmet>
+              <title>{title}</title>
+              <meta name="description" content={description} />
+              
+              {/* Open Graph / Facebook */}
+              <meta property="og:type" content="website" />
+              <meta property="og:url" content={pageUrl} />
+              <meta property="og:title" content={title} />
+              <meta property="og:description" content={description} />
+              <meta property="og:image" content={imageUrl} />
+              <meta property="og:image:width" content="1200" />
+              <meta property="og:image:height" content="630" />
+              
+              {/* Twitter */}
+              <meta name="twitter:card" content="summary_large_image" />
+              <meta name="twitter:url" content={pageUrl} />
+              <meta name="twitter:title" content={title} />
+              <meta name="twitter:description" content={description} />
+              <meta name="twitter:image" content={imageUrl} />
+            </Helmet>
+
       <div
         className="absolute inset-0 bg-cover bg-no-repeat opacity-70"
         style={{ backgroundImage: `url(${bg})`, backgroundPosition: "center" }}
@@ -550,6 +593,8 @@ export default function Home() {
           ))}
         </div>
       </div>
+      <ShareButton type="article" id={article.id} title={article.title} />
+
       <Feedbackform />
     </main>
   );
