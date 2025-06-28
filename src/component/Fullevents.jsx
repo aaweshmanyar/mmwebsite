@@ -288,7 +288,7 @@ export default function Fullevents() {
           </div>
         </div>
 
-        <ShareButton type="newsandevent" id={event.id} title={event.slug} />
+        <ShareButton type="newsandevent" id={article.id} title={article.slug} />
 
         <Feedbackform />
       </div>
