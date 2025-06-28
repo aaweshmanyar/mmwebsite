@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { Search, ChevronDown, User, Menu, X } from "lucide-react";
+import Logo from "../../public/images/marclogo.png";
+
 import { Helmet } from "react-helmet";
 import ShareButton from "./ShareEventButton";
 
 export default function BookDetailsBySlug() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { id, slug } = useParams();
   const [book, setBook] = useState(null);
   const [writers, setWriters] = useState([]);
@@ -94,6 +98,120 @@ export default function BookDetailsBySlug() {
         <meta name="twitter:description" content={description} />
         <meta name="twitter:image" content={imageUrl} />
       </Helmet>
+
+      {/* Header */}
+      <header className="relative z-50 bg-[#783F1D] text-white">
+        {/* Desktop + Mobile Nav */}
+        <div className="max-w-[1200px] mx-auto px-4 py-3 flex items-center justify-between relative">
+          {/* Mobile Menu Button */}
+          <button
+            className="md:hidden text-white z-20"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          >
+            {mobileMenuOpen ? (
+              <X className="w-6 h-6" />
+            ) : (
+              <Menu className="w-6 h-6" />
+            )}
+          </button>
+
+          {/* Left Nav */}
+          <nav className="hidden md:flex items-center space-x-6 text-[15px] font-medium">
+            <a href="/" className="hover:text-amber-300">
+              Home
+            </a>
+            <a href="/about" className="hover:text-amber-300">
+              About
+            </a>
+            <a href="/newsandevent" className="hover:text-amber-300">
+              News & Events
+            </a>
+            <a href="/books" className="hover:text-amber-300">
+              Books
+            </a>
+          </nav>
+
+          {/* Logo */}
+          <div className="absolute left-1/2 transform -translate-x-1/2 -bottom-14 z-30 bg-white rounded-full p-1 shadow-md">
+            <img
+              src={Logo}
+              alt="Logo"
+              className="w-20 h-20 object-contain rounded-full"
+            />
+          </div>
+
+          {/* Right Nav */}
+          <div className="hidden md:flex items-center space-x-5 font-medium text-[15px]">
+            <a href="/article" className="hover:text-amber-300">
+              Articles
+            </a>
+            <a href="/question" className="hover:text-amber-300">
+              Question Answer
+            </a>
+            <a href="/requestbook" className="hover:text-amber-300">
+              Request a Book
+            </a>
+            <a href="/contact" className="hover:text-amber-300">
+              Contact
+            </a>
+          </div>
+        </div>
+
+        {/* Mobile Slide-out Menu (from left) */}
+        {mobileMenuOpen && (
+          <div className="fixed inset-0 z-40 flex">
+            {/* Backdrop */}
+            <div
+              className="fixed inset-0 bg-black bg-opacity-30"
+              onClick={() => setMobileMenuOpen(false)}
+            />
+
+            {/* Drawer */}
+            <div className="relative w-1/2 h-full bg-[#783F1D] p-4 space-y-4 text-[15px] font-medium z-50">
+              <button
+                onClick={() => setMobileMenuOpen(false)}
+                className="absolute top-4 right-4 text-white"
+              >
+                <X className="w-5 h-5" />
+              </button>
+              <a href="/" className="block hover:text-amber-300">
+                Home
+              </a>
+              <a href="/about" className="block hover:text-amber-300">
+                About
+              </a>
+              <a href="/newsandevent" className="block hover:text-amber-300">
+                News & Events
+              </a>
+              <a href="/books" className="block hover:text-amber-300">
+                Books
+              </a>
+              <a href="/article" className="block hover:text-amber-300">
+                Articles
+              </a>
+              <a href="/question" className="block hover:text-amber-300">
+                Question Answer
+              </a>
+              <a href="/requestbook" className="block hover:text-amber-300">
+                Request a Book
+              </a>
+              <a href="/contact" className="block hover:text-amber-300">
+                Contact
+              </a>
+
+              {/* Search bar */}
+              <div className="flex items-center bg-white rounded-full px-3 py-1 mt-2 w-full">
+                <input
+                  type="text"
+                  placeholder="Search"
+                  className="bg-transparent outline-none text-black text-sm w-full"
+                />
+                <Search className="w-4 h-4 text-black ml-2" />
+              </div>
+            </div>
+          </div>
+        )}
+      </header>
 
       <section className="relative max-w-6xl mx-auto px-4 py-12">
         {book ? (
