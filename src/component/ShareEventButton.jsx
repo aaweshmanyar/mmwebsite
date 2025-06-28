@@ -1,20 +1,18 @@
 import React from "react";
 
 export default function ShareEventButton({ eventId, title }) {
-  // Share preview page (HTML file with OG meta) instead of full route
-  const sharePageUrl = `https://mm-server-tbbo.onrender.com/share/event/${eventId}/${title}`;
+  // Only include the event ID (no title in path)
+  const sharePageUrl = `https://mm-server-tbbo.onrender.com/share/event/${eventId}`;
 
   const handleShare = async () => {
     try {
-      // Use native share if available
       if (navigator.share) {
         await navigator.share({
           title: title || "Event Details",
           text: "Check out this event!",
-          url: sharePageUrl, // <-- ✅ Point to static share page
+          url: sharePageUrl,
         });
       } else {
-        // Fallback: Copy link to clipboard
         await navigator.clipboard.writeText(sharePageUrl);
         alert("✅ Event link copied to clipboard!");
       }
