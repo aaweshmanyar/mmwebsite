@@ -22,6 +22,7 @@ import ScrollTop from './component/ScrollToTop'
 import Fullevents from './component/Fullevents'
 import FaviconManager from './component/FaviconManager'
 import BookDetailsBySlug from './component/BookDetailsBySlug'
+import Writers from './component/Writers'
 
 
 
@@ -43,18 +44,20 @@ const App = () => {
           <Route path="/detailarticle/:id/:title" element={<Fullarticle/>} />
           <Route path="/detailarticle/:id/:slug" element={<Fullarticle/>} />
           <Route path="/detailarticle/:id" element={<Fullarticle/>} />
-          <Route path="/engarticle" element={<Fullengarticle/>} />
+          {/* <Route path="/engarticle" element={<Fullengarticle/>} /> */}
           <Route path="/books" element={<Bookpage/>} />
           <Route path="/bookdetail/:id/:title" element={<BookDetailsPage/>} />
           <Route path="/book/:id/:slug" element={<BookDetailsBySlug/>} />
           <Route path="/bookslist" element={<Books/>} />
-          <Route path="/articlefullpage" element={<ArticleFullpage/>} />
+          {/* <Route path="/articlefullpage" element={<ArticleFullpage/>} /> */}
           <Route path="/questionlist" element={<Question/>} />
           <Route path="/question/:id/:slug"  element={<QuestionDetail/>} />
            <Route path="/question/:id"  element={<QuestionDetail/>} />
           <Route path="/question"  element={<Quesetionpage/>} />
           <Route path="/requestbook"  element={<Requestbook/>} />
           <Route path="/writer/:id/:name"  element={<WriterProfile/>} />
+           <Route path="/writer/:id"  element={<WriterProfile/>} />
+           <Route path="/writer"  element={<Writers/>} />
           <Route path="/newsandevent"  element={<NewandEvent/>} />
           <Route path="/newsandevent/:id/:slug"  element={<Fullevents/>} />
           <Route path="/contact"  element={<ContactUs/>} />

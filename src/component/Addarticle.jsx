@@ -323,17 +323,20 @@ const ArticlesPage = () => {
   const title = "Articles | Maula Ali Research Center ";
   const pageUrl = "minaramasjid.com";
   const description = "minaramasjid.com";
-  
+
 
 
   return (
-    <div className="bg-slate-100">
+    <div className="bg-slate-100  bg-opacity-90" style={{
+      backgroundImage: `url(${bg})`,
+      backgroundBlendMode: "overlay",
+    }}>
 
       <Helmet>
         <title>{title}</title>
         <meta name="description" content={description} />
 
-         <link rel="icon" href={logo} type="image/x-icon" />
+        <link rel="icon" href={logo} type="image/x-icon" />
 
         {/* Open Graph / Facebook */}
         <meta property="og:type" content="website" />

@@ -84,7 +84,7 @@ export default function BookDetailsPage() {
   const imageUrl = `https://api.minaramasjid.com/api/books/cover/${book?.id}`;
 
   return (
-    <main className="min-h-screen font-sans bg-[#F8F3E9] bg-[url('/images/bg.png')] bg-repeat">
+    <main className="min-h-screen font-sans bg-[#F8F3E9] bg-[url('/images/bg.png')] bg-repeat bg-opacity-80">
       <Helmet>
         <title>{title}</title>
         <meta name="description" content={description} />

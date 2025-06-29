@@ -99,46 +99,46 @@ export default function Home() {
       .replace(/[.,\/#!$%\^&\*;:{}=\_`~()؟“”"']/g, "") // Remove punctuation
       .replace(/[-]+/g, "-"); // Replace multiple hyphens with single
 
-  
-  // Utility to remove HTML tags and decode basic entities
-const stripHTML = (html) => {
-  if (!html) return "";
-  const tmp = document.createElement("DIV");
-  tmp.innerHTML = html;
-  return tmp.textContent || tmp.innerText || "";
-};
 
-const title = article?.title || "Book Details | Minara Masjid";
-const pageUrl = window.location.href;
-const rawDescription = article?.englishDescription || article?.urduDescription || "";
-const description = stripHTML(rawDescription).substring(0, 150) || "Explore this Islamic article on Minara Masjid.";
-const imageUrl = article?.id
-  ? `https://api.minaramasjid.com/api/articles/image/${article.id}`
-  : Sampleimg; // Optional fallback
+  // Utility to remove HTML tags and decode basic entities
+  const stripHTML = (html) => {
+    if (!html) return "";
+    const tmp = document.createElement("DIV");
+    tmp.innerHTML = html;
+    return tmp.textContent || tmp.innerText || "";
+  };
+
+  const title = article?.title || "Book Details | Minara Masjid";
+  const pageUrl = window.location.href;
+  const rawDescription = article?.englishDescription || article?.urduDescription || "";
+  const description = stripHTML(rawDescription).substring(0, 150) || "Explore this Islamic article on Minara Masjid.";
+  const imageUrl = article?.id
+    ? `https://api.minaramasjid.com/api/articles/image/${article.id}`
+    : Sampleimg; // Optional fallback
 
 
   return (
     <main className="min-h-screen bg-[#f0f5e9] bg-cover z-10">
-       <Helmet>
-              <title>{title}</title>
-              <meta name="description" content={description} />
-              
-              {/* Open Graph / Facebook */}
-              <meta property="og:type" content="website" />
-              <meta property="og:url" content={pageUrl} />
-              <meta property="og:title" content={title} />
-              <meta property="og:description" content={description} />
-              <meta property="og:image" content={imageUrl} />
-              <meta property="og:image:width" content="1200" />
-              <meta property="og:image:height" content="630" />
-              
-              {/* Twitter */}
-              <meta name="twitter:card" content="summary_large_image" />
-              <meta name="twitter:url" content={pageUrl} />
-              <meta name="twitter:title" content={title} />
-              <meta name="twitter:description" content={description} />
-              <meta name="twitter:image" content={imageUrl} />
-            </Helmet>
+      <Helmet>
+        <title>{title}</title>
+        <meta name="description" content={description} />
+
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={pageUrl} />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:image" content={imageUrl} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:url" content={pageUrl} />
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={description} />
+        <meta name="twitter:image" content={imageUrl} />
+      </Helmet>
 
       <div
         className="absolute inset-0 bg-cover bg-no-repeat opacity-70"
@@ -197,9 +197,8 @@ const imageUrl = article?.id
 
           {/* Mobile menu */}
           <div
-            className={`md:hidden transition-all overflow-hidden ${
-              menuOpen ? "max-h-screen opacity-100" : "max-h-0 opacity-0"
-            }`}
+            className={`md:hidden transition-all overflow-hidden ${menuOpen ? "max-h-screen opacity-100" : "max-h-0 opacity-0"
+              }`}
           >
             <div className="flex flex-col gap-3 py-4 px-2 text-white bg-[#5a7544] rounded-b-xl">
               <a href="/" className="hover:bg-[#4f6639] px-4 py-2 rounded">
@@ -282,25 +281,22 @@ const imageUrl = article?.id
           <div className="flex rounded-full overflow-hidden border border-[#d6e5c4]">
             <button
               onClick={() => setActiveLanguage("urdu")}
-              className={`gulzartext flex-1 text-center py-2 text-[#4a7031] cursor-pointer rtl ${
-                activeLanguage === "urdu" ? "bg-[#c1d9a3]" : "bg-[#e8f0e0]"
-              }`}
+              className={`gulzartext flex-1 text-center py-2 text-[#4a7031] cursor-pointer rtl ${activeLanguage === "urdu" ? "bg-[#c1d9a3]" : "bg-[#e8f0e0]"
+                }`}
             >
               اردو
             </button>
             <button
               onClick={() => setActiveLanguage("roman")}
-              className={`flex-1 text-center py-2 cursor-pointer ${
-                activeLanguage === "roman" ? "bg-[#c1d9a3]" : "bg-[#e8f0e0]"
-              }`}
+              className={`flex-1 text-center py-2 cursor-pointer ${activeLanguage === "roman" ? "bg-[#c1d9a3]" : "bg-[#e8f0e0]"
+                }`}
             >
               Roman
             </button>
             <button
               onClick={() => setActiveLanguage("english")}
-              className={`flex-1 text-center py-2 cursor-pointer ${
-                activeLanguage === "english" ? "bg-[#c1d9a3]" : "bg-[#e8f0e0]"
-              }`}
+              className={`flex-1 text-center py-2 cursor-pointer ${activeLanguage === "english" ? "bg-[#c1d9a3]" : "bg-[#e8f0e0]"
+                }`}
             >
               English
             </button>
@@ -308,9 +304,8 @@ const imageUrl = article?.id
 
           {/* Article Content */}
           <div
-            className={`leading-relaxed space-y-8 ${
-              activeLanguage === "urdu" ? "rtl text-right" : "ltr text-left"
-            }`}
+            className={`leading-relaxed space-y-8 ${activeLanguage === "urdu" ? "rtl text-right" : "ltr text-left"
+              }`}
           >
             <div
               className="prose max-w-none gulzartext"
@@ -331,9 +326,8 @@ const imageUrl = article?.id
 
               return (
                 <p
-                  className={`gulzartext text-[#4a7031] text-sm font-semibold ${
-                    isUrdu ? "text-right" : "text-left"
-                  }`}
+                  className={`gulzartext text-[#4a7031] text-sm font-semibold ${isUrdu ? "text-right" : "text-left"
+                    }`}
                   dir={isUrdu ? "rtl" : "ltr"}
                 >
                   {isUrdu

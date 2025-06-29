@@ -470,17 +470,17 @@ export default function Home() {
           <div className="absolute left-4 top-1/2 -translate-y-1/2 z-10">
             <button
               onClick={() => scroll("left")}
-              className="bg-[#e2f0d0] rounded-full p-2 hover:bg-[#d2e3bc] transition"
+              className="bg-[#e2f0d0] rounded-full p-2 hover:bg-[#d2e3bc] transition cursor-pointer"
             >
-              <ChevronRight className="h-5 w-5 text-green-700 rotate-180" />
+              <ChevronRight className="h-5 w-5 text-green-700 rotate-180 cursor-pointer" />
             </button>
           </div>
-          <div className="absolute right-4 top-1/2 -translate-y-1/2 z-10">
+          <div className="absolute right-4 top-1/2 -translate-y-1/2 z-10 ">
             <button
               onClick={() => scroll("right")}
-              className="bg-[#e2f0d0] rounded-full p-2 hover:bg-[#d2e3bc] transition"
+              className="bg-[#e2f0d0] rounded-full p-2 hover:bg-[#d2e3bc] transition cursor-pointer"
             >
-              <ChevronRight className="h-5 w-5 text-green-700" />
+              <ChevronRight className="h-5 w-5 text-green-700 cursor-pointer" />
             </button>
           </div>
 

@@ -3,7 +3,7 @@ import image1 from "../../public/Aboutcenter/about1.png";
 import image2 from "../../public/Aboutcenter/about2.png";
 import image3 from "../../public/Aboutcenter/about3.png";
 import image4 from "../../public/Aboutcenter/about4.png";
-import bg from "../../public/images/bg.png";
+import bg from "../../public/images/newbg.png";
 import Userimg from "../../public/Scholar/user.png";
 import Navbar from "./Navbar/Navbar";
 import { useNavigate } from "react-router-dom";

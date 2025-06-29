@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Search, ChevronDown, Eye, Menu, X } from "lucide-react";
 import Logo from "../../public/images/marclogo.png";
 import logo from '../../public/images/marc.png'
-import bg from "../../public/images/bg.png";
+import bg from "../../public/images/newbg.png";
 import { useNavigate } from "react-router-dom";
 import sampleimg from "../../public/Sliderimage/sampleimg.jpeg";
 import { Helmet } from "react-helmet";
@@ -415,7 +415,7 @@ const EnhancedUIDesign = () => {
             }`}
         >
           {loading ? (
-            <div className="flex flex-col justify-center items-center h-screen bg-slate-100 space-y-6">
+            <div className="fixed inset-0 top-10 flex flex-col justify-center items-center bg-slate-100 space-y-6 z-50">
               {/* Spinner */}
               <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-emerald-500"></div>
 
@@ -424,6 +424,7 @@ const EnhancedUIDesign = () => {
                 صَلَّى ٱللّٰهُ عَلَيْهِ وَآلِهِ وَسَلَّمَ
               </div>
             </div>
+
           ) : filteredQuestions.length === 0 ? (
             <div className="w-full text-center py-10">
               <p className="font-nastaliq text-lg text-slate-600">
@@ -456,16 +457,17 @@ const EnhancedUIDesign = () => {
                     }`}
                 >
                   <p
-                    className={`${viewMode === "list" ? "line-clamp-1 mb-2" : "line-clamp-2"
-                      } ${card.language === "Urdu"
-                        ? "text-center font-nastaliq"
-                        : "text-center"
-                      } text-slate-700 text-base leading-relaxed gulzartext`}
-                    dir={card.language === "Urdu" ? "rtl" : "ltr"}
+                    className={`${viewMode === "list" ? "line-clamp-1 mb-2" : "line-clamp-2"} 
+    ${/[\u0600-\u06FF]/.test(card.questionUrdu || card.questionEnglish)
+                        ? "text-right font-nastaliq"
+                        : "text-left"} 
+    text-slate-700 text-base leading-relaxed gulzartext`}
+                    dir={/[\u0600-\u06FF]/.test(card.questionUrdu || card.questionEnglish) ? "rtl" : "ltr"}
                     dangerouslySetInnerHTML={{
                       __html: card.questionUrdu || card.questionEnglish,
                     }}
                   ></p>
+
                 </div>
                 <div
                   className={`card-actions-section flex justify-end gap-2 ${viewMode === "list"

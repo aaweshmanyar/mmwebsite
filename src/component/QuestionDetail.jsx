@@ -225,7 +225,7 @@ const QuestionDetail = () => {
         ></p>
       </div>
 
-      <div className="flex flex-col items-end gap-2 mt-4 md:mb-16 mr-6 px-4 text-right">
+      <div className="flex flex-col items-end gap-2 mt-4 md:mb-16 mr-8 px-4 text-right">
         <div className="flex items-center gap-4 justify-end">
           <div>
             <p className="text-sm text-gray-600 gulzartext">اسلامک اسکالر</p>

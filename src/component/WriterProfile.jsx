@@ -5,6 +5,7 @@ import { useNavigate, Link, useParams } from "react-router-dom";
 import Userimg from "../../public/images/user.png";
 import sampleimg from "../../public/Sliderimage/sampleimg.jpeg";
 
+
 export default function WriterProfile() {
   const { id } = useParams();
   const [writer, setWriter] = useState(null);
@@ -171,7 +172,7 @@ export default function WriterProfile() {
                   </h2>
                   <button
                     onClick={toggleLanguage}
-                    className="flex border-white rounded-full bg-[#d4af37] p-1"
+                    className="cursor-pointer flex border-white rounded-full bg-[#d4af37] p-1"
                   >
                     <span
                       className={`px-4 py-1 rounded-full text-sm font-medium transition ${language === "english"

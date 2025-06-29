@@ -207,7 +207,7 @@ export default function Home() {
       </Helmet>
       {/* Background Image Layer */}
       <div
-        className=" inset-0 bg-cover bg-center bg-no-repeat opacity-100 z-10"
+        className=" inset-0 bg-cover bg-center bg-no-repeat bg-opacity-80 z-10"
         style={{ backgroundImage: `url(${bg})` }}
       ></div>
 
