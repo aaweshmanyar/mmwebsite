@@ -1,8 +1,10 @@
 import bg from "../../public/images/bg.png";
 import Logo from "../../public/images/marclogo.png";
+import logo from '../../public/images/marc.png'
 import React, { useState, useEffect } from "react";
 import { Check, Menu, X, Search } from "lucide-react";
 import QrCode from "../../public/images/qr.jpg";
+import { Helmet } from "react-helmet";
 
 const Requestbook = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -26,17 +28,17 @@ const Requestbook = () => {
     const value = e.target.value;
     setEmail(value);
     setIsValidEmail(/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value));
-    setFormData({...formData, email: value});
+    setFormData({ ...formData, email: value });
   };
 
   const handleInputChange = (e) => {
     const { id, value } = e.target;
-    setFormData({...formData, [id]: value});
+    setFormData({ ...formData, [id]: value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!formData.name || !formData.email || !formData.contact || !formData.books) {
       setSubmitStatus({
         success: false,
@@ -54,7 +56,7 @@ const Requestbook = () => {
     }
 
     setIsSubmitting(true);
-    
+
     try {
       const response = await fetch('https://api.minaramasjid.com/api/requestBook', {
         method: 'POST',
@@ -119,8 +121,34 @@ const Requestbook = () => {
     fetchData();
   }, []);
 
+
+  const title = "Books Request | Maula Ali Research Center ";
+  const pageUrl = "minaramasjid.com";
+  const description = "minaramasjid.com";
+
   return (
     <div className="w-full min-h-screen bg-[#f8efd0] relative overflow-hidden">
+
+      <Helmet>
+        <title>{title}</title>
+        <meta name="description" content={description} />
+
+        <link rel="icon" href={logo} type="image/x-icon" />
+
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={pageUrl} />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:url" content={pageUrl} />
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={description} />
+      </Helmet>
       <div
         className="absolute inset-0 opacity-36 pointer-events-none"
       ></div>
@@ -159,7 +187,7 @@ const Requestbook = () => {
           {/* Logo */}
           <div className="absolute left-1/2 transform -translate-x-1/2 -bottom-14 z-30 bg-white rounded-full p-1 shadow-md">
             <img
-            src={Logo}
+              src={Logo}
               alt="Logo"
               className="w-20 h-20 object-contain rounded-full"
             />
@@ -369,7 +397,7 @@ const Requestbook = () => {
               </p>
               <div className="flex justify-center mt-4">
                 <img
-                src={QrCode}
+                  src={QrCode}
                   alt="Donation QR Code"
                   className="w-28 h-28 object-contain"
                 />

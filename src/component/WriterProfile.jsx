@@ -174,20 +174,18 @@ export default function WriterProfile() {
                     className="flex border-white rounded-full bg-[#d4af37] p-1"
                   >
                     <span
-                      className={`px-4 py-1 rounded-full text-sm font-medium transition ${
-                        language === "english"
+                      className={`px-4 py-1 rounded-full text-sm font-medium transition ${language === "english"
                           ? "bg-white text-black"
                           : "text-white"
-                      }`}
+                        }`}
                     >
                       English
                     </span>
                     <span
-                      className={`px-4 py-1 rounded-full text-sm font-medium transition ${
-                        language === "urdu"
+                      className={`px-4 py-1 rounded-full text-sm font-medium transition ${language === "urdu"
                           ? "bg-white text-black"
                           : "text-white"
-                      }`}
+                        }`}
                     >
                       اردو
                     </span>
@@ -199,15 +197,17 @@ export default function WriterProfile() {
                 </h1>
 
                 <p
-                  className={`gulzartext text-gray-700 leading-relaxed text-sm sm:text-base ${
-                    language === "urdu" ? "text-right" : ""
-                  }`}
+                  className={`gulzartext text-gray-700 leading-relaxed text-sm sm:text-base ${language === "urdu" ? "text-right" : ""
+                    }`}
                   dir={language === "urdu" ? "rtl" : "ltr"}
-                >
-                  {language === "urdu"
-                    ? decodeHtmlEntities(stripHtml(writer?.urduDescription))
-                    : decodeHtmlEntities(stripHtml(writer?.englishDescription))}
-                </p>
+                  dangerouslySetInnerHTML={{
+                    __html:
+                      language === "urdu"
+                        ? decodeHtmlEntities(stripHtml(writer?.urduDescription))
+                        : decodeHtmlEntities(stripHtml(writer?.englishDescription)),
+                  }}
+                ></p>
+
               </div>
             </div>
           </div>
@@ -273,7 +273,7 @@ export default function WriterProfile() {
                         className="cursor-pointer border inline-flex items-center text-sm text-yellow-700 bg-white px-4 py-1.5 rounded-full hover:bg-yellow-200 transition"
                       >
                         {" "}
-                          Read More <ChevronRight className="h-4 w-4 ml-1" />
+                        Read More <ChevronRight className="h-4 w-4 ml-1" />
                       </a>
 
                       <a
@@ -314,21 +314,19 @@ export default function WriterProfile() {
           <div className="flex justify-end mb-4 gap-2">
             <button
               onClick={() => setLanguage("urdu")}
-              className={`cursor-pointer px-4 py-1 rounded-full text-sm font-medium border ${
-                language === "urdu"
+              className={`cursor-pointer px-4 py-1 rounded-full text-sm font-medium border ${language === "urdu"
                   ? "bg-green-500 text-white"
                   : "bg-white text-gray-700"
-              }`}
+                }`}
             >
               اردو
             </button>
             <button
               onClick={() => setLanguage("english")}
-              className={`cursor-pointer px-4 py-1 rounded-full text-sm font-medium border ${
-                language === "english"
+              className={`cursor-pointer px-4 py-1 rounded-full text-sm font-medium border ${language === "english"
                   ? "bg-green-500 text-white"
                   : "bg-white text-gray-700"
-              }`}
+                }`}
             >
               English
             </button>
@@ -438,9 +436,8 @@ export default function WriterProfile() {
                     </div>
                     <div className="absolute bottom-0 left-0 right-0 p-3 text-white">
                       <h2
-                        className={`gulzartext card-title font-bold text-lg leading-tight ${
-                          isUrdu(article.title) ? "text-right" : "text-left"
-                        }`}
+                        className={`gulzartext card-title font-bold text-lg leading-tight ${isUrdu(article.title) ? "text-right" : "text-left"
+                          }`}
                       >
                         {article.title}
                       </h2>

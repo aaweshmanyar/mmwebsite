@@ -3,8 +3,10 @@ import React, { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import bg from "../../public/images/newbg.png";
 import Logo from "../../public/images/marclogo.png";
+import logo from '../../public/images/marc.png'
 import Sampleimg from "../../public/Sliderimage/sampleimg.jpeg";
 import { useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -121,7 +123,7 @@ export default function Home() {
     if (!hasMore || loading) return;
 
     setLoading(true);
-    
+
     const nextPage = page + 1;
     const startIndex = (nextPage - 1) * booksPerPage;
     const endIndex = startIndex + booksPerPage;
@@ -178,8 +180,31 @@ export default function Home() {
 
   const navigate = useNavigate();
 
+  const title = "Books | Maula Ali Research Center ";
+  const pageUrl = "minaramasjid.com";
+  const description = "minaramasjid.com";
   return (
     <main className="min-h-screen bg-cover bg-center bg-no-repeat flex flex-col relative">
+      <Helmet>
+        <title>{title}</title>
+        <meta name="description" content={description} />
+
+        <link rel="icon" href={logo} type="image/x-icon" />
+
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={pageUrl} />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:url" content={pageUrl} />
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={description} />
+      </Helmet>
       {/* Background Image Layer */}
       <div
         className=" inset-0 bg-cover bg-center bg-no-repeat opacity-100 z-10"
@@ -434,11 +459,10 @@ export default function Home() {
           <div className="flex justify-end items-center mb-8 space-x-3">
             <button
               onClick={applyGridView}
-              className={`p-2.5 rounded-full ${
-                viewMode === "grid"
+              className={`p-2.5 rounded-full ${viewMode === "grid"
                   ? "bg-green-600 text-white"
                   : "bg-white text-gray-500 hover:bg-gray-100"
-              }`}
+                }`}
               title="Grid view"
             >
               <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -447,11 +471,10 @@ export default function Home() {
             </button>
             <button
               onClick={applyListView}
-              className={`p-2.5 rounded-full ${
-                viewMode === "list"
+              className={`p-2.5 rounded-full ${viewMode === "list"
                   ? "bg-green-600 text-white"
                   : "bg-white text-gray-500 hover:bg-gray-100"
-              }`}
+                }`}
               title="List view"
             >
               <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -466,11 +489,10 @@ export default function Home() {
 
           {/* Books Display */}
           <div
-            className={`${
-              viewMode === "grid"
+            className={`${viewMode === "grid"
                 ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
                 : "flex flex-col space-y-6"
-            } mb-10`}
+              } mb-10`}
           >
             {initialLoad ? (
               <div className="col-span-full flex justify-center py-10">
@@ -489,9 +511,8 @@ export default function Home() {
                   onClick={() =>
                     navigate(`/bookdetail/${book.id}/${slugify(book.title)}`)
                   }
-                  className={`cursor-pointer bg-white rounded-xl shadow-lg overflow-hidden transition-transform hover:scale-[1.02] ${
-                    viewMode === "grid" ? "flex flex-col" : "sm:flex sm:max-h-40"
-                  }`}
+                  className={`cursor-pointer bg-white rounded-xl shadow-lg overflow-hidden transition-transform hover:scale-[1.02] ${viewMode === "grid" ? "flex flex-col" : "sm:flex sm:max-h-40"
+                    }`}
                 >
                   <div
                     className={

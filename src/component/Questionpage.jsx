@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Search, ChevronDown, Eye, Menu, X } from "lucide-react";
 import Logo from "../../public/images/marclogo.png";
+import logo from '../../public/images/marc.png'
 import bg from "../../public/images/bg.png";
 import { useNavigate } from "react-router-dom";
 import sampleimg from "../../public/Sliderimage/sampleimg.jpeg";
+import { Helmet } from "react-helmet";
 
 const EnhancedUIDesign = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -90,8 +92,33 @@ const EnhancedUIDesign = () => {
       .replace(/[.,\/#!$%\^&\*;:{}=\_`~()؟""']/g, '')  // Remove punctuation
       .replace(/[-]+/g, '-');                  // Replace multiple hyphens with single
 
+
+  const title = "FAQs | Maula Ali Research Center ";
+  const pageUrl = "minaramasjid.com";
+  const description = "minaramasjid.com";
   return (
     <div className="bg-slate-50 text-slate-800">
+      <Helmet>
+        <title>{title}</title>
+        <meta name="description" content={description} />
+
+        <link rel="icon" href={logo} type="image/x-icon" />
+
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={pageUrl} />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:url" content={pageUrl} />
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={description} />
+      </Helmet>
+
       <header className="bg-[#718e56] sticky top-0 z-50 shadow-md border-b border-green-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4 relative">
@@ -145,9 +172,8 @@ const EnhancedUIDesign = () => {
 
           {/* Mobile menu */}
           <div
-            className={`md:hidden transition-all overflow-hidden ${
-              menuOpen ? "max-h-screen opacity-100" : "max-h-0 opacity-0"
-            }`}
+            className={`md:hidden transition-all overflow-hidden ${menuOpen ? "max-h-screen opacity-100" : "max-h-0 opacity-0"
+              }`}
           >
             <div className="flex flex-col gap-3 py-4 px-2 text-white bg-[#5a7544] rounded-b-xl">
               <a href="/" className="hover:bg-[#4f6639] px-4 py-2 rounded">
@@ -257,9 +283,8 @@ const EnhancedUIDesign = () => {
                       {sortOptions.map((option) => (
                         <button
                           key={option}
-                          className={`w-full text-left px-3 py-1.5 text-sm hover:bg-slate-100 ${
-                            sorting === option ? "bg-emerald-50 text-emerald-700" : "text-slate-700"
-                          }`}
+                          className={`w-full text-left px-3 py-1.5 text-sm hover:bg-slate-100 ${sorting === option ? "bg-emerald-50 text-emerald-700" : "text-slate-700"
+                            }`}
                           onClick={() => {
                             setSorting(option);
                             setShowSortDropdown(false);
@@ -297,9 +322,8 @@ const EnhancedUIDesign = () => {
                       {languageOptions.map((lang) => (
                         <button
                           key={lang}
-                          className={`w-full text-left px-3 py-1.5 text-sm hover:bg-slate-100 ${
-                            language === lang ? "bg-emerald-50 text-emerald-700" : "text-slate-700"
-                          }`}
+                          className={`w-full text-left px-3 py-1.5 text-sm hover:bg-slate-100 ${language === lang ? "bg-emerald-50 text-emerald-700" : "text-slate-700"
+                            }`}
                           onClick={() => {
                             setLanguage(lang);
                             setShowLanguageDropdown(false);
@@ -320,11 +344,10 @@ const EnhancedUIDesign = () => {
                   id="listToggleBtn"
                   title="List View"
                   onClick={setListView}
-                  className={`cursor-pointer p-1.5 rounded-md text-slate-500 hover:bg-white hover:text-emerald-600 transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-400 ${
-                    viewMode === "list"
-                      ? "layout-toggle-active bg-emerald-500 text-white hover:bg-emerald-600"
-                      : ""
-                  }`}
+                  className={`cursor-pointer p-1.5 rounded-md text-slate-500 hover:bg-white hover:text-emerald-600 transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-400 ${viewMode === "list"
+                    ? "layout-toggle-active bg-emerald-500 text-white hover:bg-emerald-600"
+                    : ""
+                    }`}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -350,11 +373,10 @@ const EnhancedUIDesign = () => {
                   id="gridToggleBtn"
                   title="Grid View"
                   onClick={setGridView}
-                  className={`cursor-pointer p-1.5 rounded-md text-slate-500 hover:bg-white hover:text-emerald-600 transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-400 ${
-                    viewMode === "grid"
-                      ? "layout-toggle-active bg-emerald-500 text-white hover:bg-emerald-600"
-                      : ""
-                  }`}
+                  className={`cursor-pointer p-1.5 rounded-md text-slate-500 hover:bg-white hover:text-emerald-600 transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-400 ${viewMode === "grid"
+                    ? "layout-toggle-active bg-emerald-500 text-white hover:bg-emerald-600"
+                    : ""
+                    }`}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -387,11 +409,10 @@ const EnhancedUIDesign = () => {
 
         <main
           id="cardsContainer"
-          className={`w-full px-2 md:px-4 ${
-            viewMode === "grid"
-              ? "grid grid-cols-1 sm:grid-cols-2 gap-5"
-              : "flex flex-col gap-3"
-          }`}
+          className={`w-full px-2 md:px-4 ${viewMode === "grid"
+            ? "grid grid-cols-1 sm:grid-cols-2 gap-5"
+            : "flex flex-col gap-3"
+            }`}
         >
           {loading ? (
             <div className="flex flex-col justify-center items-center h-screen bg-slate-100 space-y-6">
@@ -414,14 +435,12 @@ const EnhancedUIDesign = () => {
               <div
                 key={card._id}
                 onClick={() => navigate(`/question/${card.id}/${slugify(card.slug)}`)}
-                className={`card-item bg-white rounded-xl shadow-lg p-5 flex cursor-pointer w-full transition-all duration-300 ease-in-out hover:shadow-2xl hover:-translate-y-1 ${
-                  viewMode === "list" ? "flex-row items-center" : "flex-col"
-                }`}
+                className={`card-item bg-white rounded-xl shadow-lg p-5 flex cursor-pointer w-full transition-all duration-300 ease-in-out hover:shadow-2xl hover:-translate-y-1 ${viewMode === "list" ? "flex-row items-center" : "flex-col"
+                  }`}
               >
                 <div
-                  className={`card-tag-section flex justify-end items-start ${
-                    viewMode === "list" ? "mb-0 ml-4 flex-shrink-0" : "mb-3"
-                  }`}
+                  className={`card-tag-section flex justify-end items-start ${viewMode === "list" ? "mb-0 ml-4 flex-shrink-0" : "mb-3"
+                    }`}
                 >
                   <div className="bg-emerald-100 text-emerald-700 rounded-full px-3 py-1 text-xs font-medium flex items-center gap-1.5 self-start">
                     <span className="font-nastaliq">سوال</span>
@@ -431,20 +450,17 @@ const EnhancedUIDesign = () => {
                   </div>
                 </div>
                 <div
-                  className={`card-content-section ${
-                    viewMode === "list"
-                      ? "flex-grow mb-0 text-right"
-                      : "flex-grow mb-4"
-                  }`}
+                  className={`card-content-section ${viewMode === "list"
+                    ? "flex-grow mb-0 text-right"
+                    : "flex-grow mb-4"
+                    }`}
                 >
                   <p
-                    className={`${
-                      viewMode === "list" ? "line-clamp-1 mb-2" : "line-clamp-2"
-                    } ${
-                      card.language === "Urdu"
+                    className={`${viewMode === "list" ? "line-clamp-1 mb-2" : "line-clamp-2"
+                      } ${card.language === "Urdu"
                         ? "text-center font-nastaliq"
                         : "text-center"
-                    } text-slate-700 text-base leading-relaxed gulzartext`}
+                      } text-slate-700 text-base leading-relaxed gulzartext`}
                     dir={card.language === "Urdu" ? "rtl" : "ltr"}
                     dangerouslySetInnerHTML={{
                       __html: card.questionUrdu || card.questionEnglish,
@@ -452,11 +468,10 @@ const EnhancedUIDesign = () => {
                   ></p>
                 </div>
                 <div
-                  className={`card-actions-section flex justify-end gap-2 ${
-                    viewMode === "list"
-                      ? "mt-0 mr-auto flex-shrink-0"
-                      : "mt-auto"
-                  }`}
+                  className={`card-actions-section flex justify-end gap-2 ${viewMode === "list"
+                    ? "mt-0 mr-auto flex-shrink-0"
+                    : "mt-auto"
+                    }`}
                 >
                   <button className="cursor-pointer bg-emerald-50 hover:bg-emerald-100 text-emerald-700 px-3.5 py-1.5 rounded-lg text-xs font-medium transition-colors">
                     {card.language === "اردو" ? "اردو" : "English"}

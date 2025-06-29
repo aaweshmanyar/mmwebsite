@@ -8,6 +8,7 @@ import Userimg from "../../public/Scholar/user.png";
 import Navbar from "./Navbar/Navbar";
 import { useNavigate } from "react-router-dom";
 import logo from "../../public/images/marc.png";
+import { Helmet } from "react-helmet";
 
 export default function Home() {
   const [activeLang, setActiveLang] = useState("en");
@@ -74,6 +75,10 @@ export default function Home() {
       .replace(/\s+/g, "-")
       .replace(/[^\w\-]+/g, "");
 
+  const title = "About Us | Maula Ali Research Center ";
+  const pageUrl = "minaramasjid.com";
+  const description = "minaramasjid.com";
+
   return (
     <main
       className="min-h-screen bg-repeat bg-opacity-80 relative"
@@ -83,6 +88,27 @@ export default function Home() {
         backgroundBlendMode: "overlay",
       }}
     >
+
+      <Helmet>
+        <title>{title}</title>
+        <meta name="description" content={description} />
+
+        <link rel="icon" href={logo} type="image/x-icon" />
+
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={pageUrl} />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:url" content={pageUrl} />
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={description} />
+      </Helmet>
       <header className="bg-white sticky  top-0 z-50 shadow-md border-b border-green-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4 relative">
@@ -152,9 +178,8 @@ export default function Home() {
 
           {/* Mobile menu */}
           <div
-            className={`md:hidden transition-all overflow-hidden ${
-              menuOpen ? "max-h-screen opacity-100" : "max-h-0 opacity-0"
-            }`}
+            className={`md:hidden transition-all overflow-hidden ${menuOpen ? "max-h-screen opacity-100" : "max-h-0 opacity-0"
+              }`}
           >
             <div className="flex flex-col gap-3 py-4 px-2 text-white bg-[#5a7544] rounded-b-xl">
               <a href="/" className="hover:bg-[#4f6639] px-4 py-2 rounded">
@@ -222,11 +247,10 @@ export default function Home() {
           {sections.map((section) => (
             <div
               key={section.id}
-              className={`relative flex flex-col ${
-                section.imgPosition === "right"
+              className={`relative flex flex-col ${section.imgPosition === "right"
                   ? "md:flex-row-reverse"
                   : "md:flex-row"
-              } items-center gap-8`}
+                } items-center gap-8`}
             >
               <div className="w-full md:w-1/3 relative">
                 <div className="relative aspect-square rounded-lg overflow-hidden shadow-xl border-4 border-white">
@@ -270,9 +294,8 @@ export default function Home() {
 
                         {/* Sliding indicator with active text */}
                         <div
-                          className={`absolute top-[2px] ${
-                            activeLang === "ur" ? "right-2" : "left-2"
-                          } w-[40%] h-[80%] bg-[#d4a762] text-white flex items-center justify-center text-sm font-semibold rounded-full transition-all duration-300 z-10`}
+                          className={`absolute top-[2px] ${activeLang === "ur" ? "right-2" : "left-2"
+                            } w-[40%] h-[80%] bg-[#d4a762] text-white flex items-center justify-center text-sm font-semibold rounded-full transition-all duration-300 z-10`}
                         >
                           {activeLang === "ur" ? "اردو" : "English"}
                         </div>
@@ -284,9 +307,8 @@ export default function Home() {
                     {section.title}
                   </h2>
                   <p
-                    className={`text-[#555] gulzartext leading-relaxed text-base md:text-lg whitespace-pre-wrap ${
-                      activeLang === "ur" ? "text-right" : ""
-                    }`}
+                    className={`text-[#555] gulzartext leading-relaxed text-base md:text-lg whitespace-pre-wrap ${activeLang === "ur" ? "text-right" : ""
+                      }`}
                     dir={activeLang === "ur" ? "rtl" : "ltr"}
                   >
                     {activeLang === "ur" ? section.ur : section.en}

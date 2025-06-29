@@ -12,11 +12,12 @@ import Banner3 from "../../public/Sliderimage/banner3.jpg";
 import about from "../../public/images/about.jpg";
 import Bookimg from "../../public/Aboutimg/bookclm.png";
 import Sampleimg from "../../public/Sliderimage/sampleimg.jpeg";
+import Userprofle from "../../public/Scholar/user.png"
 
 import { useSearchParams, useNavigate } from "react-router-dom";
 
 const banners = [Banner];
-const BannerCarousel = () => {};
+const BannerCarousel = () => { };
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [articles, setArticles] = useState([]);
@@ -106,34 +107,71 @@ export default function Home() {
   const images = [Banner, Banner2, Banner3];
 
   const [order, setOrder] = useState([0, 1, 2]);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const transitionRef = useRef(null);
+  const containerRef = useRef(null);
 
-  const handleClick = (index) => {
-    if (index === order[1]) return; // Already center, do nothing
-
-    // Swap clicked image with center
-    const newOrder = [...order];
-    const clickedIndex = newOrder.indexOf(index);
-    [newOrder[1], newOrder[clickedIndex]] = [
-      newOrder[clickedIndex],
-      newOrder[1],
-    ];
-    setOrder(newOrder);
-  };
-
-  // Auto slide every 3 seconds
-  useEffect(() => {
+   useEffect(() => {
     const interval = setInterval(() => {
-      // Rotate images to the left (next image becomes center)
-      setOrder((prevOrder) => {
-        const newOrder = [...prevOrder];
-        // Rotate left: first element to end
-        newOrder.push(newOrder.shift());
-        return newOrder;
-      });
+      if (isTransitioning) return;
+      rotateBanners('auto');
     }, 3000);
 
-    return () => clearInterval(interval); // Clear on unmount
-  }, []);
+    return () => clearInterval(interval);
+  }, [isTransitioning]);
+
+  const rotateBanners = (type = 'auto') => {
+    setIsTransitioning(true);
+    
+    setOrder(prev => {
+      const newOrder = [...prev];
+      if (type === 'auto') {
+        // For auto-rotation: slide left
+        newOrder.push(newOrder.shift());
+      } else if (type === 'right') {
+        // For right click: slide right
+        newOrder.unshift(newOrder.pop());
+      }
+      return newOrder;
+    });
+
+    if (transitionRef.current) {
+      clearTimeout(transitionRef.current);
+    }
+    transitionRef.current = setTimeout(() => {
+      setIsTransitioning(false);
+    }, 700); // Matches CSS transition duration
+  };
+
+  const handleClick = (index) => {
+    if (index === order[1] || isTransitioning) return;
+    setIsTransitioning(true);
+
+    const direction = order.indexOf(index) < 1 ? 'left' : 'right';
+    
+    setOrder(prev => {
+      const newOrder = [...prev];
+      const clickedIndex = newOrder.indexOf(index);
+      
+      if (direction === 'left') {
+        // Slide from left to center
+        [newOrder[1], newOrder[clickedIndex]] = [newOrder[clickedIndex], newOrder[1]];
+      } else {
+        // Slide from right to center
+        [newOrder[1], newOrder[clickedIndex]] = [newOrder[clickedIndex], newOrder[1]];
+      }
+      return newOrder;
+    });
+
+    if (transitionRef.current) {
+      clearTimeout(transitionRef.current);
+    }
+    transitionRef.current = setTimeout(() => {
+      setIsTransitioning(false);
+    }, 700);
+  };
+  // Auto slide every 3 seconds
+ 
 
   const slugify = (text) =>
     text
@@ -155,36 +193,56 @@ export default function Home() {
       <Navbar />
 
       {/* Banner */}
-      <div className="w-full py-6 px-4 flex justify-center items-center mt-6">
-        <div className="w-full max-w-[1440px] flex justify-center items-center gap-4 md:gap-8">
-          {/* Left Box */}
-          <div
-            className="hidden md:flex w-[300px] h-[200px] bg-white rounded-2xl shadow-md bg-cover bg-center cursor-pointer"
-            style={{ backgroundImage: `url(${images[order[0]]})` }}
-            onClick={() => handleClick(order[0])}
-          ></div>
+       <div className="w-full py-6 px-4 flex justify-center items-center mt-6">
+      <div 
+        className="w-full max-w-[1440px] flex justify-center items-center gap-4 md:gap-8 relative"
+        ref={containerRef}
+      >
+        {/* Left Box */}
+        <div
+          className={`hidden md:flex w-[300px] h-[200px] bg-white rounded-2xl shadow-md bg-cover bg-center cursor-pointer transition-all duration-700 ease-[cubic-bezier(0.33,1,0.68,1)] ${isTransitioning ? 'transform -translate-x-2 scale-95 opacity-90' : ''}`}
+          style={{ backgroundImage: `url(${images[order[0]]})` }}
+          onClick={() => handleClick(order[0])}
+        />
 
-          {/* Center Carousel */}
-          <div
-            className="w-full md:w-auto max-w-[800px] rounded-xl overflow-hidden shadow-lg cursor-pointer"
-            onClick={() => handleClick(order[1])}
-          >
-            <img
-              src={images[order[1]]}
-              alt="Center Banner"
-              className="w-full h-[200px] md:h-[300px] object-cover rounded-xl"
-            />
-          </div>
-
-          {/* Right Box */}
-          <div
-            className="hidden md:flex w-[300px] h-[200px] bg-white rounded-2xl shadow-md bg-cover bg-center cursor-pointer"
-            style={{ backgroundImage: `url(${images[order[2]]})` }}
-            onClick={() => handleClick(order[2])}
-          ></div>
+        {/* Center Carousel */}
+        <div
+          className={`w-full md:w-auto max-w-[800px] rounded-xl overflow-hidden shadow-lg cursor-pointer transition-all duration-700 ease-[cubic-bezier(0.33,1,0.68,1)] relative z-10 ${isTransitioning ? 'transform scale-105' : ''}`}
+          onClick={() => handleClick(order[1])}
+        >
+          <img
+            src={images[order[1]]}
+            alt="Center Banner"
+            className="w-full h-[200px] md:h-[300px] object-cover rounded-xl transition-all duration-700 ease-[cubic-bezier(0.33,1,0.68,1)]"
+          />
         </div>
+
+        {/* Right Box */}
+        <div
+          className={`hidden md:flex w-[300px] h-[200px] bg-white rounded-2xl shadow-md bg-cover bg-center cursor-pointer transition-all duration-700 ease-[cubic-bezier(0.33,1,0.68,1)] ${isTransitioning ? 'transform translate-x-2 scale-95 opacity-90' : ''}`}
+          style={{ backgroundImage: `url(${images[order[2]]})` }}
+          onClick={() => handleClick(order[2])}
+        />
       </div>
 
+      {/* Custom animation styles */}
+      <style jsx>{`
+        @keyframes slideFromLeft {
+          0% { transform: translateX(-100px) scale(0.9); opacity: 0; }
+          100% { transform: translateX(0) scale(1); opacity: 1; }
+        }
+        @keyframes slideFromRight {
+          0% { transform: translateX(100px) scale(0.9); opacity: 0; }
+          100% { transform: translateX(0) scale(1); opacity: 1; }
+        }
+        .slide-left {
+          animation: slideFromLeft 0.7s cubic-bezier(0.33,1,0.68,1) forwards;
+        }
+        .slide-right {
+          animation: slideFromRight 0.7s cubic-bezier(0.33,1,0.68,1) forwards;
+        }
+      `}</style>
+    </div>
       {/* About Sections */}
 
       <section className="w-full py-10 px-4">
@@ -193,17 +251,15 @@ export default function Home() {
           <div className="flex justify-end mb-6 gap-2">
             <button
               onClick={() => setLanguage("ur")}
-              className={`gulzartext px-3 py-1 rounded-full text-sm cursor-pointer ${
-                isUrdu ? "bg-[#e8f0d9] text-black" : "bg-white"
-              }`}
+              className={`gulzartext px-3 py-1 rounded-full text-sm cursor-pointer ${isUrdu ? "bg-[#e8f0d9] text-black" : "bg-white"
+                }`}
             >
               اردو
             </button>
             <button
               onClick={() => setLanguage("en")}
-              className={`px-3 py-1 rounded-full text-sm cursor-pointer ${
-                !isUrdu ? "bg-[#e8f0d9] text-black" : "bg-white"
-              }`}
+              className={`px-3 py-1 rounded-full text-sm cursor-pointer ${!isUrdu ? "bg-[#e8f0d9] text-black" : "bg-white"
+                }`}
             >
               English
             </button>
@@ -221,23 +277,20 @@ export default function Home() {
               </div>
               <div className="bg-gradient-to-b from-[#fff] rounded-xl shadow-lg p-6">
                 <h3
-                  className={`gulzartext text-orange-600 font-semibold mb-1 ${
-                    isUrdu && "text-right"
-                  }`}
+                  className={`gulzartext text-orange-600 font-semibold mb-1 ${isUrdu && "text-right"
+                    }`}
                 >
                   {isUrdu ? "تعارف" : "About"}
                 </h3>
                 <h2
-                  className={`gulzartext text-2xl font-bold text-gray-800 mb-3 ${
-                    isUrdu && "text-right"
-                  }`}
+                  className={`gulzartext text-2xl font-bold text-gray-800 mb-3 ${isUrdu && "text-right"
+                    }`}
                 >
                   {isUrdu ? "منارہ مسجد ٹرسٹ" : "Minara Masjid Trust"}
                 </h2>
                 <p
-                  className={`gulzartext text-gray-700 mb-4 ${
-                    isUrdu ? "text-right" : "text-justify"
-                  }`}
+                  className={`gulzartext text-gray-700 mb-4 ${isUrdu ? "text-right" : "text-justify"
+                    }`}
                 >
                   {isUrdu
                     ? "مولا علی ریسرچ سینٹر کا مقصد پرانی اسلامیات حاصل کرنا ہے۔ کے مخطوطات (تشریحات، تفسیریں، تفسیر، وغیرہ) دنیا بھر کی لائبریریوں سے ہمارے آباؤ اجداد نے جو نہیں کیا ہے۔ شائع ہوا؛ شائع ہونے کی صورت میں وہ مزید قابل رسائی نہیں رہیں گے، وغیرہ اور جدید معیارات کے مطابق اس کی اشاعت پر کام کریں۔ عربی اور فارسی رسم الخط پر تحقیق کرکے، حوالہ دینا، متعدد زبانوں میں آسان ترجمہ، بنیادی طور پر انگریزی، ہندی اور اردو، اور آخر میں، پرنٹنگ اور ڈسٹری بیوشن یہ اسکالرز، ریسرچ ماہرین، دانشوروں اور پوری امت مسلمہ۔"
@@ -245,9 +298,8 @@ export default function Home() {
                 </p>
                 <a
                   href="/about"
-                  className={`text-green-700 hover:underline inline-flex items-center font-medium ${
-                    isUrdu ? "justify-end w-full" : ""
-                  }`}
+                  className={`text-green-700 hover:underline inline-flex items-center font-medium ${isUrdu ? "justify-end w-full" : ""
+                    }`}
                 >
                   {isUrdu ? "مزید پڑھیں" : "Read More"}{" "}
                   <ChevronRight
@@ -261,25 +313,22 @@ export default function Home() {
             <div className="flex flex-col gap-4">
               <div className="bg-gradient-to-b from-[#fff] rounded-xl shadow-lg p-6">
                 <h3
-                  className={`gulzartext text-orange-600 font-semibold mb-1 ${
-                    isUrdu && "text-right"
-                  }`}
+                  className={`gulzartext text-orange-600 font-semibold mb-1 ${isUrdu && "text-right"
+                    }`}
                 >
                   {isUrdu ? "تعارف" : "About"}
                 </h3>
                 <h2
-                  className={`gulzartext text-2xl font-bold text-gray-800 mb-3 ${
-                    isUrdu && "text-right"
-                  }`}
+                  className={`gulzartext text-2xl font-bold text-gray-800 mb-3 ${isUrdu && "text-right"
+                    }`}
                 >
                   {isUrdu
                     ? "مولا علی ریسرچ سینٹر"
                     : "Maula Ali Research Centre"}
                 </h2>
                 <p
-                  className={`gulzartext text-gray-700 mb-4 ${
-                    isUrdu ? "text-right" : "text-justify"
-                  }`}
+                  className={`gulzartext text-gray-700 mb-4 ${isUrdu ? "text-right" : "text-justify"
+                    }`}
                 >
                   {isUrdu
                     ? "مولا علی ریسرچ سینٹر کا مقصد پرانی اسلامیات حاصل کرنا ہے۔ کے مخطوطات (تشریحات، تفسیریں، تفسیر، وغیرہ) دنیا بھر کی لائبریریوں سے ہمارے آباؤ اجداد نے جو نہیں کیا ہے۔ شائع ہوا؛ شائع ہونے کی صورت میں وہ مزید قابل رسائی نہیں رہیں گے، وغیرہ اور جدید معیارات کے مطابق اس کی اشاعت پر کام کریں۔ عربی اور فارسی رسم الخط پر تحقیق کرکے، حوالہ دینا، متعدد زبانوں میں آسان ترجمہ، بنیادی طور پر انگریزی، ہندی اور اردو، اور آخر میں، پرنٹنگ اور ڈسٹری بیوشن یہ اسکالرز، ریسرچ ماہرین، دانشوروں اور پوری امت مسلمہ۔"
@@ -287,9 +336,8 @@ export default function Home() {
                 </p>
                 <a
                   href="/about"
-                  className={`text-green-700 hover:underline inline-flex items-center font-medium ${
-                    isUrdu ? "justify-end w-full" : ""
-                  }`}
+                  className={`text-green-700 hover:underline inline-flex items-center font-medium ${isUrdu ? "justify-end w-full" : ""
+                    }`}
                 >
                   {isUrdu ? "مزید پڑھیں" : "Read More"}{" "}
                   <ChevronRight
@@ -325,7 +373,7 @@ export default function Home() {
             <h2 className="text-3xl font-bold text-[#3c4b28] mb-1">
               News & Events
             </h2>
-           
+
           </div>
 
           {/* Manual Arrows */}
@@ -354,9 +402,9 @@ export default function Home() {
             {event.map((event, idx) => (
               <div
                 key={idx}
-                 onClick={() =>
-                    navigate(`/newsandevent/${event.id}/${slugify(event.title)}`)
-                  }
+                onClick={() =>
+                  navigate(`/newsandevent/${event.id}/${slugify(event.title)}`)
+                }
                 className="w-[90%] sm:w-[47%] md:w-[47%] lg:w-[23%] mb-2 ml-10 flex-shrink-0 bg-gradient-to-b from-[#f6fbf1] rounded-2xl p-4 shadow-md"
               >
                 <div className="overflow-hidden rounded-xl mb-4">
@@ -461,7 +509,7 @@ export default function Home() {
                   <p className="text-sm text-gray-800">Writer</p>
                   <p className="text-sm font-medium text-gray-600 mb-1 truncate">
                     {book.author === "Author Placeholder" ||
-                    book.author === "Mufti Farooque Mahaimi"
+                      book.author === "Mufti Farooque Mahaimi"
                       ? "Mufti Farooque Mahaimi"
                       : book.author}
                   </p>
@@ -516,21 +564,19 @@ export default function Home() {
             {articles.slice(0, 2).map((article, index) => (
               <div
                 key={index}
-                className={`gulzartext cursor-pointer flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-medium ${
-                  article.active
+                className={`gulzartext cursor-pointer flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-medium ${article.active
                     ? "bg-green-600 text-white"
                     : "bg-yellow-100 text-yellow-900"
-                }`}
+                  }`}
               >
                 <span className="font-urdu text-lg cursor-pointer">
                   {article.topic}
                 </span>
                 <span
-                  className={`${
-                    article.active
+                  className={`${article.active
                       ? "bg-white text-green-700"
                       : "bg-white text-yellow-800"
-                  } px-2 py-0.5 rounded-full text-xs font-semibold`}
+                    } px-2 py-0.5 rounded-full text-xs font-semibold`}
                 >
                   {article.id}
                 </span>
@@ -585,9 +631,8 @@ export default function Home() {
 
                     {/* Title */}
                     <div
-                      className={`absolute bottom-0 left-0 right-0 p-4 text-white ${
-                        isUrdu ? "text-right" : "text-left"
-                      }`}
+                      className={`absolute bottom-0 left-0 right-0 p-4 text-white ${isUrdu ? "text-right" : "text-left"
+                        }`}
                     >
                       {article.title && (
                         <h2 className="gulzartext font-bold text-lg leading-tight ">
@@ -600,9 +645,8 @@ export default function Home() {
                   {/* Description Section */}
                   <div className="p-4 cursor-pointer">
                     <p
-                      className={`gulzartext text-sm mb-3 leading-relaxed line-clamp-2 ${
-                        isUrdu ? "text-right" : "text-left"
-                      }`}
+                      className={`gulzartext text-sm mb-3 leading-relaxed line-clamp-2 ${isUrdu ? "text-right" : "text-left"
+                        }`}
                       dangerouslySetInnerHTML={{
                         __html:
                           article.urduDescription ||
@@ -612,9 +656,8 @@ export default function Home() {
                     ></p>
 
                     <div
-                      className={`flex flex-col gap-1 ${
-                        isUrdu ? "text-right" : "text-left"
-                      }`}
+                      className={`flex flex-col gap-1 ${isUrdu ? "text-right" : "text-left"
+                        }`}
                     >
                       <p className="gulzartext text-sm font-medium">
                         {isUrdu ? "مصنف" : "Writer"}:{" "}
@@ -630,9 +673,8 @@ export default function Home() {
                     </div>
 
                     <div
-                      className={`flex justify-end items-center mt-2 gap-1 ${
-                        isUrdu ? "text-right" : "text-left"
-                      }`}
+                      className={`flex justify-end items-center mt-2 gap-1 ${isUrdu ? "text-right" : "text-left"
+                        }`}
                     >
                       <Eye className="h-4 w-4 text-gray-600" />
                       <span className="text-sm">{article.views ?? 0}</span>
@@ -677,6 +719,10 @@ export default function Home() {
                     src={`https://api.minaramasjid.com/api/writers/image/${scholar.id}`}
                     alt={scholar.name}
                     className="rounded-full w-24 h-24 object-cover bg-green-100"
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = Userprofle;
+                    }}
                   />
                 </div>
 
@@ -687,7 +733,7 @@ export default function Home() {
                   Islamic Scholars
                 </p>
                 <a
-                  href="/writer"
+                  href={`/writer/${scholar.id}/${slugify(scholar.name)}`}
                   className="text-[14px] font-semibold text-black hover:underline"
                 >
                   View Profile

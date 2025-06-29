@@ -2,15 +2,42 @@ import { MapPin, Mail, MessageCircle } from "lucide-react";
 import Navbar from "./Navbar/Navbar";
 import bg from "../../public/images/bg.png";
 import logo from "../../public/images/marc.png";
-import  { useState } from "react";
+import { useState } from "react";
+import { Helmet } from "react-helmet";
 
 
 export default function ContactUs() {
-    const [menuOpen, setMenuOpen] = useState(false);
-  
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const title = "Contact Us | Maula Ali Research Center ";
+  const pageUrl = "minaramasjid.com";
+  const description = "minaramasjid.com";
+
   return (
     <div className="min-h-screen bg-[#e4f0d0] relative overflow-hidden font-sans">
-<header className="bg-white sticky  top-0 z-50 shadow-md border-b border-green-100">
+
+
+      <Helmet>
+        <title>{title}</title>
+        <meta name="description" content={description} />
+
+        <link rel="icon" href={logo} type="image/x-icon" />
+
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={pageUrl} />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:url" content={pageUrl} />
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={description} />
+      </Helmet>
+      <header className="bg-white sticky  top-0 z-50 shadow-md border-b border-green-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4 relative">
             <nav className="hidden md:flex gap-6 text-md font-semibold text-gray-700 tracking-wide">
@@ -79,9 +106,8 @@ export default function ContactUs() {
 
           {/* Mobile menu */}
           <div
-            className={`md:hidden transition-all overflow-hidden ${
-              menuOpen ? "max-h-screen opacity-100" : "max-h-0 opacity-0"
-            }`}
+            className={`md:hidden transition-all overflow-hidden ${menuOpen ? "max-h-screen opacity-100" : "max-h-0 opacity-0"
+              }`}
           >
             <div className="flex flex-col gap-3 py-4 px-2 text-white bg-[#5a7544] rounded-b-xl">
               <a href="/" className="hover:bg-[#4f6639] px-4 py-2 rounded">
@@ -186,7 +212,7 @@ export default function ContactUs() {
               Our Address
             </h3>
             <p className="text-sm text-gray-700">
-             22, Mohammed Ali Rd, Pydhonie, Mandvi, Mumbai, Maharashtra 400003
+              22, Mohammed Ali Rd, Pydhonie, Mandvi, Mumbai, Maharashtra 400003
             </p>
           </a>
 
