@@ -3,7 +3,7 @@ import { Share2 } from "lucide-react"; // Make sure you have: npm install lucide
 
 export default function ShareButton({ type = "event", id, title }) {
   const encodedTitle = encodeURIComponent(title || type);
-  const shareUrl = `https://mm-server-tbbo.onrender.com/share/${type}/${id}/${encodedTitle}`;
+  const shareUrl =` https://api.minaramasjid.com/api/share/${type}/${id}/${encodedTitle}`;
 
   const handleShare = async () => {
     try {
