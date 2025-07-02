@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Search } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 import Logo from "../../public/images/marclogo.png";
+import '../../public/assets/Style/fonts.css'
 
 import bg from "../../public/images/bg.png";
 import Book from "../../public/images/book.png";

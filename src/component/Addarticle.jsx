@@ -7,6 +7,7 @@ import bg from "../../public/images/newbg.png";
 import Navbar from "../component/Navbar/Navbar";
 import logo from '../../public/images/marc.png'
 import { Helmet } from "react-helmet"; // Add this import
+import '../../public/assets/Style/fonts.css'
 
 const ArticlesPage = () => {
   const [menuOpen, setMenuOpen] = useState(false);
