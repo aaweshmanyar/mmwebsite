@@ -198,10 +198,10 @@ const QuestionDetail = () => {
         style={{ backgroundImage: `url(${bg})` }}
       >
         <div className="flex flex-col items-center justify-center py-10 px-6 w-full bg-[#C0D7AA]/80">
-          <h1 className="amiri-bold text-3xl md:text-4xl font-bold text-[#4a7031] text-center rtl mb-3">
+          <h1 className="heading text-3xl md:text-4xl font-bold text-[#4a7031] text-center rtl mb-3">
             دار الإفتاء ریسرچ سینٹر سوال و جوابات تحقیقات
           </h1>
-          <p className="gulzartext text-base md:text-lg text-[#4a7031] text-center rtl leading-relaxed">
+          <p className="sub-heading text-[18.5px] text-base md:text-lg text-[#4a7031] text-center rtl leading-relaxed">
             یہ ایک ایسا اسلامی تحقیقی مرکز ہے جو اسلام کے بنیادی اصولوں اور جدید
             دور کے چیلنجوں کے درمیان ہم آہنگی پیدا کرنے پر توجہ مرکوز کرتا ہے۔
           </p>
@@ -210,7 +210,7 @@ const QuestionDetail = () => {
 
       <div className="rounded-xl max-w-6xl mx-auto mt-8 p-6 md:p-8 ">
         <div className="flex items-center justify-end gap-2 mb-4 ltr">
-          <h2 className="text-[#4a7031] text-xl font-extrabold gulzartext">
+          <h2 className="text-[#4a7031] text-xl font-extrabold heading ">
             سوال نمبر
           </h2>
           <span className="bg-[#C0D7AA] text-[#4a7031] font-bold rounded-full px-3 py-1 text-sm">
@@ -218,7 +218,7 @@ const QuestionDetail = () => {
           </span>
         </div>
         <p
-          className="text-[#4a7031] text-lg gulzartext mb-6 leading-loose text-center"
+          className="text-[#4a7031] text-lg sub-heading mb-6 leading-loose text-center"
           dangerouslySetInnerHTML={{
             __html: question.questionEnglish || question.questionUrdu,
           }}
@@ -239,7 +239,7 @@ const QuestionDetail = () => {
             className="w-16 h-16 rounded-full border-2 border-[#6a8a4f]"
           />
         </div>
-        <div className="text-[#4a7031] text-lg font-bold gulzartext">
+        <div className="text-[#4a7031] text-lg font-bold heading">
           الجواب
         </div>
       </div>
@@ -247,7 +247,7 @@ const QuestionDetail = () => {
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-6 p-4 md:p-8">
         <div className="w-full md:w-1/4 bg-white rounded-xl shadow-sm border border-green-100 order-2 md:order-1">
           <div className="text-black p-4 text-center">
-            <h2 className="text-2xl font-bold border-b pb-2 gulzartext">
+            <h2 className="text-2xl font-bold border-b pb-2 heading">
               دیگر سوالات
             </h2>
           </div>
@@ -261,7 +261,7 @@ const QuestionDetail = () => {
                 className="border-b border-green-200 pb-4 last:border-b-0"
               >
                 <div className="flex justify-end mb-2">
-                  <span className="bg-[#5a8c3c] text-white rounded-full px-3 py-1 text-sm cursor-pointer">
+                  <span className="bg-[#5a8c3c] text-white rounded-full px-3 py-1 text-sm cursor-pointer heading">
                     سوال نمبر {q.number || idx + 1}
                   </span>
                 </div>
@@ -323,7 +323,7 @@ const QuestionDetail = () => {
 
       <section className="bg-[#eaf3df] py-10">
         <div className="container mx-auto px-4">
-          <h2 className="text-right font-bold text-2xl text-[#1f1f1f] mb-6 gulzartext">
+          <h2 className="text-right font-bold text-2xl text-[#1f1f1f] mb-6 heading">
             متعلق سوالات
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 rtl">
@@ -336,7 +336,7 @@ const QuestionDetail = () => {
                 className="bg-[#eaf3df] rounded-xl p-4 cursor-pointer"
               >
                 <div className="flex justify-end mb-3">
-                  <span className="bg-[#5a8c3c] text-white rounded-full px-3 py-0.5 text-sm gulzartext">
+                  <span className="bg-[#5a8c3c] text-white rounded-full px-3 py-0.5 text-sm heading">
                     سوال نمبر {q.id || idx + 1}
                   </span>
                 </div>

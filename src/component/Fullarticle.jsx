@@ -253,7 +253,7 @@ export default function Home() {
         style={{ backgroundImage: `url(${bg})` }}
       >
         <div className="flex items-center justify-center mt-4 h-[200px] w-full bg-[#C0D7AA]/80 rounded-b-4xl">
-          <h1 className="gulzartext text-3xl md:text-4xl font-bold text-[#4a7031] text-center rtl px-4">
+          <h1 className="heading text-3xl md:text-4xl font-bold text-[#4a7031] text-center rtl px-4">
             {article.title}
           </h1>
         </div>
@@ -407,7 +407,7 @@ export default function Home() {
                       }}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
-                    <div className="relative z-10 flex items-center justify-center h-full text-white text-center font-bold text-lg gulzartext rtl">
+                    <div className="relative z-10 flex items-center justify-center h-full text-white text-center font-bold text-lg heading rtl">
                       {item.title}
                     </div>
                   </div>
@@ -548,7 +548,7 @@ export default function Home() {
                 </div>
 
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex flex-col justify-end p-4">
-                  <h3 className="font-['Gulzar'] text-white rtl mb-1 text-lg leading-snug line-clamp-1">
+                  <h3 className="heading text-white rtl mb-1 text-lg leading-snug line-clamp-1">
                     {item.title}
                   </h3>
                   <h4 className="font-['Gulzar'] text-white text-right rtl text-sm line-clamp-1">

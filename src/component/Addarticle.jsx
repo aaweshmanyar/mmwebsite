@@ -741,7 +741,7 @@ const ArticlesPage = () => {
                     </div>
                     <div className="absolute bottom-0 left-0 right-0 p-3 text-white">
                       <h2
-                        className={`gulzartext card-title font-bold text-lg leading-tight title-line-clamp-2 ${isUrdu(article.title) ? "text-right" : "text-left"
+                        className={`heading card-title font-bold text-lg leading-tight title-line-clamp-2 ${isUrdu(article.title) ? "text-right" : "text-left"
                           }`}
                       >
                         {article.title}
@@ -751,7 +751,7 @@ const ArticlesPage = () => {
                   <div className="card-content-container p-4 flex-1 flex flex-col justify-between overflow-hidden">
                     <div className="overflow-hidden">
                       <p
-                        className="gulzartext text-description line-clamp-2 text-sm text-slate-600"
+                        className="sub-heading  text-description line-clamp-2 text-sm text-slate-600"
                         dangerouslySetInnerHTML={{
                           __html:
                             article.englishDescription ||

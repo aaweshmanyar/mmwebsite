@@ -263,10 +263,10 @@ export default function Home() {
             className={`md:hidden transition-all overflow-hidden ${menuOpen ? "max-h-screen opacity-100" : "max-h-0 opacity-0"
               }`}
           >
-            <div className="flex flex-col gap-3 py-4 px-2 bg-white text-gray-700 rounded-b-xl">
+            <div className="flex flex-col gap-3 py-4 px-2 bg-[#783F1D]  text-white rounded-b-xl">
               <a
                 href="/"
-                className="hover:bg-[#783F1D] px-4 py-2 hover:text-white rounded"
+                className="text-white px-4 py-2 "
               >
                 Home
               </a>
@@ -511,7 +511,7 @@ export default function Home() {
                     />
                   </div>
                   <div className="p-5 flex flex-col flex-grow">
-                    <h3 className="text-green-700 text-lg font-semibold mb-1.5 gulzartext">
+                    <h3 className="text-green-700 text-lg font-semibold mb-1.5 heading">
                       {book.title}
                     </h3>
                     <div className="mb-4">

@@ -1,5 +1,5 @@
 import bg from "../../public/images/bg.png";
-import Logo from "../../public/images/marclogo.png";
+import Logo from "../../public/images/marc.png";
 import logo from '../../public/images/marc.png'
 import React, { useState, useEffect } from "react";
 import { Check, Menu, X, Search } from "lucide-react";
@@ -7,7 +7,7 @@ import QrCode from "../../public/images/qr.jpg";
 import { Helmet } from "react-helmet";
 
 const Requestbook = () => {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const [email, setEmail] = useState("");
   const [isValidEmail, setIsValidEmail] = useState(false);
   const [book, setBook] = useState([]);
@@ -153,118 +153,135 @@ const Requestbook = () => {
         className="absolute inset-0 opacity-36 pointer-events-none"
       ></div>
       {/* Header */}
-      <header className="relative z-50 bg-[#783F1D] text-white">
-        {/* Desktop + Mobile Nav */}
-        <div className="max-w-[1200px] mx-auto px-4 py-3 flex items-center justify-between relative">
-          {/* Mobile Menu Button */}
-          <button
-            className="md:hidden text-white z-20"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          >
-            {mobileMenuOpen ? (
-              <X className="w-6 h-6" />
-            ) : (
-              <Menu className="w-6 h-6" />
-            )}
-          </button>
-
-          {/* Left Nav */}
-          <nav className="hidden md:flex items-center space-x-6 text-[15px] font-medium">
-            <a href="/" className="hover:text-amber-300">
-              Home
-            </a>
-            <a href="/about" className="hover:text-amber-300">
-              About
-            </a>
-            <a href="/newsandevent" className="hover:text-amber-300">
-              News & Events
-            </a>
-            <a href="/books" className="hover:text-amber-300">
-              Books
-            </a>
-          </nav>
-
-          {/* Logo */}
-          <div className="absolute left-1/2 transform -translate-x-1/2 -bottom-14 z-30 bg-white rounded-full p-1 shadow-md">
-            <img
-              src={Logo}
-              alt="Logo"
-              className="w-20 h-20 object-contain rounded-full"
-            />
-          </div>
-
-          {/* Right Nav */}
-          <div className="hidden md:flex items-center space-x-5 font-medium text-[15px]">
-            <a href="/article" className="hover:text-amber-300">
-              Articles
-            </a>
-            <a href="/question" className="hover:text-amber-300">
-              Question Answer
-            </a>
-            <a href="/requestbook" className="hover:text-amber-300">
-              Request a Book
-            </a>
-            <a href="/contact" className="hover:text-amber-300">
-              Contact
-            </a>
-          </div>
-        </div>
-
-        {/* Mobile Slide-out Menu (from left) */}
-        {mobileMenuOpen && (
-          <div className="fixed inset-0 z-40 flex">
-            {/* Backdrop */}
-            <div
-              className="fixed inset-0 bg-black bg-opacity-30"
-              onClick={() => setMobileMenuOpen(false)}
-            />
-
-            {/* Drawer */}
-            <div className="relative w-1/2 h-full bg-[#783F1D] p-4 space-y-4 text-[15px] font-medium z-50">
-              <button
-                onClick={() => setMobileMenuOpen(false)}
-                className="absolute top-4 right-4 text-white"
+      <header className="bg-[#783F1D] sticky top-0 z-50 shadow-md border-b border-white">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="flex justify-between items-center py-4 relative">
+                {/* Left Nav (Desktop) */}
+                <nav className="hidden md:flex gap-6 text-md font-semibold text-white tracking-wide">
+                  <a href="/" className="hover:opacity-[0.6]">
+                    Home
+                  </a>
+                  <a href="/about" className="hover:opacity-[0.6]">
+                    About
+                  </a>
+                  <a href="/newsandevent" className="hover:opacity-[0.6]">
+                    News & Event
+                  </a>
+                  <a href="/books" className="hover:opacity-[0.6]">
+                    Books
+                  </a>
+                </nav>
+    
+                {/* Center Logo */}
+                <div className="absolute left-1/2 transform -translate-x-1/2 -bottom-7 bg-white rounded-full p-1 shadow-lg border border-green-100 z-10">
+                  <img
+                    src={Logo}
+                    alt="Logo"
+                    className="w-16 h-16 rounded-full object-contain"
+                  />
+                </div>
+    
+                {/* Right Nav (Desktop) */}
+                <nav className="hidden md:flex gap-6 text-md font-semibold text-white tracking-wide">
+                  <a href="/article" className="hover:opacity-[0.6]">
+                    Articles
+                  </a>
+                  <a href="/question" className="hover:opacity-[0.6]">
+                    Question Answer
+                  </a>
+                  <a href="/requestbook" className="hover:opacity-[0.6]">
+                    Request a Book
+                  </a>
+                  <a href="/contact" className="hover:opacity-[0.6]">
+                    Contact
+                  </a>
+                </nav>
+    
+                {/* Mobile Menu Button */}
+                <div className="md:hidden">
+                  <button
+                    onClick={() => setMenuOpen(!menuOpen)}
+                    className="text-white focus:outline-none"
+                  >
+                    <svg
+                      className="w-7 h-7"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d={
+                          menuOpen
+                            ? "M6 18L18 6M6 6l12 12"
+                            : "M4 6h16M4 12h16M4 18h16"
+                        }
+                      />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+    
+              {/* Mobile Dropdown Menu */}
+              <div
+                className={`md:hidden transition-all overflow-hidden ${menuOpen ? "max-h-screen opacity-100" : "max-h-0 opacity-0"
+                  }`}
               >
-                <X className="w-5 h-5" />
-              </button>
-              <a href="/" className="block hover:text-amber-300">
-                Home
-              </a>
-              <a href="/about" className="block hover:text-amber-300">
-                About
-              </a>
-              <a href="/newsandevent" className="block hover:text-amber-300">
-                News & Events
-              </a>
-              <a href="/books" className="block hover:text-amber-300">
-                Books
-              </a>
-              <a href="/article" className="block hover:text-amber-300">
-                Articles
-              </a>
-              <a href="/question" className="block hover:text-amber-300">
-                Question Answer
-              </a>
-              <a href="/requestbook" className="block hover:text-amber-300">
-                Request a Book
-              </a>
-              <a href="/contact" className="block hover:text-amber-300">
-                Contact
-              </a>
-
-              {/* Search bar */}
-              <div className="flex items-center bg-white rounded-full px-3 py-1 mt-2 w-full">
-                <input
-                  type="text"
-                  placeholder="Search"
-                  className="bg-transparent outline-none text-black text-sm w-full"
-                />
-                <Search className="w-4 h-4 text-black ml-2" />
+                <div className="flex flex-col gap-3 py-4 px-2 bg-[#783F1D]  text-white rounded-b-xl">
+                  <a
+                    href="/"
+                    className="text-white px-4 py-2 "
+                  >
+                    Home
+                  </a>
+                  <a
+                    href="/about"
+                    className="hover:bg-[#783F1D] px-4 py-2 hover:text-white rounded"
+                  >
+                    About
+                  </a>
+                  <a
+                    href="/books"
+                    className="hover:bg-[#783F1D] px-4 py-2 hover:text-white rounded"
+                  >
+                    Books
+                  </a>
+                  <a
+                    href="/newsandevent"
+                    className="hover:bg-[#783F1D] px-4 py-2 hover:text-white rounded"
+                  >
+                    News & Event
+                  </a>
+                  <a
+                    href="/article"
+                    className="hover:bg-[#783F1D] px-4 py-2 hover:text-white rounded"
+                  >
+                    Articles
+                  </a>
+                  <a
+                    href="/question"
+                    className="hover:bg-[#783F1D] px-4 py-2 hover:text-white rounded"
+                  >
+                    Question Answer
+                  </a>
+                  <a
+                    href="/requestbook"
+                    className="hover:bg-[#783F1D] px-4 py-2 hover:text-white rounded"
+                  >
+                    Request a Book
+                  </a>
+                  <a
+                    href="/contact"
+                    className="hover:bg-[#783F1D] px-4 py-2 hover:text-white rounded"
+                  >
+                    Contact
+                  </a>
+                </div>
               </div>
             </div>
-          </div>
-        )}
-      </header>
+          </header>
 
       {/* Form Section */}
       <div className="relative z-10 w-full py-12 px-4 mt-6 md:px-10">

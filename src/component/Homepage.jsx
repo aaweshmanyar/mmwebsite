@@ -635,7 +635,7 @@ export default function Home() {
                         }`}
                     >
                       {article.title && (
-                        <h2 className="gulzartext font-bold text-lg leading-tight ">
+                        <h2 className="heading  font-bold text-lg leading-tight ">
                           {article.title}
                         </h2>
                       )}
@@ -645,7 +645,7 @@ export default function Home() {
                   {/* Description Section */}
                   <div className="p-4 cursor-pointer">
                     <p
-                      className={`gulzartext text-sm mb-3 leading-relaxed line-clamp-2 ${isUrdu ? "text-right" : "text-left"
+                      className={`sub-heading text-sm mb-3 leading-relaxed line-clamp-2 ${isUrdu ? "text-right" : "text-left"
                         }`}
                       dangerouslySetInnerHTML={{
                         __html:

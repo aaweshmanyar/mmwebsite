@@ -1,9 +1,10 @@
 @font-face {
-  font-family: 'Mehrweb';
+  font-family: 'Mehr';
   src: url('../Font/Mehr_web.ttf') format('truetype');
-  font-weight: 800;
+  font-weight: 500;
   font-style: normal;
 }
+
 
 @font-face {
   font-family: 'Aslam';
@@ -40,4 +41,15 @@
   src: url('../Font/ScheherazadeNew-Regular.ttf') format('truetype');
   font-weight: normal;
   font-style: italic;
+}
+
+
+
+.heading {
+  font-family: 'Aslam', sans-serif;
+   letter-spacing: 0.05em; /* slightly increase spacing */
+}
+
+.sub-heading {
+  font-family: 'Mehr', sans-serif;
 }
