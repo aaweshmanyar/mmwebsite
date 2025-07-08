@@ -309,7 +309,7 @@ export default function Home() {
               }`}
           >
             <div
-              className="prose max-w-none gulzartext"
+              className="prose max-w-none paragraph"
               dangerouslySetInnerHTML={{ __html: activeDescription }}
             />
           </div>
